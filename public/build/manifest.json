@@ -1,0 +1,74 @@
+{
+  "_axios-eb254b15.js": {
+    "file": "assets/axios-eb254b15.js"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
+    "file": "assets/bootstrap-icons-c6569d46.woff",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
+    "file": "assets/bootstrap-icons-966620f9.woff2",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
+  },
+  "resources/css/app.scss": {
+    "file": "assets/app-f67bc966.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/fonts/Montserrat-Medium.ttf": {
+    "file": "assets/Montserrat-Medium-20ebfd65.ttf",
+    "src": "resources/fonts/Montserrat-Medium.ttf"
+  },
+  "resources/fonts/Montserrat-Regular.ttf": {
+    "file": "assets/Montserrat-Regular-dcfe8df2.ttf",
+    "src": "resources/fonts/Montserrat-Regular.ttf"
+  },
+  "resources/fonts/WorkSans-Regular.ttf": {
+    "file": "assets/WorkSans-Regular-1b94e0d8.ttf",
+    "src": "resources/fonts/WorkSans-Regular.ttf"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-f67bc966.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/bootstrap-icons-966620f9.woff2",
+      "assets/bootstrap-icons-c6569d46.woff",
+      "assets/Montserrat-Regular-dcfe8df2.ttf",
+      "assets/Montserrat-Medium-20ebfd65.ttf",
+      "assets/WorkSans-Regular-1b94e0d8.ttf"
+    ],
+    "css": [
+      "assets/app-f67bc966.css"
+    ],
+    "file": "assets/app-d695a537.js",
+    "imports": [
+      "_axios-eb254b15.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/js/bootstrap.js": {
+    "file": "assets/bootstrap-c53913e5.js",
+    "imports": [
+      "_axios-eb254b15.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/bootstrap.js"
+  },
+  "resources/js/font-awesome.js": {
+    "file": "assets/font-awesome-06d3006d.js",
+    "isEntry": true,
+    "src": "resources/js/font-awesome.js"
+  },
+  "resources/js/jquery-3.6.3.js": {
+    "file": "assets/jquery-3.6.3-65bc4b45.js",
+    "isEntry": true,
+    "src": "resources/js/jquery-3.6.3.js"
+  },
+  "resources/js/validation_form.js": {
+    "file": "assets/validation_form-b2fee555.js",
+    "isEntry": true,
+    "src": "resources/js/validation_form.js"
+  }
+}
