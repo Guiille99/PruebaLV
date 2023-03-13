@@ -1,0 +1,27 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color";
+
+#registros__container{
+    margin: 0 auto;
+    .registros{
+        justify-content: center;
+    
+        @include m.desktop{
+            justify-content: flex-start;
+        }
+        .header__container{
+            background-color: v.$nav-dark;
+            padding: 10px;
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+            align-items: center;
+            .title{
+                color: v.$white;
+                margin: 0;
+            }
+        }
+    }
+
+}

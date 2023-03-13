@@ -1,0 +1,28 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color" as color;
+
+/*Ventajas*/
+.ventajas__container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    justify-content: center;
+    margin: 0 auto;
+    gap: 20px;
+    
+    .ventaja{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        
+        i{
+            font-size: 2.5rem;
+            color: v.$dark-green;
+        }
+        p{
+            font-weight: 500;
+            color: color.scale(black, $lightness: 20%);
+        }
+    }
+}

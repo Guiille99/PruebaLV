@@ -1,0 +1,36 @@
+@use "variables" as v;
+@use "mixins" as m;
+*,*::after,*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+h1, h2, h3, p{
+    font-family: v.$main_font;
+}
+h4{
+    font-family: v.$second_font;
+}
+h1{
+    font-size: 1.8rem;
+    @include m.tablet{
+        font-size: 2rem;
+    }
+    @include m.desktop{
+        font-size: 2.5rem;
+    }
+}
+h2{
+    font-size: 1.3rem;
+    @include m.tablet{
+        font-size: 1.6rem;
+    }
+    @include m.desktop{
+        font-size: 2rem;
+    }
+}
+h3{
+    font-size: 1.5rem;
+}
+
+

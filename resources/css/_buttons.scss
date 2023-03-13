@@ -1,0 +1,26 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+@use "sass:color" as color;
+
+.btn-modify{
+    @include m.btn(v.$blue, v.$white);
+    border-radius: 0.4rem;
+    padding: 10px 15px;
+}
+
+.btn-add{
+    @include m.btn(v.$green, v.$white);
+    border-radius: 0.4rem;
+    padding: 10px 15px;
+}
+
+.btn-delete{
+    @include m.btn(v.$red, v.$white);
+    border-radius: 0.4rem;
+    padding: 10px 15px;
+}
+
+.toggler-admin{
+    background-color: transparent;
+    color: v.$white;
+}

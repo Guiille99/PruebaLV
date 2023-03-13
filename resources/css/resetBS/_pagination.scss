@@ -1,0 +1,11 @@
+@use "../base/variables" as v;
+// PAGINATION
+// $pagination-focus-bg: $green;
+$pagination-active-bg: v.$green;
+$pagination-border-color: v.$dark-green;
+$pagination-color: v.$green;
+$pagination-hover-color: v.$white;
+$pagination-hover-bg: v.$dark-green;
+$pagination-hover-border-color: v.$white;
+$pagination-active-border-color: v.$boder-input;
+$pagination-focus-color: v.$green;

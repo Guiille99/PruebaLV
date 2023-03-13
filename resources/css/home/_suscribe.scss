@@ -1,0 +1,50 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color" as color;
+
+/*Suscribe section*/
+.suscribe__container{
+    font-family: v.$second_font;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include m.desktop{
+        justify-content: end;
+    }
+    padding: 0px 20px;
+    height: 60vh;
+    @include m.bg-image("seccion-suscribe.jpg");
+    background-attachment: fixed;
+    background-position: center top;
+
+    .suscribe__info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 10px;
+        color: v.$white;
+        @include m.bg-dark;
+        @include m.desktop{
+            width: 40%;
+        }
+        .suscribe__title{
+            font-weight: 700;
+        }
+        form{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        input[type="submit"]{
+            @include m.btn(v.$green, v.$white);
+            align-self: center;
+            width: 80%;
+            @include m.desktop{
+                width: 30%;
+            }
+            font-size: 1.2rem;
+        }
+    }
+}

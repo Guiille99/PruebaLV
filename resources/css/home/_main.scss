@@ -1,0 +1,10 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.title__container{
+    h1{
+        @include m.title-border(v.$green);
+        width: fit-content;
+        margin: 0 auto;
+    }
+}

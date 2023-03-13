@@ -1,0 +1,27 @@
+@use "base/mixins" as m;
+.carousel{
+    height: 50vh;
+    @include m.tablet{
+        height: 60vh;
+    }
+    &-inner, &-item, img{
+        height: 100%;
+    }
+    img{
+        object-fit: cover;
+    }
+    .carousel-caption {
+        position: unset;
+        @include m.bg-dark;
+        font-size: 2rem;
+        padding: 20px;
+        text-align: center;
+      }
+      .carousel-indicators{
+        button{
+            background: url("uploads/book-icon.svg"); /*Cambiamos el icono de los indicadores del carrusel*/
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+      }
+}

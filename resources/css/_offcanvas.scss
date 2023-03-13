@@ -1,0 +1,29 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+/*Sidebar de la vista admin*/
+#sidebar__container{
+    width: 0;
+    @include m.tablet{
+        width: calc(100% / 6);
+    }
+}
+
+.offcanvas{
+    .offcanvas-body{
+        li{
+            font-size: 1.3rem;
+            padding: 5px;
+            &:hover{
+                background-color: v.$white;
+                a{
+                    color: v.$black;
+                }
+            }
+            a{
+                color: v.$white;
+                text-decoration: none;
+            }
+            
+        }
+    }
+}

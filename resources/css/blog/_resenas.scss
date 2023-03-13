@@ -1,0 +1,70 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.resenas__container{
+    background-color: v.$bg-dark-green;
+    .resenas{
+        padding: v.$separation 0;
+        color: v.$white;
+        
+        h1{
+            text-align: center;
+            @include m.title-border(v.$white);
+            width: fit-content;
+            margin: 0 auto;
+        }
+    
+        &__grid{
+            // width: 95%;
+            margin: 0 auto;
+            margin-top: v.$separation;
+            @include m.grid(1, 10px);
+            // justify-content: center;
+            @include m.tablet{
+                @include m.grid(2, 10px);
+            }
+            @include m.desktop{
+                @include m.grid(3, 25px);
+            }
+        }
+    
+        .resena{
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+            figure{
+                overflow: hidden;
+            }
+            img{
+                transition: transform 1s;
+            }
+            &:hover{
+                cursor: pointer;
+            }
+            &:hover img{
+                transform: scale(1.2);
+                filter: brightness(0.5);
+            }
+            figure, img{
+                margin: 0;
+                width: 100%;
+            }
+            &__info{
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                padding: 10px;
+                background-color: v.$black-card;
+    
+                &__publicacion{
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+
+}

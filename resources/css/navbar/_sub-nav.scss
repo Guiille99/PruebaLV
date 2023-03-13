@@ -1,0 +1,35 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+/*SUB-NAV*/
+.down-nav{
+    font-family: v.$main_font;
+    background-color: v.$dark-green;
+    color: v.$white;
+    font-size: v.$tam-nav;
+    .toggler__button{
+        height: 30px;
+    }
+    .login__container, .register__container{
+        padding: 5px;
+        &:hover{
+            background-color: v.$green;
+            border-radius: 5px;
+        }
+    }
+    .username{
+        color: v.$white;
+    }
+    .nav__options{     
+        .nav-link{
+            color: v.$white;
+            position: relative;
+            @include m.efectoNavLinks(v.$white, 3px, 5px, .3s);
+        }
+       @include m.tablet{
+            width: 50%;
+            margin: 0 auto;
+       }
+    }
+
+}

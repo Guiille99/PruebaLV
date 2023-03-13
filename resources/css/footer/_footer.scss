@@ -1,0 +1,93 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+// @use "sass:color" as color;
+footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    background-color: v.$dark-green;
+    color: v.$white;
+    padding: 20px 0;
+    @include m.desktop{
+        flex-direction: row;
+    }
+
+    h4{
+        font-weight: bolder;
+    }
+
+    figure{
+        width: 30%;
+        max-width: 140px;
+        @include m.tablet{
+            width: 10%;
+        }
+        img{
+            width: 100%;
+        }
+    }
+    p{
+        margin: 0;
+    }
+    a{
+        text-decoration: none;
+        color: v.$white;
+    }
+    .info__container{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .footer__menu__container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            @include m.tablet{
+                flex-direction: row;
+            }
+            a{
+                position: relative;
+                width: fit-content;
+                @include m.efectoNavLinks(v.$white, 2px, 0px, 1s);
+            }
+            .footer__menu{
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+            .info__details{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+        }
+        .rrss__container{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+
+            a{
+                @include m.icon-footer(v.$white, v.$dark-green, 10px, 50%);
+                svg, i{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: v.$tam-footer-icon;
+                    width: v.$tam-footer-icon;
+                }
+            }
+        }
+    }
+    
+}

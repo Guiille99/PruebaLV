@@ -1,0 +1,54 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+/*NAV-TOP*/
+.nav-top{
+    font-family: v.$main_font;
+    font-size: v.$tam-nav;
+    .items{
+        flex: 0;
+    }
+    .cuenta-carrito{
+        color: v.$white;
+        align-items: center;
+        img{
+            height: v.$tamNavIcon;
+            width: v.$tamNavIcon;
+        }
+
+        .login__container, .register__container{
+            padding: 5px;
+            &:hover{
+                background-color: v.$dark-green;
+                border-radius: 5px;
+            }
+        }
+
+        .register__container{
+            border: 1px solid v.$white;
+            border-radius: 5px;
+        }
+    }
+    input[type="text"]{
+        border-radius: 10px;
+    }
+    .login__container{
+        .username{
+            color: v.$white;
+        }
+    }
+}
+.carrito__container{
+    position: relative;
+    span{
+        font-size: 0.8rem;
+        padding: 3px;
+        background-color: v.$dark-green;
+        color: white;
+        border-radius: 50%;
+
+        position: absolute;
+        bottom: -12px;
+        right: -10px;
+    }
+}

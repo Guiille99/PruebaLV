@@ -1,0 +1,8 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+/*NAVBAR ADMIN*/
+.navbar-admin{
+    background-color: v.$nav-dark;
+    box-shadow: 0px 0px 20px 0px green;
+}

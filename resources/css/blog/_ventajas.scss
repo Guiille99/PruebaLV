@@ -1,0 +1,15 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.resenas__container{
+    .ventajas__container{
+        border-top: 1px solid v.$white;
+        border-bottom: 1px solid v.$white;
+        padding: 30px 0px;
+        .ventaja{
+            i,p{
+                color: v.$white;
+            }
+        }
+    }
+}

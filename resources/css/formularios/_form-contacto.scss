@@ -1,0 +1,45 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.contacto{
+    &__titulo{
+        position: relative;
+        padding-bottom: 4px;
+        &::after{
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border: 2px solid v.$green;
+            width: 30%;
+        }
+    }
+    .btn-add{
+        width: 30%;
+        font-size: 1.2rem;
+    }
+}
+
+.datos{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    p{
+        margin: 0;
+    }
+    .datos__container{
+        display: flex;
+        gap: 10px;
+    }
+    i{
+        color: v.$green;
+    }
+
+    &__titulo{
+        font-weight: bold;
+        font-size: 1.3rem;
+    }
+    &__descripcion{
+        font-weight: lighter;
+    }
+}

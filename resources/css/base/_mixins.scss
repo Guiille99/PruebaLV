@@ -1,0 +1,111 @@
+@use "variables" as v;
+@use "sass:color" as color;
+
+/*Mixin para crear efecto en los enlaces del nav*/
+@mixin efectoNavLinks($color, $altura, $bottom, $seg){
+    &::before{
+        content: "";
+        position: absolute;
+        bottom: $bottom;
+        display: block;
+        background-color: $color;
+        height: $altura;
+        width: 0%;
+        transition: all $seg;
+    }
+    &:hover::before{
+        width: 75%;
+    }
+}
+//Imagen de fondo
+@mixin bg-image($imagen){
+    background-image: url('uploads/'+#{$imagen});
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+// Mixin para crear fondo oscuro
+@mixin bg-dark(){
+    background-color: #00000085;
+}
+
+// Mixin para crear un botón
+@mixin btn($bgcolor, $fcolor){
+    background-color: $bgcolor;
+    border-radius: 0.7rem;
+    border: none;
+    color: $fcolor;
+    display: block;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover{
+        background-color: color.scale($bgcolor, $lightness: -30%);
+        cursor: pointer;
+    }
+    &:disabled{
+        background-color: color.scale($bgcolor, $lightness: 60%);
+    }
+}
+
+// Grid
+@mixin grid($columns, $gap){
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gap;
+}
+
+//Mixin para crear iconos del footer
+@mixin icon-footer($bgcolor, $color, $padding, $border-radius){
+    background-color: $bgcolor;
+    color: $color;
+    padding: $padding;
+    border-radius: $border-radius;
+    transition: all 0.3s ease;
+    &:hover{
+        background-color: v.$green;
+        svg, i{
+            color: white;
+        }
+    }
+}
+
+// Mixin para gradiente del formulario
+@mixin form-gradient($deg, $color){
+    background: linear-gradient(#{$deg}deg, color.scale($color, $lightness: -30%), color.scale($color, $lightness: 30%));
+}
+
+//Mixin para subrayado de los títulos
+@mixin title-border($color){
+    // display: inline-block;
+        position: relative;
+        &::after{
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0px;
+            background-color: $color;
+            height: 2px;
+            width: 100%;
+        }
+}
+
+//Media-query
+// Media queries
+@mixin mobile{
+    @media screen and (min-width: v.$small) {
+        @content;
+    }
+}
+@mixin tablet{
+    @media screen and (min-width: v.$medium) {
+        @content;
+    }
+}
+@mixin desktop{
+    @media screen and (min-width: v.$big) {
+        @content;
+    }
+}

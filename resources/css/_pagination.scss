@@ -1,0 +1,9 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+nav:has(.pagination){
+    div:nth-child(2){
+        justify-content: center !important;
+        gap: 40px;
+    }
+}

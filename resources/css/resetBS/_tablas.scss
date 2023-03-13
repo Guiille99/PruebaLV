@@ -1,0 +1,6 @@
+@use "../base/variables" as v;
+@use "sass:color";
+
+// Table
+$table-bg: color.scale(v.$green, $lightness: 70%);
+$table-striped-bg: color.scale(v.$green, $lightness: 60%);

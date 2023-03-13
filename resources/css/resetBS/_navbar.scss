@@ -1,0 +1,7 @@
+@use "../base/variables" as v;
+//RESETEO BOOTSTRAP
+// NAV
+$navbar-light-color: v.$white; /*Color de los nav links*/
+$navbar-light-hover-color: v.$white;
+$navbar-toggler-focus-width: 0; //Borde del ancho cuando se pulsa el toggler
+$navbar-light-toggler-border-color: transparent; //Borde del toggler
