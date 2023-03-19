@@ -30,22 +30,22 @@ Route::get('libros/{filtro}', [LibroController::class, "filter"])->name("libros.
 Route::post('libros', [LibroController::class, "getFiltro"])->name("libros.getFiltro"); //Página para mostrar los libros filtrados por título, autor o género
 Route::get('libro/{libro}', [LibroController::class, "show"])->name("libros.show"); //Página para mostrar un libro concreto
 
-Route::get('admin', [UserController::class, "index"])->middleware('checkadmin')->name("admin.index"); //Página principal del admin
-Route::delete('admin/{user}', [UserController::class, "destroy"])->middleware('checkadmin')->name("user.destroy"); //Página para eliminar un usuario
-Route::get('admin/{user}/edit', [UserController::class, "edit"])->middleware('checkadmin')->name("user.edit"); //Página para mostrar el formulario de actualización de usuario
-Route::put('admin/{user}/edit', [UserController::class, "update"])->middleware('checkadmin')->name("user.update"); //Página para actualizar el usuario
-Route::get('admin/usuarios', [UserController::class, "index"])->middleware('checkadmin')->name("admin.users"); //Página que muestra los registros de los usuarios
-Route::get('admin/user/create', [UserController::class, "create"])->middleware('checkadmin')->name("user.create");
-Route::post('admin/user', [UserController::class, "store"])->middleware('checkadmin')->name("user.store");
+Route::get('admin', [UserController::class, "index"])->name("admin.index"); //Página principal del admin
+Route::delete('admin/{user}', [UserController::class, "destroy"])->name("user.destroy"); //Página para eliminar un usuario
+Route::get('admin/{user}/edit', [UserController::class, "edit"])->name("user.edit"); //Página para mostrar el formulario de actualización de usuario
+Route::put('admin/{user}/edit', [UserController::class, "update"])->name("user.update"); //Página para actualizar el usuario
+Route::get('admin/usuarios', [UserController::class, "index"])->name("admin.users"); //Página que muestra los registros de los usuarios
+Route::get('admin/user/create', [UserController::class, "create"])->name("user.create");
+Route::post('admin/user', [UserController::class, "store"])->name("user.store");
 Route::get('perfil/{user}', [UserController::class, "editPerfil"])->middleware('auth')->name("user.editPerfil"); //Página para mostrar el formulario de actualización de usuario desde la página principal
 Route::put('perfil/{user}', [UserController::class, "updatePerfil"])->middleware('auth')->name("user.updatePerfil"); //Página para mostrar el formulario de actualización de usuario desde la página principal
 
-Route::get('admin/libros', [LibroController::class, "index"])->middleware('checkadmin')->name("libros.index"); //Página para mostar todos los libros
-Route::delete('admin/libros/{libro}', [LibroController::class, "destroy"])->middleware('checkadmin')->name("libro.destroy"); //Página para eliminar un usuario
-Route::get('admin/libros/{libro}/edit', [LibroController::class, "edit"])->middleware('checkadmin')->name("libro.edit"); //Página para mostrar el formulario de actualización de usuario
-Route::put('admin/libros/{libro}/edit', [LibroController::class, "update"])->middleware('checkadmin')->name("libro.update"); 
-Route::get('admin/libros/create', [LibroController::class, "create"])->middleware('checkadmin')->name('libro.create');
-Route::post('admin/libros', [LibroController::class, "store"])->middleware('checkadmin')->name("libro.store");
+Route::get('admin/libros', [LibroController::class, "index"])->name("libros.index"); //Página para mostar todos los libros
+Route::delete('admin/libros/{libro}', [LibroController::class, "destroy"])->name("libro.destroy"); //Página para eliminar un usuario
+Route::get('admin/libros/{libro}/edit', [LibroController::class, "edit"])->name("libro.edit"); //Página para mostrar el formulario de actualización de usuario
+Route::put('admin/libros/{libro}/edit', [LibroController::class, "update"])->name("libro.update"); 
+Route::get('admin/libros/create', [LibroController::class, "create"])->name('libro.create');
+Route::post('admin/libros', [LibroController::class, "store"])->name("libro.store");
 
 Route::get('blog', function(){
     $generos = LibroController::getGeneros();
