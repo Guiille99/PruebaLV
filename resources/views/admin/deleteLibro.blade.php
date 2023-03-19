@@ -1,5 +1,4 @@
 {{-- MODAL PARA CONFIRMAR BORRADO DE LIBRO --}}
-<!-- Modal -->
 <div class="modal fade" id="modal-delete-{{$libro->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form action="{{route('libro.destroy', $libro)}}" method="post">

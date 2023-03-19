@@ -1,6 +1,4 @@
 {{-- MODAL PARA CONFIRMAR BORRADO DE USUARIO --}}
-<!-- Modal -->
-
 <div class="modal fade" id="modal-delete-{{$user->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form action="{{route('user.destroy', $user)}}" method="post">
@@ -13,7 +11,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Está seguro de que quiere eliminar el usuario {{$user->username}}?
+                    ¿Está seguro de que quiere eliminar el usuario <strong>{{$user->username}}</strong>?
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -22,6 +20,5 @@
                 </div>
             </div>  
         </form>
-{{-- prueba --}}
     </div>
 </div>

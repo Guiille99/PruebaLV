@@ -9,21 +9,29 @@ $(document).ready(function () {
         posAction = 11;
         url = "{{route('libros.index')}}";
     }
-
+    console.log(tablaID)
     $(`#${tablaID}`).DataTable({
         processing:true,
-        serverSide:true,
-        ajax: url,
+        serverSide: true,
+        ajax: "http://localhost/Entorno%20Servidor/Laravel/PruebaLV/public/admin/libros",
+        columns:[
+            {data: 'id'},
+            {data: 'titulo'},
+            {data: 'autor'},
+            {data: 'editorial'},
+            {data: 'stock'},
+            {data: 'fecha_publicacion'},
+            {data: 'precio'},
+            {data: 'genero'},
+            {data: 'valoracion'},
+            {data: 'created_at'},
+            {data: 'updated_at'},
+            {data: 'action'},
+        ],
         lengthMenu: [5, 10, 15],
         columnDefs: [
             {orderable: false, target:[posAction]}
         ],
-        columns: [{
-            data: "id",
-            render: function(data, type, row, meta){
-                return i++;
-            }
-        }],
         // ajax: url,
         language: {
             "processing": "Procesando...",

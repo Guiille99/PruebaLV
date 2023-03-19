@@ -10,9 +10,26 @@ use Illuminate\Support\Facades\Storage;
 class LibroController extends Controller
 {
  
-    public function index(){
-        $libros = Libro::paginate(5);
-        return view("admin.libros", compact('libros'));
+    public function index(Request $request){
+        // $libros = Libro::paginate(5);
+        $libros = Libro::select('id', 'titulo', 'autor', 'editorial', 'stock', 'fecha_publicacion', 'precio', 'genero', 'valoracion', 'created_at', 'updated_at')->get();
+        if ($request->ajax()) {
+            // dump($request->ajax());
+        return datatables()->of($libros)
+        ->addColumn('action', function($libro){
+            $btn="<div class='d-flex align-items-center gap-2'>
+            <button type='button' class='d-flex gap-2 btn-delete text-white' data-bs-toggle='modal' data-bs-target='#modal-delete-$libro->id' >
+                <i class='bi bi-trash3'></i> 
+            </button>
+
+            <a href='". route('libro.edit', $libro) ."' class='d-flex gap-2 btn-modify text-white'>
+                <i class='bi bi-pencil-square'></i></a>
+        </div>";
+            return $btn;
+        })
+        ->toJson();
+        }
+        return view("admin.libros", compact("libros"));
     }
 
     public static function getGeneros(){
