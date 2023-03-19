@@ -57,7 +57,7 @@
     "src": "resources/js/bootstrap.js"
   },
   "resources/js/datatables.min.js": {
-    "file": "assets/datatables.min-0a795ab1.js",
+    "file": "assets/datatables.min-b44ec539.js",
     "isEntry": true,
     "src": "resources/js/datatables.min.js"
   },
