@@ -11,9 +11,8 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-f89ee90b.css",
-    "isEntry": true,
-    "src": "resources/css/app.scss"
+    "file": "assets/app-cbe98e29.css",
+    "src": "resources/js/app.css"
   },
   "resources/fonts/Montserrat-Medium.ttf": {
     "file": "assets/Montserrat-Medium-20ebfd65.ttf",
@@ -28,9 +27,8 @@
     "src": "resources/fonts/WorkSans-Regular.ttf"
   },
   "resources/js/app.css": {
-    "file": "assets/app-f89ee90b.css",
-    "isEntry": true,
-    "src": "resources/css/app.scss"
+    "file": "assets/app-cbe98e29.css",
+    "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "assets": [
@@ -41,9 +39,9 @@
       "assets/WorkSans-Regular-1b94e0d8.ttf"
     ],
     "css": [
-      "assets/app-f89ee90b.css"
+      "assets/app-cbe98e29.css"
     ],
-    "file": "assets/app-429550db.js",
+    "file": "assets/app-9cbdd149.js",
     "imports": [
       "_axios-ca6126ea.js"
     ],
@@ -67,11 +65,6 @@
     "file": "assets/font-awesome-06d3006d.js",
     "isEntry": true,
     "src": "resources/js/font-awesome.js"
-  },
-  "resources/js/jquery-3.6.3.js": {
-    "file": "assets/jquery-3.6.3-65bc4b45.js",
-    "isEntry": true,
-    "src": "resources/js/jquery-3.6.3.js"
   },
   "resources/js/validation_form.js": {
     "file": "assets/validation_form-b2fee555.js",
