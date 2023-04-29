@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("nombre", 80);
             $table->string("apellidos", 100);
             $table->string("email")->unique();
+            $table->string("avatar");
             $table->string("rol", 20)->default("Usuario");
             $table->rememberToken();
             $table->timestamps();

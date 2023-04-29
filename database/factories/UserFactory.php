@@ -19,10 +19,11 @@ class UserFactory extends Factory
     {
         return [
             'username' => fake()->userName(),
-            'password' => fake()->password(), //Genera una contraseña aleatoria de entre 6 y 20 caracteres
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             'nombre' => fake()->name(),
             'apellidos' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
+            'avatar' => 'default',
             'rol' => fake()->randomElement(['Usuario', 'Administrador'])
             // 'email_verified_at' => now(),
             // 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
