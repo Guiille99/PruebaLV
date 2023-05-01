@@ -18,6 +18,6 @@ class Pedido extends Model
     }
 
     public function libros(){
-        return $this->belongsToMany(Libro::class);
+        return $this->belongsToMany(Libro::class)->withPivot("precio", "cantidad", "subtotal");
     }
 }

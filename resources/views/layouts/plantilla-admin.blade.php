@@ -6,8 +6,9 @@
     <title>@yield("title")</title>
     <link rel="shortcut icon" href="{{asset('uploads/logo.ico')}}" type="image/x-icon">
     <script src="{{asset('build/assets/jquery-3.6.3.js')}}"></script>
-    <script src="{{asset('build/assets/moment.min.js')}}"></script>
-    @vite(["resources/css/app.scss", "resources/js/app.js", "resources/js/font-awesome.js", "resources/js/validation_form.js", "resources/js/datatables.min.js"])
+    <link rel="stylesheet" href="{{asset('vendor/datatables/css/_datatables.min.css')}}">
+    {{-- <script src="{{asset('build/assets/moment.min.js')}}"></script> --}}
+    @vite(["resources/css/app.scss", "resources/js/app.js", "resources/js/font-awesome.js", "resources/js/validation_form.js"])
 </head>
 <body>
         <nav class="navbar-admin navbar navbar-expand-lg align-items-center px-5">
@@ -44,7 +45,8 @@
             </div>
         </main>
 
-
+    <script src="{{asset('../vendor/datatables/js/datatables.min.js')}}"></script>
+    <script src="{{asset('../vendor/datatables/js/moment.min.js')}}"></script>
     @yield('script')
 </body>
 </html>

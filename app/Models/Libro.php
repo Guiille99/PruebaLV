@@ -10,6 +10,6 @@ class Libro extends Model
     use HasFactory;
 
     public function pedidos(){
-        return $this->belongsToMany(Pedido::class);
+        return $this->belongsToMany(Pedido::class)->withPivot("precio", "cantidad", "subtotal");
     }
 }

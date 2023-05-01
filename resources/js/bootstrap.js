@@ -1,5 +1,9 @@
 import _ from 'lodash';
 window._ = _;
+// import jQuery from "jquery";
+// window.$ = jQuery;
+// import DataTable from "datatables.net";
+// window.DataTable = DataTable;
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
