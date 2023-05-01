@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Mail\ContactanosMailable;
@@ -30,22 +32,23 @@ Route::get('libros/{filtro}', [LibroController::class, "filter"])->name("libros.
 Route::post('libros', [LibroController::class, "getFiltro"])->name("libros.getFiltro"); //Página para mostrar los libros filtrados por título, autor o género
 Route::get('libro/{libro}', [LibroController::class, "show"])->name("libros.show"); //Página para mostrar un libro concreto
 
-Route::get('admin', [UserController::class, "index"])->name("admin.index"); //Página principal del admin
-Route::delete('admin/{user}', [UserController::class, "destroy"])->name("user.destroy"); //Página para eliminar un usuario
-Route::get('admin/{user}/edit', [UserController::class, "edit"])->name("user.edit"); //Página para mostrar el formulario de actualización de usuario
-Route::put('admin/{user}/edit', [UserController::class, "update"])->name("user.update"); //Página para actualizar el usuario
-Route::get('admin/usuarios', [UserController::class, "index"])->name("admin.users"); //Página que muestra los registros de los usuarios
-Route::get('admin/user/create', [UserController::class, "create"])->name("user.create");
-Route::post('admin/user', [UserController::class, "store"])->name("user.store");
-Route::get('perfil/{user}', [UserController::class, "editPerfil"])->middleware('auth')->name("user.editPerfil"); //Página para mostrar el formulario de actualización de usuario desde la página principal
+Route::get('admin', [UserController::class, "index"])->middleware('checkadmin')->name("admin.index"); //Página principal del admin
+Route::delete('admin/{user}', [UserController::class, "destroy"])->middleware('checkadmin')->name("user.destroy"); //Página para eliminar un usuario
+Route::get('admin/{user}/edit', [UserController::class, "edit"])->middleware('checkadmin')->name("user.edit"); //Página para mostrar el formulario de actualización de usuario
+Route::put('admin/{user}/edit', [UserController::class, "update"])->middleware('checkadmin')->name("user.update"); //Página para actualizar el usuario
+Route::get('admin/usuarios', [UserController::class, "index"])->middleware('checkadmin')->name("admin.users"); //Página que muestra los registros de los usuarios
+Route::get('admin/user/create', [UserController::class, "create"])->middleware('checkadmin')->name("user.create");
+Route::post('admin/user', [UserController::class, "store"])->middleware('checkadmin')->name("user.store");
+Route::get('perfil/{user}', [UserController::class, "editPerfil"])->middleware('auth')->name("user.editPerfil"); //Página para mostrar la interfaz para editar el perfil
+Route::get('perfil/my-data/{user}', [UserController::class, "myData"])->middleware('auth')->name("user.editPerfil-datos");
 Route::put('perfil/{user}', [UserController::class, "updatePerfil"])->middleware('auth')->name("user.updatePerfil"); //Página para mostrar el formulario de actualización de usuario desde la página principal
 
-Route::get('admin/libros', [LibroController::class, "index"])->name("libros.index"); //Página para mostar todos los libros
-Route::delete('admin/libros/{libro}', [LibroController::class, "destroy"])->name("libro.destroy"); //Página para eliminar un usuario
-Route::get('admin/libros/{libro}/edit', [LibroController::class, "edit"])->name("libro.edit"); //Página para mostrar el formulario de actualización de usuario
-Route::put('admin/libros/{libro}/edit', [LibroController::class, "update"])->name("libro.update"); 
-Route::get('admin/libros/create', [LibroController::class, "create"])->name('libro.create');
-Route::post('admin/libros', [LibroController::class, "store"])->name("libro.store");
+Route::get('admin/libros', [LibroController::class, "index"])->middleware('checkadmin')->name("libros.index"); //Página para mostar todos los libros
+Route::delete('admin/libros/{libro}', [LibroController::class, "destroy"])->middleware('checkadmin')->name("libro.destroy"); //Página para eliminar un usuario
+Route::get('admin/libros/{libro}/edit', [LibroController::class, "edit"])->middleware('checkadmin')->name("libro.edit"); //Página para mostrar el formulario de actualización de usuario
+Route::put('admin/libros/{libro}/edit', [LibroController::class, "update"])->middleware('checkadmin')->name("libro.update"); 
+Route::get('admin/libros/create', [LibroController::class, "create"])->middleware('checkadmin')->name('libro.create');
+Route::post('admin/libros', [LibroController::class, "store"])->middleware('checkadmin')->name("libro.store");
 
 Route::get('blog', function(){
     $generos = LibroController::getGeneros();
@@ -59,8 +62,29 @@ Route::put('/logout', [LoginController::class, "logout"])->name("login.logout");
 Route::get('/register', [RegisterController::class, "index"])->name("register.index");
 Route::post('/register', [RegisterController::class, "store"])->name("register.store");
 
+
 Route::get('/contacto', [ContactoController::class, "index"])->name("contacto");
 
+// RUTAS DE RESETEO DE CONTRASEÑA
+Route::controller(PasswordResetController::class)->group(function(){
+    Route::get('forgot-password', 'create')->name('password.request'); //Muestra el formulario para solicitar el reseto de contraseña
+    Route::post('forgot-password', 'store')->name('password.email'); //Envía la solicitud
+    Route::get('forgot-password/reset/{token}', 'showResetForm')->name('password.reset'); //Muestra el formulario para cambiar la contraseña
+    Route::post('forgot-password/reset', 'reset')->name('password.update'); //Actualiza la contraseña
+});
+
+// RUTAS DE MANEJO DEL CARRITO
+Route::controller(CarritoController::class)->group(function(){
+    Route::post('add-to-cart', 'addCarrito')->name('add_to_cart');
+    Route::get('cantidadCarrito', 'showCantidad')->name('cantidadCarrito');
+    Route::get('offcanvas-cart-content', 'getContent')->name('offcanvas-cart-content');
+    Route::put('update-cart', 'updateCart')->name('carrito.update');
+    Route::delete('delete-to-cart/{id}', 'deleteToCart')->name('delete_to_cart');
+    Route::delete('delete-cart', 'vaciarCarrito')->name('vaciar-carrito');
+    Route::get('carrito', 'showCart')->name('show-cart');
+    Route::get('detalles-envio', 'showDetallesEnvio')->name('show-detalles-envio');
+    Route::post('carrito/compra-finalizada', 'shop')->name('compra-finalizada');
+});
 
 Route::post('enviar-correo', function() 
 {

@@ -6,15 +6,19 @@
 @import "cards";
 @import "pagination";
 @import "offcanvas";
+@import "sidebar";
+@import "edit-profile";
 @import "buttons";
 @import "tables";
 @import "libro";
 @import "formularios";
 @import "blog";
+@import "progressBar";
+@import "cart";
 @import "footer";
+@import "dark-mode";
 
-
+@import "datatables.min";
 @import "fontawesome-all.scss";
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
-// @import "datatables.min";

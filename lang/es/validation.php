@@ -133,6 +133,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'avatar' => [
+            'mimes' => 'La imagen de perfil debe ser un archivo de tipo: :values'
+        ]
     ],
 
     /*
@@ -149,7 +152,8 @@ return [
     'attributes' => [
         "name" => "nombre",
         "username" => "usuario",
-        "password" => "contraseña"
+        "password" => "contraseña",
+        "avatar" => "imagen de perfil"
     ],
 
 ];

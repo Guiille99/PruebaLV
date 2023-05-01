@@ -1,0 +1,80 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color";
+
+#registros__container{
+    margin: 0 auto;
+    .registros{
+        justify-content: center;
+    
+        @include m.desktop{
+            justify-content: flex-start;
+        }
+        .header__container{
+            background-color: v.$nav-dark;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+            // justify-content: space-around;
+            align-items: center;
+
+            @include m.tablet{
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .title{
+                color: v.$white;
+                margin: 0;
+            }
+        }
+        table{
+            background-color: color.scale(v.$green, $lightness: 72%);
+            tr.odd{
+                background-color: color.scale(v.$green, $lightness: 67%);
+            }
+            th{
+                text-align: center;
+            }
+
+            td.child{
+                .dtr-details{ //Datos de la table que están en el dropdown
+                    width: 100%;
+
+                    li{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        .dtr-title{
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+//Modificación del spinner de carga
+div.dataTables_processing { 
+    div{
+        display: none;
+    }
+    .spinner-border{
+        display: block;
+        text-align: center;
+        margin: 0 auto;
+    }
+}
+
+.dataTables_wrapper{
+    .row:nth-child(1), .row:nth-child(3){
+        flex-direction: column;
+        gap: 10px;
+        @include m.tablet{
+            flex-direction: row;
+            gap: 0;
+        }
+    }
+}

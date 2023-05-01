@@ -3,9 +3,15 @@
 @section('content')
 {{-- {{$libros}} --}}
        {{-- DATOS --}}
-       <div id="registros__container" class="col col-lg-10 py-3">
-        <div class="registros row">
-            <div class="col">
+       <div id="registros__container" class="col col-lg-12 py-3">
+           <div class="registros row">
+               <div class="col">
+
+                {{-- Alerta si se ha añadido, actualizado o eliminado un libro --}}
+                @if (session("message")) 
+                    <div class="alert alert-success"><i class="bi bi-check-circle"></i> {{session('message')}}</div>
+                @endif
+
                 <div class="header__container mb-2">
                     <h3 class="title text-center">Lista de Libros</h3>
                     <a href="{{route('libro.create')}}" class="btn-add"> <i class="bi bi-plus"></i> Nuevo libro</a>
@@ -30,14 +36,65 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($libros as $libro)
-                                @include('admin.deleteLibro') 
-                                {{-- Añado el modal de confirmación para el borrado de registros --}}
-                                
-                            @endforeach
-                        </tbody>
+                            {{-- @foreach ($libros as $libro) --}}
+                                {{-- <tr>
+                                    <td>{{$libro->id}}</td>
+                                    <td>{{$libro->titulo}}</td>
+                                    <td>{{$libro->autor}}</td>
+                                    <td>{{$libro->editorial}}</td>
+                                    <td>{{$libro->stock}}</td>
+                                    <td>{{$libro->fecha_publicacion}}</td>
+                                    <td>{{$libro->precio}}€</td>
+                                    <td>{{$libro->genero}}</td>
+                                    <td>{{$libro->valoracion}}</td>
+                                    <td>{{$libro->created_at}}</td>
+                                    <td>{{$libro->updated_at}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <button type="button" class="d-flex gap-2 btn-delete text-white" data-bs-toggle="modal" data-bs-target="#modal-delete-{{$libro->id}}" >
+                                                <i class="bi bi-trash3"></i> Eliminar
+                                            </button>
+
+                                            <a href="{{route('libro.edit', $libro)}}" class="d-flex gap-2 btn-modify text-white">
+                                                <i class="bi bi-pencil-square"></i> Modificar</a>
+                                        </div>
+                                    </td>
+                                </tr> --}}
+    
+                                {{-- @include('admin.deleteLibro') 
+                                Añado el modal de confirmación para el borrado de registros --}}
+                            {{-- @endforeach --}}
+                            <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="" method="post">
+                                        @csrf
+                                        @method('delete')
+                                    
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminación de registro</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Está seguro de que quiere eliminar el libro <strong></strong>?
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            
+                                            <button type="submit" class="btn btn-primary text-white">Confirmar</button>
+                                            </div>
+                                        </div>  
+                                    </form>
+                                </div>
+                            </div>
+                            </tbody>
                     </table>
+
                 </div>
+
+                {{-- <div class="w-100">
+                    {{$libros->links()}}
+                </div> --}}
             </div>
         </div>
     </div>
@@ -45,6 +102,7 @@
 @section('script')
    <script>
         $(document).ready(function () {
+            $.fn.dataTable.ext.errMode = 'throw';
             $(`#libros`).DataTable({
                 processing:true,
                 serverSide: true,
@@ -72,7 +130,10 @@
                         render: function(data, type, row){
                             return data+"€"}
                     },
-                    {targets: [9, 10], render: DataTable.render.datetime( 'DD/MM/YYYY HH:mm:ss' )},
+                    // {targets: [9, 10], render: DataTable.render.datetime( 'DD/MM/YYYY HH:mm:ss' )},
+                    {targets: [9, 10], render: function(data, type, row){
+                        return moment.utc(data).local().format('DD/MM/YYYY HH:mm:ss');
+                    }},
                     {targets: [5], render: DataTable.render.datetime( 'DD/MM/YYYY' )},
                 ],
                 language: {
@@ -245,5 +306,18 @@
                 } 
             });
         });
+
+        $(document).on('click', 'table button.btn-delete', openDeleteModal)
+
+        function openDeleteModal() {
+            let id = $(this).attr("data-id");
+            let titulo = $(this).attr("data-titulo");
+            let token = $("input[name='_token']").val();
+            let url = "{{route('libro.destroy', 'num')}}";
+            url=url.replace('num', id);
+
+            $(".modal-dialog form").attr("action", url); //Actualizo la url para eliminar el usuario
+            $(".modal-body").html("¿Está seguro de que quiere eliminar el libro <strong>"+titulo+"</strong>?")       
+        }
    </script>
 @endsection

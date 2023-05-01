@@ -18,11 +18,11 @@ class LibroController extends Controller
         return datatables()->of($libros)
         ->addColumn('action', function($libro){
             $btn="<div class='d-flex align-items-center gap-2'>
-            <button type='button' class='d-flex gap-2 btn-delete text-white' data-bs-toggle='modal' data-bs-target='#modal-delete-$libro->id' >
+            <button type='button' class='d-flex gap-2 btn-delete text-white' title='Eliminar libro' data-id='$libro->id' data-titulo='$libro->titulo' data-bs-toggle='modal' data-bs-target='#modal-delete' >
                 <i class='bi bi-trash3'></i> 
             </button>
 
-            <a href='". route('libro.edit', $libro) ."' class='d-flex gap-2 btn-modify text-white'>
+            <a href='". route('libro.edit', $libro) ."' class='d-flex gap-2 btn-modify text-white' title='Editar libro'>
                 <i class='bi bi-pencil-square'></i></a>
         </div>";
             return $btn;
@@ -75,7 +75,7 @@ class LibroController extends Controller
     public function destroy(Libro $libro){ 
         unlink($libro->portada);//Borra la anterior foto registrada
         $libro->delete(); //Elimina el libro
-        return redirect()->route('libros.index');
+        return redirect()->route('libros.index')->with("message", "Libro eliminado correctamente");
     }
 
     public function edit(Libro $libro){ 
@@ -127,9 +127,8 @@ class LibroController extends Controller
         $libro->stock = $request->stock;
 
         $libro->save();
-        return redirect()->route('libros.index');
+        return redirect()->route('libros.index')->with("message", "Libro añadido correctamente");
     }
-
 
 
     public function update(Request $request, Libro $libro){ 
@@ -180,7 +179,7 @@ class LibroController extends Controller
 
 
         $libro->save();
-        return redirect()->route('libros.index');
+        return redirect()->route('libros.index')->with("message", "Libro actualizado correctamente");
     }
 
     public function show(Libro $libro){

@@ -1,0 +1,13 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.main-content{
+    // width: calc(100% - v.$sidebar-width);
+    // position: absolute;
+    // right: 0;
+    margin: 0;
+
+    @include m.desktop{
+        margin-left: v.$sidebar-width;
+    }
+}

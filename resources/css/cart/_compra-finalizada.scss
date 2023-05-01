@@ -1,0 +1,16 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.compra-finalizada-message__container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid v.$black;
+    .bi{
+        color: v.$green;
+        font-size: 2rem;
+    }
+    a{
+        @include m.btnCartTable(v.$white, v.$green);
+    }
+}

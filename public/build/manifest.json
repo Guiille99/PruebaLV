@@ -11,7 +11,7 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-cbe98e29.css",
+    "file": "assets/app-f67bc966.css",
     "src": "resources/js/app.css"
   },
   "resources/fonts/Montserrat-Medium.ttf": {
@@ -27,7 +27,7 @@
     "src": "resources/fonts/WorkSans-Regular.ttf"
   },
   "resources/js/app.css": {
-    "file": "assets/app-cbe98e29.css",
+    "file": "assets/app-f67bc966.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
@@ -39,9 +39,9 @@
       "assets/WorkSans-Regular-1b94e0d8.ttf"
     ],
     "css": [
-      "assets/app-cbe98e29.css"
+      "assets/app-f67bc966.css"
     ],
-    "file": "assets/app-9cbdd149.js",
+    "file": "assets/app-25d563ff.js",
     "imports": [
       "_axios-ca6126ea.js"
     ],
@@ -56,15 +56,15 @@
     "isEntry": true,
     "src": "resources/js/bootstrap.js"
   },
-  "resources/js/datatables.min.js": {
-    "file": "assets/datatables.min-b44ec539.js",
-    "isEntry": true,
-    "src": "resources/js/datatables.min.js"
-  },
   "resources/js/font-awesome.js": {
     "file": "assets/font-awesome-06d3006d.js",
     "isEntry": true,
     "src": "resources/js/font-awesome.js"
+  },
+  "resources/js/jquery-3.6.3.js": {
+    "file": "assets/jquery-3.6.3-65bc4b45.js",
+    "isEntry": true,
+    "src": "resources/js/jquery-3.6.3.js"
   },
   "resources/js/validation_form.js": {
     "file": "assets/validation_form-b2fee555.js",

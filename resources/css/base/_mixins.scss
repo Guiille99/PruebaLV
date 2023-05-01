@@ -50,6 +50,19 @@
     }
 }
 
+@mixin btnCartTable($bgcolor, $fcolor){
+    background-color: $bgcolor;
+    border: 1px solid $fcolor;
+    text-decoration: none;
+    padding: 5px 10px;
+    color: $fcolor;
+    transition: all .5s ease;
+    &:hover{
+        background-color: $fcolor;
+        color: $bgcolor;
+    }
+}
+
 // Grid
 @mixin grid($columns, $gap){
     display: grid;

@@ -1,0 +1,15 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.detalle-pago__container{
+    .modal-footer{
+        button[type=button]{
+            @include m.btn(v.$red, v.$white);
+            border-radius: unset;
+        }
+        button[type=submit]{
+            @include m.btn(v.$green, v.$white);
+            border-radius: unset;
+        }
+    }
+}

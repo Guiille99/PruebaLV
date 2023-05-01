@@ -1,0 +1,31 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.header-2{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    @include m.desktop{
+        position: unset;
+        padding-top: 60px;
+    }
+}
+
+.nav-top,.sub-nav{
+    .changeMode__container{
+        li.active{
+            background-color: v.$green;
+            &>a{
+                color: v.$white;
+            }
+        }
+        li:not(.active):hover{
+            background-color: v.$green;
+            opacity: .5;
+        }
+        .dropdown-menu{
+            left: auto;
+        }
+
+    }
+}

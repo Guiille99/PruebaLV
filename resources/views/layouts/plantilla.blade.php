@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield("title")</title>
     <link rel="shortcut icon" href="{{asset('uploads/logo.ico')}}" type="image/x-icon">
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> --}}
-    @vite(["resources/css/app.scss", "resources/js/jquery-3.6.3.js", "resources/js/app.js", "resources/js/font-awesome.js", "resources/js/validation_form.js"])
+    <script src="{{asset('build/assets/jquery-3.6.3.js')}}"></script>
+    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/font-awesome.js", "resources/js/validation_form.js"])
 </head>
 <body class="@yield('body-class')">
     <header>
+      {{-- TOP-NAV --}}
       <div class="nav-top container-fluid">
-        <div class="row bg-success align-items-center d-none d-lg-flex">
+        <div class="row bg-success align-items-center d-none d-lg-flex position-relative">
           <div class="col-3">
             <figure class="m-0">
               <a href="{{ route('index')}}"><img src="{{asset('uploads/logo-nombre2.svg')}}" alt="LOGO" class="img-fluid"></a>
@@ -28,6 +30,33 @@
             </form>
           </div>
           <div class="cuenta-carrito col-3 d-flex justify-content-center gap-4">
+            {{-- Dropdown screen mode --}}
+            <div class="changeMode__container dropdown">
+              <button class="btnTheme dropdown-toggle bg-transparent border-0 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="theme-icon"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li class="light-mode theme" data-theme-value="light">
+                  <button class="dropdown-item d-flex gap-2">
+                    <i class="bi bi-sun"></i>
+                    <span>Modo claro</span>
+                  </button>
+                </li>
+                <li class="dark-mode theme" data-theme-value="dark">
+                  <button class="dropdown-item d-flex gap-2">
+                    <i class="bi bi-moon-fill"></i>
+                    <span>Modo oscuro</span>
+                  </button>
+                </li>
+                <li class="auto-mode theme" data-theme-value="auto">
+                  <button class="dropdown-item d-flex gap-2">
+                    <i class="bi bi-circle-half"></i>
+                    <span>Auto</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+
             <div class="login__container"> {{-- LOGIN CONTAINER --}}
               {{-- Si se ha iniciado sesión --}}
               @if (Auth::check())
@@ -69,26 +98,55 @@
     
             @if (Auth::check())
             <div class="carrito__container">
-              <a href="" class="nav-link">
+              <a href="" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasRight">
                 <img src="{{asset('uploads/cart.svg')}}" alt="Carrito" class="img-fluid">
-                <span class="carrito__cantidad">0</span>
+                @if (session()->get('carrito'))
+                <span class="carrito__cantidad">{{session('carrito-data')["cantidad"]}}</span>
+                @else
+                <span class="carrito__cantidad">{{count((array) session('carrito'))}}</span>
+                @endif
               </a>
             </div>
             @endif
           </div>
+
+          {{-- Mensaje cuando añades un libro al carrito --}}
+          {{-- <div style="border: 1px solid black; position: absolute; bottom: -120%; right: 5px; z-index: 999; width: 20%">
+            <p>Has añadido el libro a tu cesta</p>
+          </div> --}}
         </div>
       </div>
     
-
       {{-- SUB-NAV --}}
       <nav class="down-nav navbar navbar-expand-lg text-center pb-3 p-md-2">
         <div class="container-fluid">      
           <a class="navbar-brand d-block d-lg-none" href="{{ route('index')}}">
-            <img src="{{asset('uploads/logo-nombre2.svg')}}" alt="LOGO">
+            <picture>
+              <source media="(max-width: 375px)" srcset="{{asset('uploads/logo.png')}}">
+              <img src="{{asset('uploads/logo-nombre2.svg')}}" alt="LOGO" class="img-fluid">
+            </picture>
           </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <img src="{{asset('uploads/toggler.svg')}}" alt="Toggler button" class="toggler__button">
-          </button>
+
+          <div class="d-flex gap-4">
+            {{-- Carrito --}}
+            @if (Auth::check())
+            <div class="carrito__container d-block d-lg-none">
+              <a href="" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasRight">
+                <img src="{{asset('uploads/cart.svg')}}" alt="Carrito" class="img-fluid">
+                @if (session()->get('carrito'))
+                <span class="carrito__cantidad">{{session('carrito-data')["cantidad"]}}</span>
+                @else
+                <span class="carrito__cantidad">{{count((array) session('carrito'))}}</span>
+                @endif
+              </a>
+            </div>
+            @endif
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <img src="{{asset('uploads/toggler.svg')}}" alt="Toggler button" class="toggler__button">
+            </button>
+          </div>
+
           <div class="collapse navbar-collapse justify-content-center gap-5" id="navbarNav">
             {{-- Nav items --}}
             <ul class="nav__options navbar-nav gap-2 gap-lg-4 justify-content-center">
@@ -128,7 +186,34 @@
               <button type="submit" class="d-none"></button>
             </form>
     
-            <div class="cuenta-carrito d-flex justify-content-center gap-4 mt-3 d-block d-lg-none">
+            <div class="cuenta-carrito d-flex align-items-center justify-content-center gap-4 mt-3 d-block d-lg-none">
+              {{-- Dropdown screen mode --}}
+              <div class="changeMode__container" class="dropdown">
+                <button class="btnTheme dropdown-toggle bg-transparent border-0 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="theme-icon"></i>
+                </button>
+                <ul class="dropdown-menu left-auto">
+                  <li class="light-mode theme" data-theme-value="light">
+                    <button class="dropdown-item d-flex gap-2">
+                      <i class="bi bi-sun"></i>
+                      <span>Modo claro</span>
+                    </button>
+                  </li>
+                  <li class="dark-mode theme" data-theme-value="dark">
+                    <button class="dropdown-item d-flex gap-2">
+                      <i class="bi bi-moon-fill"></i>
+                      <span>Modo oscuro</span>
+                    </button>
+                  </li>
+                  <li class="auto-mode theme" data-theme-value="auto">
+                    <button class="dropdown-item d-flex gap-2">
+                      <i class="bi bi-circle-half"></i>
+                      <span>Auto</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
               <div class="login__container"> {{-- LOGIN CONTAINER --}}
                 {{-- Si se ha iniciado sesión --}}
                 @if (Auth::check()) 
@@ -167,27 +252,93 @@
                 </div>
               @endif
               
-              @if (Auth::check())
-              <div class="carrito__container">
-                <a href="" class="nav-link">
-                  <img src="{{asset('uploads/cart.svg')}}" alt="Carrito" class="img-fluid">
-                  <span class="carrito__cantidad">0</span>
-                </a>
-              </div>
-              @endif
+            
             </div>
           </div>
         </div>
       </nav>
+
     </header>
 
+    {{-- {{var_dump(session()->get('carrito'))}} --}}
+    {{-- {{var_dump(session()->get('carrito-data'))}} --}}
 
+    {{-- Mensaje cuando añades un libro al carrito --}}
+    <div id="add-to-cart__message">
+      <p class="m-0">Has añadido el libro a tu cesta</p>
+      <i class="bi bi-cart-check-fill"></i>
+    </div>
+
+    {{-- Offcanvas carrito --}}
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" aria-labelledby="offcanvasCart">
+      <div class="offcanvas-header">
+        <button type="button" class="bi bi-x" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        
+        <div class="m-auto d-flex justify-content-center align-items-center gap-3">
+          <i class="bi bi-bag">
+            @if (session()->get('carrito'))
+            <span class="carrito__cantidad">{{session('carrito-data')['cantidad']}}</span>
+            @else
+            <span class="carrito__cantidad">{{count((array) session('carrito'))}}</span>
+            @endif
+          </i>
+          <h5 class="offcanvas-title" id="offcanvasCart">Mi carrito</h5>
+        </div>
+      </div>
+      <div class="offcanvas-content d-flex flex-column flex-grow-1">
+        @if (session()->get('carrito'))
+        <div class="offcanvas-body">
+            @foreach (session()->get('carrito') as $id=>$libro)
+                <div class="cart-book">
+                  <figure>
+                    <img src="{{asset($libro['portada'])}}" alt="portada" class="img-fluid">
+                  </figure>
+  
+                  <div class="book-data">
+                    <p>{{$libro["titulo"]}}</p>
+                    <div class="book-data__body">
+                      <p>{{$libro["cantidad"]}} x <span class="fw-bold">{{$libro["precio"]}}€</span></p>
+                    </div>
+                    <div class="book-data__footer">
+                      <p class="total-unidad">{{$libro["precio"]*$libro["cantidad"]}}€</p>
+                      <form action="{{route('delete_to_cart', $id)}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="bi bi-trash3 bg-transparent border-0"></button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                @endforeach
+          @else
+              <div class="offcanvas-body d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                  <i class="bi bi-emoji-frown"></i>
+                  <p>El carrito está vacío</p>
+                </div>
+          @endif
+        </div>
+        @if (session()->get('carrito'))
+        <div class="offcanvas-footer">
+          <p id="total">Total: <span class="precio">{{session()->get('carrito-data')["total"]}}€</span></p>
+          <a href="{{route('show-cart')}}" class="text-center text-decoration-none">Ver carrito</a>
+          <form action="{{route('vaciar-carrito')}}" method="post">
+            @csrf
+            @method('delete')
+            <input type="submit" class="w-100" value="Vaciar cesta">
+          </form>
+        </div>
+        @endif
+      </div>
+
+    </div>
+    @if (session('message'))
+        <div id="alert-index" class="alert alert-success"><i class="bi bi-check-circle"></i> {{session('message')}}</div>
+    @endif
+
+    
+    <button id="btnBack"><i class="bi bi-chevron-up"></i></button>
     @yield('content')
-
-
-
-
-
 
     {{-- FOOTER --}}
     <footer class="@yield('footer-class')">
@@ -240,4 +391,55 @@
       </div>
     </footer>
 </body>
+{{-- <script>
+  $(document).ready(function(){
+ 
+      $(".form-add-to-cart").submit(function(e){
+          e.preventDefault();
+          let url = "{{route('add_to_cart')}}";
+          let id = $(this)[0][1].attributes['data-id'].value; //ID del libro
+          let token = $("input[name='_token']").val();
+
+          $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+          });
+          $.ajax({
+              async: true, //Indica si la comunicación será asincrónica (true)
+              method: "POST", //Indica el método que se envían los datos (GET o POST)
+              dataType: "html", //Indica el tipo de datos que se va a recuperar
+              contentType: "application/x-www-form-urlencoded", //cómo se
+              url: url, //el nombre de la página que procesará la petición
+              data: {
+                  "token": token,
+                  "id": id
+              },
+              success: function(){
+                  $(".carrito__cantidad").load("{{route('cantidadCarrito')}}"); //Actualizamos solo el número del carrito
+                  // location.reload();
+                  $('#add-to-cart__message').css("display", "block");
+                  //Obtenemos de nuevo el contenido del carrito a través de AJAX para que se actualice el offcanvas sin recargar la página
+                  $.ajax({
+                      type: "GET",
+                      url: "{{route('offcanvas-cart-content')}}",
+                      data:{
+                          "token": token
+                      },
+                      success: function(data){
+                          $(".offcanvas-content").html(data);
+                      }
+                  })
+                  
+                  setTimeout(function(){ //Degradado al desaparecer la alerta
+                       $("#add-to-cart__message").fadeOut(2000);
+                  }, 3000)
+
+              }
+              });
+           return false;
+      });
+  })
+</script> --}}
+@yield('script')
 </html>

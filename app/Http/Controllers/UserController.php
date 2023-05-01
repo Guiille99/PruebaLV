@@ -10,24 +10,24 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function index(Request $request){ //Listado de todos los usuarios
-        $users = User::all();
+        $users = User::paginate(5);
+        // dd($users);
         if ($request->ajax()) {
-            // dump($request->ajax());
-        return datatables()->of($users)
+            $users = User::all();
+            return datatables()->of($users)
         ->addColumn('action', function($user){
             $btn="<div class='d-flex align-items-center gap-2'>
-            <button type='button' class='d-flex gap-2 btn-delete text-white' data-bs-toggle='modal' data-bs-target='#modal-delete-$user->id' >
+            <button type='button' id='btn-delete' data-id='$user->id' data-username='$user->username' class='d-flex gap-2 btn-delete text-white btn-delete-user' title='Eliminar usuario' data-bs-toggle='modal' data-bs-target='#modal-delete' >
                 <i class='bi bi-trash3'></i> 
             </button>
 
-            <a href='". route('user.edit', $user) ."' class='d-flex gap-2 btn-modify text-white'>
+            <a href='". route('user.edit', $user) ."' class='d-flex gap-2 btn-modify text-white' title='Editar usuario'>
                 <i class='bi bi-pencil-square'></i></a>
         </div>";
             return $btn;
         })
         ->toJson();
         }
-        // dd($users);
         return view("admin.index", compact('users'));
     }
 
@@ -52,12 +52,14 @@ class UserController extends Controller
         $user->rol = $request->rol;
 
         $user->save();
-        return redirect()->route('admin.users');
+        return redirect()->route('admin.users')->with("message", "Usuario añadido correctamente");
     }
 
-    public function destroy(User $user){ 
+    // public function destroy(User $user){ 
+    public function destroy($id){ 
+        $user=User::where('id', $id)->first();
         $user->delete(); //Elimina el usuario
-        return redirect()->back();
+        return redirect()->back()->with("message", "Usuario eliminado correctamente");
     }
 
     public function edit(User $user){ 
@@ -69,13 +71,31 @@ class UserController extends Controller
         return view("users.editPerfil", compact('user', 'generos'));
     }
 
+    public function myData(User $user){
+        $generos=LibroController::getGeneros();
+        return view("users.editPerfil-datos", compact('user', 'generos'));
+    }
+
 
     public function updatePerfil(Request $request, User $user){ 
-        // dd($request->rol);
+        // dd($request);
         $request->validate([ //Validación de campos
             "nombre" => "required|min:2|max:80|",
-            "apellidos" => "required|min:2|max:80|"
+            "apellidos" => "required|min:2|max:100|",
+            "username" => "required|min:2|max:25|",
+            "email" => "required|email|max:255",
         ]);
+
+        if ($request->hasFile("avatar")) { //Si desea cambiar la imagen de perfil
+            $request->validate([
+                "avatar" => "image|mimes:jpeg,png|max:3000"
+            ]);
+            $file = $request->file("avatar");
+            $destinationPath = "uploads/avatars/";//Se define la ruta donde se guardará el archivo subido
+            $filename = time() . "-" . $file->GetClientOriginalName() ;//concatenamos el nombre del archivo con el tiempo en ms para que no se repita ningún archivo
+            $uploadSuccess = $request->file('avatar')->move($destinationPath, $filename);//Movemos el archivo a la carpeta correspondiente
+            $user->avatar = $destinationPath . $filename;//Subimos el archivo a la base de datos
+        }
 
         $emails = User::all('email'); //Obtengo todos los emails
 
@@ -114,7 +134,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('index');
+        return redirect()->back()->with("message", "Usuario actualizado correctamente");
     }
 
     
@@ -175,6 +195,6 @@ class UserController extends Controller
         if ($request->rol==null) { 
             return redirect()->route('index');
         }
-        return redirect()->route('admin.users');
+        return redirect()->route('admin.users')->with("message", "Usuario actualizado correctamente");
     }
 }

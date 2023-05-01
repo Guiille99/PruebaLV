@@ -1,0 +1,111 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color" as color;
+
+.account__container{
+    li{
+        list-style: none;
+        width: 100%;
+    }
+    .menu{
+        width: 293px;
+        .menu-section{
+            .section-title{
+                background-color: color.adjust(v.$dark-green, $alpha: -0.9);
+                color: v.$black;
+                font-weight: bolder;
+                display: block;
+                width: 100%;
+                padding: 14px 12px;
+                transition: .3s;
+
+                &:hover, &.active{
+                    color: v.$dark-green;
+                }
+            }
+
+            ul{
+                li{
+                    padding: 10px 30px;
+                    &:not(:last-child){
+                        border-bottom: 1px solid v.$black;
+                    }
+                    a{
+                        color: v.$black;
+                        font-weight: 500;
+                    }
+
+                    &:hover>a{
+                        color: v.$dark-green;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .account__details{
+        flex: 1 1 0;
+        .content__header{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            color: v.$white;
+            font-weight: bolder;
+            height: 125px;
+
+            p{
+                font-size: 1.8rem;
+            }
+        }
+
+        .account-section{
+            .title{
+                background-color: v.$dark-green;
+                color: v.$white;
+                padding: 10px 20px;
+            }
+            .info{
+                margin-top: 20px;
+                font-size: 0.8rem;
+            }
+
+            .mis__datos__info{
+                display: flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+            }
+
+            .password__info{
+                form{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    .boton{
+                        align-self: flex-end;
+                        @include m.btnCartTable(v.$green, v.$white);
+                        padding: 5px 45px;
+                        &:hover{
+                            background-color: v.$dark-green;
+                            color: v.$white;
+                        }
+                    }
+                }
+            }
+
+            .direcciones__info{
+                li{
+                    border-bottom: 1px solid;
+                    padding: 10px 0px;
+                }
+                .bi-star-fill{
+                    color: v.$gold;
+                }
+                a{
+                    color: v.$black;
+                }
+            }
+        }
+    }
+}

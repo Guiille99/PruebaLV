@@ -1,0 +1,40 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+#alert-index{
+    position: fixed;
+    z-index: 999;
+    width: 90%;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    // margin: 0 auto;
+    @include m.desktop{
+        width: 40%;
+        left: 5px;
+        transform: unset;
+    }
+}
+
+#add-to-cart__message{
+    display: none;
+    border: 1px solid black; 
+    background-color: v.$white;
+    padding: 5px;
+    text-align: center;
+    position: fixed; 
+    top: 70px; 
+    right: 5px; 
+    z-index: 999; 
+    width: 40%;
+
+    @include m.desktop{
+        top: 60px;
+        width: 20%;
+    }
+
+    .bi-cart-check-fill{
+        color: v.$green;
+        font-size: 2rem;
+    }
+}

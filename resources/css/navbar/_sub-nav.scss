@@ -7,6 +7,13 @@
     background-color: v.$dark-green;
     color: v.$white;
     font-size: v.$tam-nav;
+    
+    .carrito__container{
+        span{
+            background-color: v.$green;
+            bottom: 0px;
+        }
+    }
     .toggler__button{
         height: 30px;
     }

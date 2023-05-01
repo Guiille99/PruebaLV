@@ -1,4 +1,5 @@
 {{-- MODAL PARA CONFIRMAR BORRADO DE USUARIO --}}
+
 <div class="modal fade" id="modal-delete-{{$user->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form action="{{route('user.destroy', $user)}}" method="post">

@@ -1,0 +1,15 @@
+@use "../base/variables" as v;
+$breadcrumb-divider: quote($string: ">");
+.breadcrumb{
+    a{
+        text-decoration: none;
+        color: v.$black;
+
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+    .active{
+        font-weight: bolder;
+    }
+}

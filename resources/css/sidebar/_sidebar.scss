@@ -1,0 +1,73 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.sidebar{
+    background-color: v.$sidebar-bg;
+    width: v.$sidebar-width;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    height: 100%;
+    transition: left 300ms;
+
+    .sidebar-body{
+        li{
+            padding: 5px;
+            &:hover{
+                background-color: v.$white;
+                a{
+                    color: v.$black;
+                }
+            }
+        }
+        a{
+            color: v.$white;
+            text-decoration: none;
+        }
+    }
+
+    .btn-close{
+        position: absolute;
+        top: 5px;  
+        right: 5px;
+        
+        @include m.desktop{
+            display: none;
+        }
+    }
+}
+.main-content{
+    transition: margin-left 300ms;
+}
+
+#body-label{
+    position: fixed;
+    top: 0;
+    right: 0%;
+    height: 100%;
+    // width: calc(100% - v.$sidebar-width);
+    width: 100%;
+    // margin-left: v.$sidebar-width;
+    background-color: v.$black;
+    opacity: 0.8;
+    z-index: 2;
+
+    @include m.desktop{
+        background-color: transparent;
+        z-index: -1;
+    }
+}
+
+#toggler-sidebar{
+    display: none;
+}
+#toggler-sidebar:checked ~ .sidebar{
+    left: -100%;
+}
+#toggler-sidebar:checked ~ #body-label{
+    right: -100%;
+}
+#toggler-sidebar:checked ~ .main-content{
+    margin-left: 0;
+}

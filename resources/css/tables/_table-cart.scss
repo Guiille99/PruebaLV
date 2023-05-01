@@ -1,0 +1,49 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color";
+
+.cart-container{
+    a.boton{
+        @include m.btnCartTable(v.$white, v.$green);
+    }
+    input.boton, tfoot a.boton{
+        @include m.btnCartTable(v.$green, v.$white);
+        
+        &:hover{
+            background-color: v.$dark-green;
+            color: v.$white;
+        }
+    }
+    .productos__carrito{
+        position: relative;
+        figure{
+            width: 20%;
+            min-width: 60px;
+        }
+
+
+        .btn-delete-to-cart{
+            opacity: .3;
+            &:hover{
+                cursor: pointer;
+                opacity: 1;
+                color: v.$green;
+            }
+        }
+
+        .spinner-container{
+            background-color: rgba(v.$white, $alpha: .5);
+            .spinner{
+                color: v.$green;
+            }
+        }
+
+    }
+    .bi-cart-x{
+        color: v.$green;
+    }
+
+    #iva-message{
+        font-size: .7rem;
+    }
+}

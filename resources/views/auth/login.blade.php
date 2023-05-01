@@ -6,9 +6,15 @@
     <div class="row flex-column gap-2 justify-content-center align-items-center h-100">
         <figure class="w-auto">
             <a href="{{route('index')}}">
-                <img src="uploads/logo-nombre2.svg" alt="Logo">
+                <img src="{{asset('uploads/logo-nombre2.svg')}}" alt="Logo">
             </a>
         </figure>
+
+        {{-- Session status --}}
+        @if (session('status'))
+            <div class="alert alert-success col-10 col-md-8 col-lg-4"><i class="bi bi-check-circle"></i> {{session('status')}}</div>
+        @endif
+        
         <div class="col-10 col-md-8 col-lg-4 login">
             <h2 class="login__title">LOGIN</h2>
             
@@ -27,6 +33,7 @@
 
                 <div class="form-floating mt-3">
                     <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
+                    <i id="togglePassword" class="bi bi-eye"></i>
                     <label for="password" class="form-label">Contraseña</label>
                     <div class="invalid-feedback">
                         <small>Introduzca una contraseña</small> 
@@ -45,7 +52,10 @@
                         <input class="form-check-input" type="checkbox" role="switch" id="checkRemember" name="remember">
                     </div>
 
-                    <a href="{{route('register.index')}}" class="nocount-link">¿No tienes cuenta? Regístrate</a>
+                    <div class="d-flex flex-column gap-2">
+                        <a href="{{route('register.index')}}" class="nocount-link">¿No tienes cuenta? Regístrate</a>
+                        <a href="{{route('password.request')}}" class="nocount-link">¿Olvidaste la contraseña?</a>
+                    </div>
                 </div>
 
                 <div class="mt-4">

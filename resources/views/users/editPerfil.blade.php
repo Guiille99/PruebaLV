@@ -1,79 +1,78 @@
-@extends('layouts.plantilla')
-@section('title', 'Perfil')
-@section('content')
-<div class="container-fluid">
-    <div class="form__modify__container col-12 col-md-6 col-lg-5 pt-4">
-        <h1 class="title">Modificación de <strong>{{Auth::user()->nombre}}</strong></h1>
-        <form action="{{route('user.updatePerfil', Auth::user())}}" method="post" class="needs-validation" novalidate>
-            @csrf
-            @method('put')
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-floating mt-3 col-md-6">
-                        <input type="text" name="nombre" id="nombre" class="form-control" value="{{Auth::user()->nombre}}" placeholder="Nombre" required>
-                        <label for="nombre" class="form-label ms-1">Nombre</label>
-                        <div class="invalid-feedback">
-                            <small>Nombre obligatorio</small> 
-                        </div>
-                        @error('nombre')
-                            <small class="text-danger">* {{$message}}</small> <br>
-                        @enderror
-                    </div>
-            
-                    <div class="form-floating mt-3 col-md-6">
-                        <input type="text" name="apellidos" id="apellidos" class="form-control" value="{{Auth::user()->apellidos}}" placeholder="Apellidos" required>
-                        <label for="apellidos" class="form-label ms-1">Apellidos</label>
-                        <div class="invalid-feedback">
-                            <small>Apellidos obligatorio</small> 
-                        </div>
-                        @error('apellidos')
-                            <small class="text-danger">* {{$message}}</small> <br>
-                        @enderror
-                    </div>
-            
-                    <div class="form-floating mt-3 col-md-6">
-                        <input type="text" name="username" id="username" class="form-control" value="{{Auth::user()->username}}" placeholder="Usuario" required>
-                        <label for="username" class="form-label ms-1">Usuario</label>
-                        <div class="invalid-feedback">
-                            <small>Usuario obligatorio</small> 
-                        </div>
-                        @error('username')
-                            <small class="text-danger">* {{$message}}</small> <br>
-                        @enderror
-                    </div>
-    
-    
-                    <div class="form-floating mt-3 col-md-6">
-                        <input type="password" name="password" id="password" class="form-control" value="" placeholder="Contraseña">
-                        <i id="togglePassword" class="bi bi-eye"></i>
-                        <label for="password" class="form-label ms-1">Contraseña</label>
-                        <div class="invalid-feedback">
-                            <small>Contraseña obligatoria</small> 
-                        </div>
-                        @error('password')
-                            <small class="text-danger">* {{$message}}</small> <br>
-                        @enderror
-                    </div>
-    
-                    <div class="form-floating mt-3">
-                        <input type="email" name="email" id="email" class="form-control" value="{{Auth::user()->email}}" placeholder="Email" required>
-                        <label for="email" class="form-label ms-1">Email</label>
-                        <div class="invalid-feedback">
-                            <small>Email inválido</small> 
-                        </div>
-                        @error('email')
-                            <small class="text-danger">* {{$message}}</small> <br>
-                        @enderror
-                    </div>
-            
-                    <div class="mt-4">
-                        <input type="submit" value="Modificar" class="btn-modify">
-                    </div>
-        
+@extends('layouts.plantilla-editPerfil')
+@section('content-profile')
+@section('miCuenta-isActive', 'active')
+    <div class="column account__details">
+        <div class="content__header w-100" style="background-image: url({{asset('uploads/bg-green.jpg')}})">
+            <h3>¡Bienvenido, <br> {{Auth::user()->nombre}}!</h3>
+            <figure>
+                <img src="{{asset(Auth::user()->avatar)}}" alt="" class="img-fluid">
+            </figure>
+            <p><span id="nPedidos">0</span> Pedidos</p>
+        </div>
+
+        <div class="account__content mt-2">
+            <div class="account-section mis__datos">
+                <div class="title">
+                    <span>MIS DATOS</span>
+                </div>
+
+                <div class="info mis__datos__info">
+                    <p>Nombre: <span class="fw-bold">{{Auth::user()->nombre}}</span></p>
+                    <p>Apellidos: <span class="fw-bold">{{Auth::user()->apellidos}}</span></p>
+                    <p>Email: <span class="fw-bold">{{Auth::user()->email}}</span></p>
+                    <p>Nombre de usuario: <span class="fw-bold">{{Auth::user()->username}}</span></p>
                 </div>
             </div>
-    
-        </form>
+
+            <div class="account-section my-password mt-2">
+                <div class="title">
+                    <span>CONTRASEÑA</span>
+                </div>
+                <div class="info password__info">
+                    <form action="" method="post">
+                        @csrf
+                        @method('put')
+                        <div class="d-flex gap-4">
+                            <div class="form-floating">
+                                <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
+                                <i class="bi bi-eye togglePassword"></i>
+                                <label for="password" class="form-label">Contraseña</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
+                                <i class="bi bi-eye togglePassword"></i>
+                                <label for="password" class="form-label">Nueva contraseña</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
+                                <i class="bi bi-eye togglePassword"></i>
+                                <label for="password" class="form-label">Confirmar contraseña</label>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="boton" value="Actualizar">
+                    </form>
+                </div>
+            </div>
+
+            <div class="account-section mis-direcciones mt-2">
+                <div class="title">
+                    <span>MIS DIRECCIONES</span>
+                </div>
+                <div class="info direcciones__info">
+                    <ul>
+                        @foreach (Auth::user()->direcciones as $direccion)
+                            <li>
+                                @if ($direccion->pivot->principal==1)
+                                    <i class="bi bi-star-fill"></i>
+                                @endif
+                                {{$direccion->calle}}, {{$direccion->numero}}, {{$direccion->cp}} - {{$direccion->provincia->nombre}}
+                            </li>
+                        @endforeach
+                    </ul>
+                    <a href="" class="d-block mt-3"><i class="bi bi-plus"></i>Añadir dirección</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 @endsection

@@ -1,0 +1,19 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+[data-bs-theme="dark"]{
+    .carousel-indicators>button{
+        background: url("uploads/book-icon-dark.svg");
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    .registros{
+        table,tr:nth-of-type(odd)>*{
+            color: v.$black;
+        }
+        tr:hover td{
+            color: v.$black;
+        }
+    }
+}
+
+

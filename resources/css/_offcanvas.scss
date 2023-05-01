@@ -1,29 +1,123 @@
 @use "base/variables" as v;
 @use "base/mixins" as m;
-/*Sidebar de la vista admin*/
-#sidebar__container{
-    width: 0;
-    @include m.tablet{
-        width: calc(100% / 6);
-    }
-}
+@use "sass:color";
 
 .offcanvas{
-    .offcanvas-body{
-        li{
-            font-size: 1.3rem;
-            padding: 5px;
-            &:hover{
-                background-color: v.$white;
-                a{
-                    color: v.$black;
+    &-header{
+        border-bottom: 1px solid v.$green;
+    }
+    .bi-bag{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.3rem;
+        color: v.$green;
+
+        span{
+            position: absolute;
+            font-size: 1.1rem;
+            top: 8px;
+            font-weight: bolder;
+            color: v.$dark-green;
+        }
+
+    }
+    .bi-x{
+        background: transparent;
+        border: none;
+        font-size: 2.5rem;
+        color: v.$green;
+        opacity: 0.7;
+
+        &:hover{
+            opacity: 1;
+        }
+    }
+    &-content{
+        overflow-y: auto;
+    }
+    &-body{
+        .bi-emoji-frown{
+            color: v.$green;
+            font-size: 4rem;
+        }
+        .cart-book{
+            display: flex;
+            gap: 20px;
+            figure{
+                width: 20%;
+                min-width: 74px;
+            }
+
+            .book-data{
+                flex-grow: 1;
+               &__footer{
+                display: flex;
+                justify-content: space-between;
+                .total-unidad{
+                    font-weight: bolder;
+                    font-size: 1.5rem;
                 }
+                .bi-trash3{
+                    color: red;
+                }
+               }
             }
-            a{
+        }
+    }
+
+    &-footer{
+        background-color: v.$green;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+        a, input[type=submit]{
+            background-color: color.adjust(v.$white, $lightness: -10%);
+            color: v.$black;
+            padding: 5px;
+            border: none;
+            font-size: 1.3rem;
+            &:hover{
+                background-color: v.$dark-green;
                 color: v.$white;
-                text-decoration: none;
+                outline: 1px solid v.$white;
             }
-            
+        }
+        #total{
+            color: v.$white;
+            text-align: center;
+            font-weight: bolder;
+            .precio{
+                font-size: 1.5rem;
+            }
         }
     }
 }
+/*Sidebar de la vista admin*/
+// #sidebar__container{
+//     width: 0;
+//     @include m.tablet{
+//         width: calc(100% / 6);
+//     }
+// }
+// .offcanvas{
+//     .offcanvas-body{
+//         li{
+//             font-size: 1.3rem;
+//             padding: 5px;
+//             &:hover{
+//                 background-color: v.$white;
+//                 a{
+//                     color: v.$black;
+//                 }
+//             }
+//             a{
+//                 color: v.$white;
+//                 text-decoration: none;
+//             }
+            
+//         }
+//     }
+// }

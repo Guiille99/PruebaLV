@@ -1,0 +1,53 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+.shop-steps-container{
+    ul{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: baseline;
+        gap: 10px;
+
+        li{
+            text-align: center;
+            list-style: none;
+            font-weight: bolder;
+            display: flex;
+            align-items: center;
+
+            @include m.tablet{
+                flex: none;
+            }
+            &.active{
+                .step-circle{
+                    background-color: v.$green;
+                    color: white;
+
+                }
+            }
+            a,div{
+                color: v.$black;
+                text-decoration: none;
+                .step-circle{
+                    margin: 0 auto;
+                    position: relative;
+                    height: 40px;
+                    width: 40px;
+                    border: 1px solid v.$green;
+                    border-radius: 50%;
+                }
+                span{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translateY(-50%) translateX(-50%);
+                }
+            }
+        }
+
+        .separator{
+            height: .5px;
+            background-color: #201f1f76;
+            width: 100%;
+        }
+    }
+}

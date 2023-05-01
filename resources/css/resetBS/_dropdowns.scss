@@ -1,4 +1,10 @@
 @use "../base/variables" as v;
 //DROPDOWN
-$dropdown-link-hover-bg: v.$dark-green;
-$dropdown-link-hover-color: v.$white;
+// $dropdown-link-hover-bg: v.$dark-green;
+// $dropdown-link-hover-color: v.$white;
+.dropdown-menu{
+    li:hover{
+        background-color: v.$dark-green;
+        color: v.$white;
+    }
+}

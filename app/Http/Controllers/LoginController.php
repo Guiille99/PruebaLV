@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -25,6 +26,11 @@ class LoginController extends Controller
         if (Auth::attempt($request->only('username', 'password', 'rol'), $remember)) { //Si se loguea correctamente
             $request->session()->regenerate(); //Me crea la sesión y la regeneramos para evitar problemas de seguridad
             $user = User::where('username', $request->username)->first(); //Obtenemos el usuario que ha iniciado sesión
+
+            if (Cookie::get('cookie-cart-'. Auth::id())) { //Si existen cookies del carrito almacenadas
+                session()->put('carrito', unserialize(Cookie::get('cookie-cart-'. Auth::id())));
+                session()->put('carrito-data', unserialize(Cookie::get('cookie-cartData-'. Auth::id())));
+            }
 
             if ($user->rol=="Administrador") { //Si el usuario es un admin lo redirigimos a la página de admins
                 return redirect()->route('admin.index');
