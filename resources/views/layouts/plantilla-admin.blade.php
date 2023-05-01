@@ -15,7 +15,7 @@
     <div class="sidebar">
         <!-- Sidebar header -->
         <div class="sidebar-header py-3">
-            <h5 class="offcanvas-title text-white flex-grow-1 text-center">Hola, {{Auth::user()->username}}</h5>
+            <h5 class="offcanvas-title text-white flex-grow-1 text-center">Hola,</h5>
             {{-- <div data-bs-theme="dark">
                 <button class="btn btn-close" data-bs-dismiss="offcanvas"></button>
             </div> --}}
