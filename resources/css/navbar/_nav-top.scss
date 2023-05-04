@@ -13,11 +13,6 @@
         color: v.$white;
         align-items: center;
 
-        img{
-            height: v.$tamNavIcon;
-            width: v.$tamNavIcon;
-        }
-
         .login__container, .register__container{
             padding: 5px;
             &:hover{

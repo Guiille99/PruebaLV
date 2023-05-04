@@ -1,5 +1,6 @@
 @use "../base/variables" as v;
 @use "../base/mixins" as m;
+
 [data-bs-theme="dark"]{
     .carousel-indicators>button{
         background: url("uploads/book-icon-dark.svg");
@@ -13,6 +14,47 @@
         tr:hover td{
             color: v.$black;
         }
+    }
+
+    .shop-steps-container{
+        span,p{
+            color: v.$white-dark-mode;
+        }
+        .separator{
+            background-color: v.$white-dark-mode;
+        }
+    }
+
+    .add-address-link{
+        color: v.$white-dark-mode;
+    }
+    .breadcrumb{
+        a{
+            color: v.$white-dark-mode;
+        }
+    }
+    .account__container{
+        .menu-section{
+            .section-title, ul>li>a{
+                color: v.$white-dark-mode;
+            }
+            ul>li:not(:last-child){
+                border-color: v.$white-dark-mode;
+            }
+        }
+
+        .account__details{
+            .title{
+                border-color: v.$white-dark-mode;
+            }
+        }
+    }
+    .require-data-message{
+        color: v.$red-dark-mode !important;
+    }
+    .btn-outline-danger{
+        border-color: v.$red-dark-mode;
+        color: v.$red-dark-mode;
     }
 }
 

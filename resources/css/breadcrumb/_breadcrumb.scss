@@ -1,0 +1,9 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.breadcrumb{
+    justify-content: center;
+    @include m.tablet{
+        justify-content: start;
+    }
+}

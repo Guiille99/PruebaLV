@@ -34,7 +34,7 @@
         </li>
     </ul>
 </div>
-{{-- {{$provincias}} --}}
+{{-- {{Auth::user()->direcciones()->count()}} --}}
 <form action="{{route('compra-finalizada')}}" class="needs-validation m-0 p-0" id="form-detalles-pago" method="POST">
     @csrf
     <div class="detalle-pago__container col-lg-10 row m-auto py-4 d-flex gap-5 justify-content-center">
@@ -54,28 +54,55 @@
                 <label for="nombre" class="form-label">Correo electrónico *</label>
                 <input type="email" name="correo" id="correo" class="form-control" value="{{Auth::user()->email}}" required>
             </div>
- 
+            
+            {{-- {{Auth::user()->direcciones}} --}}
             <div class="mt-2">
+                <label for="direccion" class="form-label">Dirección *</label>
+                <select name="direccion" id="direccion" class="col-12 form-select" required>
+                    @foreach (Auth::user()->direcciones as $direccion)
+                        @if ($direccion->id == Auth::user()->getDireccionPrincipal()->id)
+                        <option value="{{$direccion->id}}" selected>{{$direccion->calle}}, {{$direccion->numero}} - {{$direccion->cp}}, {{$direccion->provincia->nombre}}</option> 
+                        @else
+                        <option value="{{$direccion->id}}">{{$direccion->calle}}, {{$direccion->numero}} - {{$direccion->cp}}, {{$direccion->provincia->nombre}}</option> 
+                        @endif
+                    @endforeach
+                </select>
+
+                @if (Auth::user()->direcciones->count() < 3)
+                <a href="{{route('address.create')}}" class="d-block mt-3 add-address-link"><i class="bi bi-plus"></i>Añadir dirección</a>
+                @endif
+            </div>
+
+            {{-- <div class="mt-2">
                 <label for="provincia" class="form-label">Provincia *</label>
                 <select name="provincia" id="provincia" class="col-12 form-select" required>
                     @foreach ($provincias as $provincia)
+                        @if (Auth::user()->direcciones()->count()>0 && $provincia->nombre == Auth::user()->getDireccionPrincipal()->provincia->nombre)
+                        <option value="{{$provincia->nombre}}" selected>{{$provincia->nombre}}</option>
+                        @else
                         <option value="{{$provincia->nombre}}">{{$provincia->nombre}}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
 
             <div class="mt-2 d-flex flex-column col-md-6">
                 <label for="cp" class="form-label">Código postal *</label>
+                @if (Auth::user()->direcciones()->count()>0)
+                <input type="tel" name="cp" id="cp" class="form-control" value="{{Auth::user()->getDireccionPrincipal()->cp}}" maxlength="5" required>
+                @else
                 <input type="tel" name="cp" id="cp" class="form-control" maxlength="5" required>
-                {{-- <div class="invalid-feedback">
-                    Formato incorrecto. Ej: 12345
-                </div> --}}
+                @endif
             </div>
 
             <div class="mt-2 col-md-6">
                 <label for="direccion" class="form-label">Dirección de la calle *</label>
+                @if (Auth::user()->direcciones()->count()>0)
+                <input type="text" name="direccion" id="direccion" value="{{Auth::user()->getDireccionPrincipal()->calle}}, {{Auth::user()->getDireccionPrincipal()->numero}}" class="col-12 form-control" required>
+                @else
                 <input type="text" name="direccion" id="direccion" placeholder="Calle Ejemplo, 27" class="col-12 form-control" required>
-            </div>
+                @endif
+            </div> --}}
         </div>
 
         <div class="pedido__container col-md-5 border pb-4">

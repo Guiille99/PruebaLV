@@ -1,11 +1,15 @@
 @extends('layouts.plantilla-editPerfil')
 @section('content-profile')
+@section('breadcrumb-profile')
+<li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
+<li class="breadcrumb-item active" aria-current="page">Mi cuenta</li> 
+@endsection
 @section('miCuenta-isActive', 'active')
-    <div class="column account__details">
+    <div class="column account__details w-100">
         <div class="content__header w-100" style="background-image: url({{asset('uploads/bg-green.jpg')}})">
             <h3>¡Bienvenido, <br> {{Auth::user()->nombre}}!</h3>
-            <figure>
-                <img src="{{asset(Auth::user()->avatar)}}" alt="" class="img-fluid">
+            <figure class="m-0">
+                <img src="{{asset(Auth::user()->avatar)}}" alt="Imagen de perfil" class="img-fluid">
             </figure>
             <p><span id="nPedidos">0</span> Pedidos</p>
         </div>
@@ -29,24 +33,33 @@
                     <span>CONTRASEÑA</span>
                 </div>
                 <div class="info password__info">
-                    <form action="" method="post">
+                    <form action="{{route('change.password')}}" method="post">
                         @csrf
                         @method('put')
-                        <div class="d-flex gap-4">
-                            <div class="form-floating">
-                                <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
+                        <div class="row row-gap-3">
+                            <div class="form-floating col-lg-4">
+                                <input type="password" name="current_password" id="current_password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
                                 <i class="bi bi-eye togglePassword"></i>
-                                <label for="password" class="form-label">Contraseña</label>
+                                <label for="current_password" class="form-label ms-1">Contraseña</label>
+                                @error('current_password')
+                                    <small class="text-danger">* {{$message}}</small> <br>
+                                @enderror
                             </div>
-                            <div class="form-floating">
+                            <div class="form-floating col-lg-4">
                                 <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
                                 <i class="bi bi-eye togglePassword"></i>
-                                <label for="password" class="form-label">Nueva contraseña</label>
+                                <label for="password" class="form-label ms-1">Nueva contraseña</label>
+                                @error('password')
+                                    <small class="text-danger">* {{$message}}</small> <br>
+                                @enderror
                             </div>
-                            <div class="form-floating">
-                                <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
+                            <div class="form-floating col-lg-4">
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" value="{{old('password')}}" placeholder="Password" required>
                                 <i class="bi bi-eye togglePassword"></i>
-                                <label for="password" class="form-label">Confirmar contraseña</label>
+                                <label for="password_confirmation" class="form-label ms-1">Confirmar contraseña</label>
+                                @error('password_confirmation')
+                                    <small class="text-danger">* {{$message}}</small> <br>
+                                @enderror
                             </div>
                         </div>
 
@@ -70,7 +83,9 @@
                             </li>
                         @endforeach
                     </ul>
-                    <a href="" class="d-block mt-3"><i class="bi bi-plus"></i>Añadir dirección</a>
+                    @if (Auth::user()->direcciones->count() < 3)
+                    <a href="{{route('address.create')}}" class="d-block mt-3 add-address-link"><i class="bi bi-plus"></i>Añadir dirección</a>
+                    @endif
                 </div>
             </div>
         </div>

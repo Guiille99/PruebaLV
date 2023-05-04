@@ -11,7 +11,31 @@
     }
 }
 
-.nav-top,.sub-nav{
+.nav-top,.down-nav{
+    .cuenta-carrito{
+        align-items: center;
+        gap: 1rem;
+        @include m.desktop{
+            gap: 1.2rem;
+        }
+        .login__container{
+            figure{
+                height: v.$tamNavIcon;
+                width: v.$tamNavIcon;
+                img{
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+        img{
+            height: v.$tamNavIcon;
+            width: v.$tamNavIcon;
+            min-height: v.$tamNavIcon;
+            min-width: v.$tamNavIcon;
+            border-radius: 50%;
+        }
+    }
     .changeMode__container{
         li.active{
             background-color: v.$green;

@@ -153,7 +153,8 @@ return [
         "name" => "nombre",
         "username" => "usuario",
         "password" => "contraseña",
-        "avatar" => "imagen de perfil"
+        "avatar" => "imagen de perfil",
+        "cp" => "Código postal"
     ],
 
 ];

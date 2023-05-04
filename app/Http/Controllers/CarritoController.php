@@ -8,6 +8,7 @@ use App\Models\Provincia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 
 class CarritoController extends Controller
 {
@@ -141,27 +142,36 @@ class CarritoController extends Controller
     }
 
     public function shop(Request $request){
-        dd($request);
+        // dd(session()->get('carrito'));
         $generos = LibroController::getGeneros();
-        //Registramos el pedido
-        $pedido = new Pedido();
-        $pedido->fecha = now();
-        $pedido->total = session()->get('carrito-data')["total"];
-        $pedido->tipo_pago = $request["metodo"];
-        $pedido->user_id = Auth::id();
-
-        foreach (session()->get('carrito') as $id => $libroCart) {
-            $libro = Libro::where("id", $id)->first();
-            $libro->stock -= $libroCart["cantidad"];
-            $libro->save();
+        DB::beginTransaction();
+        try {
+            //Registramos el pedido
+            $pedido = new Pedido();
+            $pedido->total = session()->get('carrito-data')["total"];
+            $pedido->tipo_pago = $request->metodo;
+            $pedido->user_id = Auth::user()->id;
+            $pedido->direccion_id = $request->direccion;
+            $pedido->save();
+    
+            foreach (session()->get('carrito') as $id => $libroCart) {
+                $libro = Libro::where("id", $id)->first();
+                $libro->stock -= $libroCart["cantidad"];
+                $libro->save();
+                $pedido->libros()->attach($libro->id, ["precio"=>$libro->precio, "cantidad"=>$libroCart["cantidad"], "subtotal"=>$libroCart["precio"]*$libroCart["cantidad"]]);
+            }
+    
+            session()->forget('carrito'); //Eliminamos el carrito
+            session()->forget('carrito-data'); //Eliminamos el precio total y la cantidad de libros almacenamos en el carrito
+            //Eliminamos las cookies
+            Cookie::queue(Cookie::forget('cookie-cart-'. Auth::id()));
+            Cookie::queue(Cookie::forget('cookie-cartData-'. Auth::id()));
+            DB::commit();
+            return view("carrito.compra-finalizada", compact("generos"));
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return $e->getMessage();
+            // return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
-
-        session()->forget('carrito'); //Eliminamos el carrito
-        session()->forget('carrito-data'); //Eliminamos el precio total y la cantidad de libros almacenamos en el carrito
-        //Eliminamos las cookies
-        Cookie::queue(Cookie::forget('cookie-cart-'. Auth::id()));
-        Cookie::queue(Cookie::forget('cookie-cartData-'. Auth::id()));
-
-        return view("carrito.compra-finalizada", compact("generos"));
     }
 }

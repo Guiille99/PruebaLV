@@ -15,12 +15,14 @@ $green: #219250;
 $dark-green: #0F7238;
 $bg-dark-green: #004025;
 $white: #fff;
+$white-dark-mode: #ADB5BD;
 $black: #111111;
 $black-card: #252525;
 $boder-input: #85e1ab;
 $nav-dark: #1f1f1f;
 $blue: #5796e8;
 $red: #c80f0f;
+$red-dark-mode: #ee2b2b;
 $gold: #a7aa00;
 $sidebar-bg: #212529;
 
@@ -29,51 +31,6 @@ $sidebar-width: 280px;
 
 // Separación
 $separation: 5rem;
-
-
-// //RESETEO BOOTSTRAP
-// // NAV
-// $navbar-light-color: $white; /*Color de los nav links*/
-// $navbar-light-hover-color: $white;
-// // $navbar-light-toggler-icon-bg: "url('uploads/toggler.svg')"; //Imagen del toggler
-// $navbar-toggler-focus-width: 0; //Borde del ancho cuando se pulsa el toggler
-// $navbar-light-toggler-border-color: transparent; //Borde del toggler
-
-// //DROPDOWN
-// $dropdown-link-hover-bg: $dark-green;
-// $dropdown-link-hover-color: $white;
-
-// // PAGINATION
-// // $pagination-focus-bg: $green;
-// $pagination-active-bg: $green;
-// $pagination-border-color: $dark-green;
-// $pagination-color: $green;
-// $pagination-hover-color: $white;
-// $pagination-hover-bg: $dark-green;
-// $pagination-hover-border-color: $white;
-// $pagination-active-border-color: $boder-input;
-// $pagination-focus-color: $green;
-
-// //Formularios
-// $input-btn-padding-y:         .375rem;
-// $input-btn-padding-x:         .75rem;
-// $input-btn-focus-width:         .08rem;
-// $input-btn-focus-color-opacity: .25;
-// $input-btn-focus-color: $boder-input;
-// $input-btn-focus-blur:          0;
-// $input-btn-focus-box-shadow:    0 0 $input-btn-focus-blur $input-btn-focus-width $input-btn-focus-color;
-// // $form-select-border-color: $dark-green;
-// // $form-select-focus-border-color: $dark-green;
-// // $form-select-bg: green;
-
-
-// //Inputs
-// $input-border-color: $boder-input;
-// $input-focus-border-color: $boder-input;
-
-// // Table
-// $table-bg: color.scale($green, $lightness: 70%);
-// $table-striped-bg: color.scale($green, $lightness: 60%);
 
 //Tamaños
 $tamNavIcon: 25px;
@@ -84,6 +41,15 @@ $tam-footer-icon: 20px;
 $small: 480px;
 $medium: 768px;
 $big: 1024px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: $small,
+  md: $medium,
+  lg: $big,
+  xl: 1200px,
+  xxl: 1400px
+) !default;
 
 //Fuentes
 $main_font: "Montserrat";

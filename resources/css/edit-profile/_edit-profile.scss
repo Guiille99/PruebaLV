@@ -3,12 +3,41 @@
 @use "sass:color" as color;
 
 .account__container{
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+    @include m.desktop{
+        flex-direction: row;
+        align-items: unset;
+    }
+    .navbarMenuPerfil{
+        width: 100%;
+        @include m.desktop{
+            width: unset;
+        }
+        .navbar-header{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: v.$dark-green;
+            color: v.$white;
+
+            .toggler-button{
+                height: 30px;
+            }
+        }
+    }
     li{
         list-style: none;
         width: 100%;
     }
     .menu{
-        width: 293px;
+        width: 100%;
+        @include m.desktop{
+            width: 293px;
+        }
         .menu-section{
             .section-title{
                 background-color: color.adjust(v.$dark-green, $alpha: -0.9);
@@ -47,13 +76,36 @@
     .account__details{
         flex: 1 1 0;
         .content__header{
+            padding: 10px;
+            text-align: center;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 40px;
             color: v.$white;
             font-weight: bolder;
-            height: 125px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+
+            @include m.tablet{
+                flex-direction: row;
+                height: 125px;
+            }
+            figure{
+                height: 80px;
+                width: 80px;
+                @include m.tablet{
+                    height: 100px;
+                    width: 100px;
+                }
+                img{
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 50%;
+                }
+            }
 
             p{
                 font-size: 1.8rem;
@@ -99,13 +151,16 @@
                     border-bottom: 1px solid;
                     padding: 10px 0px;
                 }
-                .bi-star-fill{
-                    color: v.$gold;
-                }
+                // .bi-star-fill{
+                //     color: v.$gold;
+                // }
                 a{
                     color: v.$black;
                 }
             }
+        }
+        .bi-star-fill{
+            color: v.$gold;
         }
     }
 }

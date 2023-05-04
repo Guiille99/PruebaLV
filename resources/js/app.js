@@ -2,7 +2,6 @@ import './bootstrap'
 import '../css/app.scss'
 import * as bootstrap from 'bootstrap'
 
-
 $(document).ready(function(){
     ellipsis_box(".libro__titulo", 18);
     $("#togglePassword").click(togglerPassword);
