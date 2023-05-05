@@ -7,6 +7,7 @@
 @endsection
 @section('content')
 {{-- {{$libro}} --}}
+{{var_dump(session()->get('wishlist'))}}
     <div class="libro__container py-4">
         <div class="portada__container">
             <figure>
@@ -53,7 +54,8 @@
                 @else
                 <p class="stock text-danger">Sin stock</p>
                 <button class="boton btn-carrito" disabled><i class="bi bi-cart"></i> Añadir a mi cesta</button>
-            @endif
+                @endif
+                @livewire('wishlist-component', ['libro'=>$libro])
 
         </div>
     </div>

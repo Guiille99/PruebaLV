@@ -7,6 +7,7 @@
     <title>@yield("title")</title>
     <link rel="shortcut icon" href="{{asset('uploads/logo.ico')}}" type="image/x-icon">
     <script src="{{asset('build/assets/jquery-3.6.3.js')}}"></script>
+    @livewireStyles
     @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/font-awesome.js", "resources/js/validation_form.js"])
 </head>
 <body class="@yield('body-class')">
@@ -404,6 +405,7 @@
         </div>
       </div>
     </footer>
+    @livewireScripts
 </body>
 {{-- <script>
   $(document).ready(function(){

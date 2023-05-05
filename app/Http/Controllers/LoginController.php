@@ -32,6 +32,10 @@ class LoginController extends Controller
                 session()->put('carrito-data', unserialize(Cookie::get('cookie-cartData-'. Auth::id())));
             }
 
+            if (Cookie::get('cookie-wishlist2-'. Auth::id())) {
+                session()->put('wishlist', unserialize(Cookie::get('cookiw-wishlist2-'. Auth::id())));
+            }
+
             if ($user->rol=="Administrador") { //Si el usuario es un admin lo redirigimos a la página de admins
                 return redirect()->route('admin.index');
             }
