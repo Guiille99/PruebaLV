@@ -11,6 +11,7 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\WishlistComponent;
 use App\Mail\ContactanosMailable;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
@@ -110,6 +111,8 @@ Route::controller(PedidoController::class)->group(function(){
     Route::get("pedidos-cancelados", "showPedidosCancelados")->middleware('auth')->name('show.cancelOrders');
     Route::put("cancelar-pedido/{idPedido}", "cancelaPedido")->middleware('auth')->name('order.cancel');
 });
+
+Route::get('/wishlist', WishlistComponent::class);
 
 Route::post('enviar-correo', function() 
 {
