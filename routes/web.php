@@ -112,7 +112,7 @@ Route::controller(PedidoController::class)->group(function(){
     Route::put("cancelar-pedido/{idPedido}", "cancelaPedido")->middleware('auth')->name('order.cancel');
 });
 
-Route::get('/wishlist', WishlistComponent::class);
+Route::get('wishlist', WishlistComponent::class);
 
 Route::post('enviar-correo', function() 
 {
