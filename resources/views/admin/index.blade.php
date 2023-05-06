@@ -73,7 +73,7 @@
 <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
 <script>
     $(document).ready(function () {
-        // $.fn.dataTable.ext.errMode = 'throw';
+        $.fn.dataTable.ext.errMode = 'throw';
         $('#users').DataTable({
             processing:true,
             serverSide: true,
