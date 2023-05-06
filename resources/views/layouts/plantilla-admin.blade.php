@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="{{asset('uploads/logo.ico')}}" type="image/x-icon">
     <script src="{{asset('build/assets/jquery-3.6.3.js')}}"></script>
     <script src="{{asset('build/assets/moment.min.js')}}"></script>
-    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/validation_form.js", "resources/js/datatables.min.js", "resources/js/color-theme.js"])
+    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/validation_form.js", "resources/js/color-theme.js"])
 </head>
 <body>
     <input type="checkbox" name="" id="toggler-sidebar">

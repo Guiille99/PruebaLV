@@ -1,6 +1,9 @@
 import './bootstrap'
 import '../css/app.scss'
 import * as bootstrap from 'bootstrap'
+import $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-bs5';
 
 $(document).ready(function(){
     ellipsis_box(".libro__titulo", 18);
