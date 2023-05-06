@@ -1,0 +1,19 @@
+@use "../base/mixins" as m;
+
+.charts__container{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    @include m.desktop{
+        flex-direction: row;
+        gap: unset;
+    }
+
+    .chart{
+        canvas{
+            width: 100% !important;
+        }
+        flex: 1;
+    }
+}

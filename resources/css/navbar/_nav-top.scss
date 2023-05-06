@@ -6,6 +6,9 @@
 .nav-top{
     font-family: v.$main_font;
     font-size: v.$tam-nav;
+    >.row{
+        height: 60px;
+    }
     .items{
         flex: 0;
     }

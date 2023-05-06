@@ -1,0 +1,15 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color";
+
+[data-bs-theme="dark"]{
+    .card-item{
+        box-shadow: 2px 2px 2px color.adjust(v.$white-dark-mode, $alpha: -0.9);
+        &.down{
+            .bi{
+                color: v.$red-dark-mode;
+            }
+            box-shadow: 2px 2px 2px color.adjust(v.$red-dark-mode, $alpha: -0.6);
+        }
+    }
+}

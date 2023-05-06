@@ -11,7 +11,7 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
-use App\Http\Livewire\WishlistComponent;
+use App\Http\Controllers\WishlistController;
 use App\Mail\ContactanosMailable;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,11 +35,11 @@ Route::get('libros/{filtro}', [LibroController::class, "filter"])->name("libros.
 Route::post('libros', [LibroController::class, "getFiltro"])->name("libros.getFiltro"); //Página para mostrar los libros filtrados por título, autor o género
 Route::get('libro/{libro}', [LibroController::class, "show"])->name("libros.show"); //Página para mostrar un libro concreto
 
-Route::get('admin', [UserController::class, "index"])->middleware('checkadmin')->name("admin.index"); //Página principal del admin
+Route::get('admin', [AdminController::class, "index"])->middleware('checkadmin')->name("admin.index"); //Página principal del admin
 Route::delete('admin/{user}', [UserController::class, "destroy"])->middleware('checkadmin')->name("user.destroy"); //Página para eliminar un usuario
 Route::get('admin/{user}/edit', [UserController::class, "edit"])->middleware('checkadmin')->name("user.edit"); //Página para mostrar el formulario de actualización de usuario
 Route::put('admin/{user}/edit', [UserController::class, "update"])->middleware('checkadmin')->name("user.update"); //Página para actualizar el usuario
-Route::get('admin/usuarios', [UserController::class, "index"])->middleware('checkadmin')->name("admin.users"); //Página que muestra los registros de los usuarios
+Route::get('admin/usuarios', [UserController::class, "show"])->middleware('checkadmin')->name("admin.users"); //Página que muestra los registros de los usuarios
 Route::get('admin/user/create', [UserController::class, "create"])->middleware('checkadmin')->name("user.create");
 Route::post('admin/user', [UserController::class, "store"])->middleware('checkadmin')->name("user.store");
 Route::get('perfil/{user}', [UserController::class, "editPerfil"])->middleware('auth')->name("user.editPerfil"); //Página para mostrar la interfaz para editar el perfil
@@ -112,10 +112,12 @@ Route::controller(PedidoController::class)->group(function(){
     Route::put("cancelar-pedido/{idPedido}", "cancelaPedido")->middleware('auth')->name('order.cancel');
 });
 
-Route::get('/livewire/message/wishlist', WishlistComponent::class);
-Route::post('/livewire/message/wishlist/', WishlistComponent::class);
-Route::get('/wishlist', WishlistComponent::class);
-Route::post('/wishlist', WishlistComponent::class);
+//RUTAS PARA MANEJO DE LA WISHLIST
+Route::controller(WishlistController::class)->group(function(){
+    Route::post('add-to-wishlist/{libro}', 'addToWishlist')->middleware('auth')->name('add_to_wishlist');
+    Route::delete('delete-to-wishlist/{libro}', 'deleteToWishlist')->middleware('auth')->name('delete_to_wishlist');
+    Route::get('wishlist', 'show')->middleware('auth')->name('show.wishlist');
+});
 
 Route::post('enviar-correo', function() 
 {

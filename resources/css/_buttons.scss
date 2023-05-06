@@ -20,6 +20,10 @@
     padding: 10px 15px;
 }
 
+.btn-outline-green{
+    @include m.btn-outline(v.$white, v.$green);
+}
+
 .toggler-admin{
     background-color: transparent;
     color: v.$white;
@@ -54,5 +58,14 @@
             background-color: v.$dark-green;
             color: v.$white;
         }
+    }
+}
+
+.btn-delete-to-cart{
+    opacity: .3;
+    &:hover{
+        cursor: pointer;
+        opacity: 1;
+        color: v.$green;
     }
 }

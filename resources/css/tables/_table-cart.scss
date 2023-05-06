@@ -21,16 +21,6 @@
             min-width: 60px;
         }
 
-
-        .btn-delete-to-cart{
-            opacity: .3;
-            &:hover{
-                cursor: pointer;
-                opacity: 1;
-                color: v.$green;
-            }
-        }
-
         .spinner-container{
             background-color: rgba(v.$white, $alpha: .5);
             .spinner{

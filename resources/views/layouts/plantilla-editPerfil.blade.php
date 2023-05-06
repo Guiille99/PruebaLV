@@ -46,7 +46,7 @@
                                 </ul>
                             </li>
                             <li class="menu-section">
-                                <a href="" class="section-title @yield('miWishlist-isActive')">
+                                <a href="{{route('show.wishlist')}}" class="section-title @yield('miWishlist-isActive')">
                                     <i class="bi bi-heart-fill"></i>
                                     <span>MI WISHLIST</span>
                                 </a>

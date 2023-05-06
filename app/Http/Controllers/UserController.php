@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index(Request $request){ //Listado de todos los usuarios
+    public function show(Request $request){ //Listado de todos los usuarios
         $users = User::paginate(5);
         // dd($users);
         if ($request->ajax()) {

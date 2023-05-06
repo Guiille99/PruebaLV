@@ -7,17 +7,16 @@
     <link rel="shortcut icon" href="{{asset('uploads/logo.ico')}}" type="image/x-icon">
     <script src="{{asset('build/assets/jquery-3.6.3.js')}}"></script>
     <script src="{{asset('build/assets/moment.min.js')}}"></script>
-    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/validation_form.js", "resources/js/datatables.min.js"])
+    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/validation_form.js", "resources/js/datatables.min.js", "resources/js/color-theme.js"])
 </head>
 <body>
     <input type="checkbox" name="" id="toggler-sidebar">
     <div class="sidebar">
         <!-- Sidebar header -->
         <div class="sidebar-header py-3">
-            <h5 class="offcanvas-title text-white flex-grow-1 text-center">Hola, {{Auth::user()->username}}</h5>
-            {{-- <div data-bs-theme="dark">
-                <button class="btn btn-close" data-bs-dismiss="offcanvas"></button>
-            </div> --}}
+            <figure class="m-0 text-center">
+                <img src="{{asset('uploads/logo-nombre2.svg')}}" alt="Logo" class="img-fluid">
+            </figure>
             <div data-bs-theme="dark">
                 <label for="toggler-sidebar"><i class="btn btn-close"></i></label>
             </div>
@@ -25,10 +24,48 @@
         </div>
         <!-- Sidebar body -->
         <div class="sidebar-body text-white">
-            <p class="text-center fw-bold">TABLAS</p>
+            <div class="user__info">
+                <figure>
+                    <img src="{{asset(Auth::user()->avatar)}}" alt="Imagen de perfil" class="img-fluid">
+                </figure>
+                <div class="user__info__data">
+                    <p class="username">{{Auth::user()->username}}</p>
+                    <p class="rol">Administrador</p>
+                </div>
+            </div>
+            {{-- <p class="text-center fw-bold">TABLAS</p> --}}
             <ul>
-                <li class="d-flex gap-2 py-1 px-2 active"><a href="{{route('admin.users')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li>
-                <li class="d-flex gap-2 py-1 px-2"><a href="{{route('libros.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li>
+                <li class="py-1 px-2"><a href="{{route('admin.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
+                <li>
+                    <div class="accordion-item">
+                        {{-- <h2 class="accordion-header" id="flush-headingOne"> --}}
+                          <button class="accordion-button collapsed dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <i class="bi bi-table"></i> Tablas
+                          </button>
+                        {{-- </h2> --}}
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <ul>
+                                <li class="py-1 px-2 active"><a href="{{route('admin.users')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li>
+                                <li class="py-1 px-2"><a href="{{route('libros.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                    </div>
+                </li>
+                {{-- <li class="py-1 px-2">
+                    <div class="dropdown">
+                        <a href="" role="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-table"></i>  Tablas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="py-1 px-2 active"><a href="{{route('admin.users')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li>
+                            <li class="py-1 px-2"><a href="{{route('libros.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li>
+                        </ul>
+                    </div>
+                </li> --}}
+                {{-- <li class="py-1 px-2 active"><a href="{{route('admin.users')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li> --}}
+                {{-- <li class="py-1 px-2"><a href="{{route('libros.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li> --}}
                 {{-- <li class="d-flex gap-2 py-1 px-2"><a href="{{route('login.logout')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-box-arrow-left"></i>Cerrar Sesión</a></li> --}}
                 <li class="d-flex gap-2 py-1 px-2">
                 <form action="{{route('login.logout')}}" method="post">
@@ -38,7 +75,7 @@
                     <a href="#" onclick="this.closest('form').submit()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a>
                 </li>
                     </form>
-                <li class="d-flex gap-2 py-1 px-2"><a href="{{route('index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-house-door"></i>Volver a inicio</a></li>
+                <li class="py-1 px-2"><a href="{{route('index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-house-door"></i>Volver a inicio</a></li>
             </ul>
         </div>
     </div>
@@ -57,8 +94,33 @@
                     <a href="{{ route('admin.index')}}"><img src="{{asset('uploads/logo-nombre2.svg')}}" alt="LOGO" class="img-fluid"></a>
                 </figure>
     
-                    {{-- USER INFO --}}
-                <div id="navbar_menu">
+                {{-- USER INFO --}}
+                <div id="navbar_menu" class="d-flex gap-4">
+                    <div class="changeMode__container dropdown">
+                        <button class="btnTheme dropdown-toggle bg-transparent border-0 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="theme-icon"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li class="light-mode theme" data-theme-value="light">
+                            <button class="dropdown-item d-flex gap-2">
+                              <i class="bi bi-sun"></i>
+                              <span>Modo claro</span>
+                            </button>
+                          </li>
+                          <li class="dark-mode theme" data-theme-value="dark">
+                            <button class="dropdown-item d-flex gap-2">
+                              <i class="bi bi-moon-fill"></i>
+                              <span>Modo oscuro</span>
+                            </button>
+                          </li>
+                          <li class="auto-mode theme" data-theme-value="auto">
+                            <button class="dropdown-item d-flex gap-2">
+                              <i class="bi bi-circle-half"></i>
+                              <span>Auto</span>
+                            </button>
+                          </li>
+                        </ul>
+                    </div>
                     @if (Auth::check())
                     <p class="m-0 text-white"><i class="bi bi-person"></i> {{Auth::user()->username}}</p>
                     @endif

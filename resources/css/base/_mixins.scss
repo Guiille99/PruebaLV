@@ -50,6 +50,20 @@
     }
 }
 
+@mixin btn-outline($bgcolor, $bordercolor){
+    background-color: $bgcolor;
+    border: 1px solid $bordercolor;
+    color: $bordercolor;
+    padding: 8px 20px;
+    border-radius: 0.3rem;
+    font-size: 1.2rem;
+
+    &:hover{
+        background-color: $bordercolor;
+        color: $bgcolor;
+    }
+}
+
 @mixin btnCartTable($bgcolor, $fcolor){
     background-color: $bgcolor;
     border: 1px solid $fcolor;

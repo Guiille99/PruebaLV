@@ -23,7 +23,7 @@ class CarritoController extends Controller
             if (isset($carrito[$libro->id])) { //Si el libro ya está en el carrito
                 $carrito[$libro->id]["cantidad"]++;
             }
-            else{ //Si no está en el carrio lo añadimos
+            else{ //Si no está en el carrito lo añadimos
                 $carrito[$libro->id]=[
                     "titulo"=>$libro->titulo,
                     "autor"=>$libro->autor,
@@ -110,7 +110,7 @@ class CarritoController extends Controller
     }
 
     public function getContent(Request $request){
-        if($request->input("token")){ //Si recibimos el token
+        if($request->ajax() && $request->input("token")){ //Si recibimos el token
             return view("carrito.offcanvas-cart-content");
         }
         return redirect()->back();

@@ -39,4 +39,11 @@
        }
     }
 
+    .wishlist__container{
+        display: block;
+        @include m.desktop{
+            display: none;
+        }
+    }
+
 }

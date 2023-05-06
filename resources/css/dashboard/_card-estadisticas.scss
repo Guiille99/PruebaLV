@@ -1,0 +1,45 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color";
+
+.card-estadisticas{
+    @include m.grid(1, 20px);
+    @include m.tablet{
+        @include m.grid(2, 20px);
+    }
+    @include m.desktop{
+        @include m.grid(4, 20px);
+    }
+
+    .card-item{
+        display: flex;
+        gap: 20px;
+        border-radius: 3px;
+        border: .5px solid color.adjust(v.$black-card, $alpha: -0.9);
+        padding: 10px;
+        box-shadow: 2px 2px 2px color.adjust(v.$black-card, $alpha: -0.9);
+
+        &.up{
+            .bi{
+                color: v.$green;
+            }
+            box-shadow: 2px 2px 2px color.adjust(v.$green, $alpha: -0.6);
+        }
+        &.down{
+            .bi{
+                color: v.$red;
+            }
+            box-shadow: 2px 2px 2px color.adjust(v.$red, $alpha: -0.6);
+        }
+
+        .bi{
+            font-size: 2rem;
+        }
+
+        .info{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+    }
+}

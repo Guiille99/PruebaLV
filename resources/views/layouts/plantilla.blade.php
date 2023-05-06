@@ -15,7 +15,7 @@
       {{-- TOP-NAV --}}
       <div class="nav-top container-fluid">
         <div class="row bg-success align-items-center d-none d-lg-flex position-relative">
-          <div class="col-3">
+          <div class="col-2">
             <figure class="m-0">
               <a href="{{ route('index')}}"><img src="{{asset('uploads/logo-nombre2.svg')}}" alt="LOGO" class="img-fluid"></a>
             </figure>
@@ -30,7 +30,7 @@
               <button type="submit" class="d-none"></button>
             </form>
           </div>
-          <div class="cuenta-carrito col-3 d-flex justify-content-center gap-4">
+          <div class="cuenta-carrito col-4 d-flex justify-content-center align-items-center gap-4">
             {{-- Dropdown screen mode --}}
             <div class="changeMode__container dropdown">
               <button class="btnTheme dropdown-toggle bg-transparent border-0 text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -57,6 +57,7 @@
                 </li>
               </ul>
             </div>
+            
 
             <div class="login__container"> {{-- LOGIN CONTAINER --}}
               {{-- Si se ha iniciado sesión --}}
@@ -79,8 +80,9 @@
                         @method('put')
                         @csrf
                         {{-- Cuando haga click en el enlace hará un submit --}}
-                        <a class="dropdown-item" href="#" onclick="this.closest('form').submit()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a></li>
+                        <a class="dropdown-item" href="#" onclick="this.closest('form').submit()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a>
                       </form>
+                    </li>
                   </ul>
                 </div>
   
@@ -112,6 +114,7 @@
                 @endif
               </a>
             </div>
+            @livewire('wishlist-component-icon')
             @endif
           </div>
 
@@ -145,6 +148,7 @@
                 @endif
               </a>
             </div>
+            @livewire('wishlist-component-icon')
             @endif
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -406,6 +410,9 @@
       </div>
     </footer>
     @livewireScripts
+    <script>
+      Livewire.onPageExpired((response, message) => {})
+  </script>
 </body>
 {{-- <script>
   $(document).ready(function(){

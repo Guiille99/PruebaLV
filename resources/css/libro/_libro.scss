@@ -28,6 +28,8 @@
     }
 
     .precio__carrito{
+        display: flex;
+        flex-direction: column;
         text-align: center;
         @include m.tablet{
             text-align: unset;
@@ -40,11 +42,26 @@
             }
         }
 
+        .form-add-to-cart>button{
+            width: 100%
+        }
+
         .btn-carrito{
             @include m.btn(v.$green, v.$white);
             padding: 8px 20px;
             border-radius: 0.3rem;
             font-size: 1.2rem;
+        }
+        .btn-outline-green{
+            &:disabled{
+                filter: grayscale(100%);
+                opacity: .7;
+                &:hover{
+                    cursor: pointer;
+                    background-color: unset;
+                    color: unset;
+                }
+            }
         }
     }
 }

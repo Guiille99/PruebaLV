@@ -36,20 +36,22 @@
             border-radius: 50%;
         }
     }
-    .changeMode__container{
-        li.active{
-            background-color: v.$green;
-            &>a{
+    .dropdown-menu{
+        .wishlist__container{
+            a{
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .wishlist-count{
+                display: inline-block;
+                background-color: v.$green;
+                height: 25px;
+                width: 25px;
+                border-radius: 50%;
                 color: v.$white;
+                text-align: center;
             }
         }
-        li:not(.active):hover{
-            background-color: v.$green;
-            opacity: .5;
-        }
-        .dropdown-menu{
-            left: auto;
-        }
-
     }
 }
