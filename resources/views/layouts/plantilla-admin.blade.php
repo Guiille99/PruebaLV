@@ -26,10 +26,10 @@
         <div class="sidebar-body text-white">
             <div class="user__info">
                 <figure>
-                    <img src="{{asset(Auth::user()->avatar)}}" alt="Imagen de perfil" class="img-fluid">
+                    <img src="{{--asset(Auth::user()->avatar)--}}" alt="Imagen de perfil" class="img-fluid">
                 </figure>
                 <div class="user__info__data">
-                    <p class="username">{{Auth::user()->username}}</p>
+                    <p class="username">{{--Auth::user()->username--}}</p>
                     <p class="rol">Administrador</p>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                         </ul>
                     </div>
                     @if (Auth::check())
-                    <p class="m-0 text-white"><i class="bi bi-person"></i> {{Auth::user()->username}}</p>
+                    <p class="m-0 text-white"><i class="bi bi-person"></i> {{--Auth::user()->username--}}</p>
                     @endif
                 </div>
             </div>
@@ -136,7 +136,7 @@
                     <div id="navegacion" class="sidebar offcanvas offcanvas-start bg-dark" data-bs-backdrop="false" data-bs-scroll="true">
                         <!-- OffCanvas header -->
                         <div class="offcanvas-header py-3">
-                            <h5 class="offcanvas-title text-white flex-grow-1 text-center">Hola, {{Auth::user()->username}}</h5>
+                            <h5 class="offcanvas-title text-white flex-grow-1 text-center">Hola, {{--Auth::user()->username--}}</h5>
                             <div data-bs-theme="dark">
                                 <button class="btn btn-close" data-bs-dismiss="offcanvas"></button>
                             </div>
