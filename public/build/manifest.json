@@ -12,8 +12,7 @@
   },
   "resources/css/app.scss": {
     "file": "assets/app-0f8eafb8.css",
-    "isEntry": true,
-    "src": "resources/css/app.scss"
+    "src": "resources/js/app.css"
   },
   "resources/fonts/Montserrat-Medium.ttf": {
     "file": "assets/Montserrat-Medium-20ebfd65.ttf",
@@ -29,8 +28,7 @@
   },
   "resources/js/app.css": {
     "file": "assets/app-0f8eafb8.css",
-    "isEntry": true,
-    "src": "resources/css/app.scss"
+    "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "assets": [
@@ -68,10 +66,20 @@
     "isEntry": true,
     "src": "resources/js/color-theme.js"
   },
+  "resources/js/datatables.min.js": {
+    "file": "assets/datatables.min-0a795ab1.js",
+    "isEntry": true,
+    "src": "resources/js/datatables.min.js"
+  },
   "resources/js/font-awesome.js": {
     "file": "assets/font-awesome-06d3006d.js",
     "isEntry": true,
     "src": "resources/js/font-awesome.js"
+  },
+  "resources/js/form_validations.js": {
+    "file": "assets/form_validations-4ed993c7.js",
+    "isEntry": true,
+    "src": "resources/js/form_validations.js"
   },
   "resources/js/jquery-3.6.3.js": {
     "file": "assets/jquery-3.6.3-65bc4b45.js",
