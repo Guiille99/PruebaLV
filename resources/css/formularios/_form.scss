@@ -3,7 +3,7 @@
 @use "sass:color" as color;
 
 .form__hero{
-    @include m.bg-image("bookshop.jpg");
+    // @include m.bg-image("bookshop.jpg");
     position: relative;
     z-index: 1;
     &::before{

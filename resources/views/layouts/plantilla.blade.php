@@ -114,8 +114,8 @@
                 @endif
               </a>
             </div>
-            @livewire('wishlist-component-icon')
             @endif
+            @livewire('wishlist-component-icon')
           </div>
 
           {{-- Mensaje cuando añades un libro al carrito --}}
