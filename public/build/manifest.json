@@ -11,8 +11,9 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-f67bc966.css",
-    "src": "resources/js/app.css"
+    "file": "assets/app-e450887b.css",
+    "isEntry": true,
+    "src": "resources/css/app.scss"
   },
   "resources/fonts/Montserrat-Medium.ttf": {
     "file": "assets/Montserrat-Medium-20ebfd65.ttf",
@@ -27,8 +28,9 @@
     "src": "resources/fonts/WorkSans-Regular.ttf"
   },
   "resources/js/app.css": {
-    "file": "assets/app-f67bc966.css",
-    "src": "resources/js/app.css"
+    "file": "assets/app-e450887b.css",
+    "isEntry": true,
+    "src": "resources/css/app.scss"
   },
   "resources/js/app.js": {
     "assets": [
@@ -39,9 +41,9 @@
       "assets/WorkSans-Regular-1b94e0d8.ttf"
     ],
     "css": [
-      "assets/app-f67bc966.css"
+      "assets/app-e450887b.css"
     ],
-    "file": "assets/app-25d563ff.js",
+    "file": "assets/app-08a5b6c4.js",
     "imports": [
       "_axios-ca6126ea.js"
     ],
@@ -56,6 +58,16 @@
     "isEntry": true,
     "src": "resources/js/bootstrap.js"
   },
+  "resources/js/cart.js": {
+    "file": "assets/cart-c3c7cec7.js",
+    "isEntry": true,
+    "src": "resources/js/cart.js"
+  },
+  "resources/js/color-theme.js": {
+    "file": "assets/color-theme-2ba83fba.js",
+    "isEntry": true,
+    "src": "resources/js/color-theme.js"
+  },
   "resources/js/font-awesome.js": {
     "file": "assets/font-awesome-06d3006d.js",
     "isEntry": true,
@@ -67,7 +79,7 @@
     "src": "resources/js/jquery-3.6.3.js"
   },
   "resources/js/validation_form.js": {
-    "file": "assets/validation_form-b2fee555.js",
+    "file": "assets/validation_form-2edf1ea0.js",
     "isEntry": true,
     "src": "resources/js/validation_form.js"
   }
