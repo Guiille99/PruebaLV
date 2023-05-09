@@ -4,6 +4,9 @@
 
 .form__hero{
     // @include m.bg-image("bookshop.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
     position: relative;
     z-index: 1;
     &::before{
