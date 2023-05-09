@@ -11,9 +11,8 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-158e3d79.css",
-    "isEntry": true,
-    "src": "resources/css/app.scss"
+    "file": "assets/app-ac87b2ed.css",
+    "src": "resources/js/app.css"
   },
   "resources/fonts/Montserrat-Medium.ttf": {
     "file": "assets/Montserrat-Medium-20ebfd65.ttf",
@@ -28,9 +27,8 @@
     "src": "resources/fonts/WorkSans-Regular.ttf"
   },
   "resources/js/app.css": {
-    "file": "assets/app-158e3d79.css",
-    "isEntry": true,
-    "src": "resources/css/app.scss"
+    "file": "assets/app-ac87b2ed.css",
+    "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "assets": [
@@ -41,9 +39,9 @@
       "assets/WorkSans-Regular-1b94e0d8.ttf"
     ],
     "css": [
-      "assets/app-158e3d79.css"
+      "assets/app-ac87b2ed.css"
     ],
-    "file": "assets/app-8e4c0e59.js",
+    "file": "assets/app-8036ea99.js",
     "imports": [
       "_axios-ca6126ea.js"
     ],
