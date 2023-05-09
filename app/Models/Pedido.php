@@ -9,7 +9,7 @@ class Pedido extends Model
 {
     use HasFactory;
 
-    public function usuario(){
+    public function user(){
         return $this->belongsTo(User::class);
     }
 

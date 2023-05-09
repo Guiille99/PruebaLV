@@ -1,9 +1,8 @@
 @extends('layouts.plantilla-admin')
 @section('title', 'Books | Admin')
 @section('content')
-{{-- {{$libros}} --}}
-       {{-- DATOS --}}
-       <div id="registros__container" class="col col-lg-12 py-3">
+    {{-- DATOS --}}
+    <div id="registros__container" class="col col-lg-12 py-3">
            <div class="registros row">
                <div class="col">
 

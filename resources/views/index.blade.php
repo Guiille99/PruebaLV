@@ -7,9 +7,9 @@
 
     <div id="carrusel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carrusel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" style="background: url({{asset('uploads/book-icon.svg')}})"></button>
-            <button type="button" data-bs-target="#carrusel" data-bs-slide-to="1" aria-label="Slide 2" style="background: url({{asset('uploads/book-icon.svg')}})"></button>
-            <button type="button" data-bs-target="#carrusel" data-bs-slide-to="2" aria-label="Slide 3" style="background: url({{asset('uploads/book-icon.svg')}})"></button>
+            <button type="button" data-bs-target="#carrusel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carrusel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carrusel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -117,7 +117,7 @@
     {{-- SUSCRIBE SECTION --}}
     <div class="container-fluid">
         <section class="row mt-5">
-            <div class="col suscribe__container" style="background-image: url({{asset('uploads/seccion-suscribe.jpg')}})">
+            <div class="col suscribe__container" style="background-image: url({{asset('uploads/seccion-suscribe.jpg')}});">
                 <div class="suscribe__info">
                     <h2 class="suscribe__title">Suscríbete para conocer nuestras últimas noticas</h2>
                     <form action="{{ route('enviar-correo') }}" method="POST">

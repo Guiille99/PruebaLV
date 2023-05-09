@@ -1,0 +1,1 @@
+(()=>{const t=document.querySelectorAll(".needs-validation");Array.from(t).forEach(a=>{a.addEventListener("submit",e=>{a.checkValidity()||(e.preventDefault(),e.stopPropagation()),a.classList.add("was-validated")},!1)})})();

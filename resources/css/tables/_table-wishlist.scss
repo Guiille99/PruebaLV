@@ -1,5 +1,18 @@
+@use "../base/mixins" as m;
+
 .wislist-table{
+    thead  td:first-child{
+        @include m.tablet{
+            width: 25%;
+        }
+    }
     figure{
         width: 20%;
+        min-width: 59px;
+        min-height: 95px;
+    }
+    font-size: .8rem;
+    @include m.tablet{
+        font-size: unset;
     }
 }

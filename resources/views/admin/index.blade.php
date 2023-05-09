@@ -34,7 +34,7 @@
                                 Añado el modal de confirmación para el borrado de registros
                             @endforeach                   --}}
 
-                            <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modalEliminacionRegistro" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <form action="" method="post">
                                         @csrf
@@ -70,7 +70,6 @@
     </div>
 @endsection
 @section('script')
-<script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
 <script>
     $(document).ready(function () {
         $.fn.dataTable.ext.errMode = 'throw';
@@ -90,10 +89,6 @@
                 {data: 'updated_at'},
                 {data: 'action'},
             ],
-            // initComplete: function(data, settings, json){
-            //     $(".btn-delete-user").click(openDeleteModal);
-            //     // $(".dtr-control").click(resetBtnDelete);
-            // },
             lengthMenu: [5, 10, 15],
             columnDefs: [
                 {orderable: false, target:[8]},

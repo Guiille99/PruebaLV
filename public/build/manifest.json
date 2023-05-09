@@ -11,7 +11,7 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-0f8eafb8.css",
+    "file": "assets/app-f67bc966.css",
     "src": "resources/js/app.css"
   },
   "resources/fonts/Montserrat-Medium.ttf": {
@@ -27,7 +27,7 @@
     "src": "resources/fonts/WorkSans-Regular.ttf"
   },
   "resources/js/app.css": {
-    "file": "assets/app-0f8eafb8.css",
+    "file": "assets/app-f67bc966.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
@@ -39,9 +39,9 @@
       "assets/WorkSans-Regular-1b94e0d8.ttf"
     ],
     "css": [
-      "assets/app-0f8eafb8.css"
+      "assets/app-f67bc966.css"
     ],
-    "file": "assets/app-cb402b2b.js",
+    "file": "assets/app-25d563ff.js",
     "imports": [
       "_axios-ca6126ea.js"
     ],
@@ -56,30 +56,10 @@
     "isEntry": true,
     "src": "resources/js/bootstrap.js"
   },
-  "resources/js/cart.js": {
-    "file": "assets/cart-c3c7cec7.js",
-    "isEntry": true,
-    "src": "resources/js/cart.js"
-  },
-  "resources/js/color-theme.js": {
-    "file": "assets/color-theme-2ba83fba.js",
-    "isEntry": true,
-    "src": "resources/js/color-theme.js"
-  },
-  "resources/js/datatables.min.js": {
-    "file": "assets/datatables.min-0a795ab1.js",
-    "isEntry": true,
-    "src": "resources/js/datatables.min.js"
-  },
   "resources/js/font-awesome.js": {
     "file": "assets/font-awesome-06d3006d.js",
     "isEntry": true,
     "src": "resources/js/font-awesome.js"
-  },
-  "resources/js/form_validations.js": {
-    "file": "assets/form_validations-4ed993c7.js",
-    "isEntry": true,
-    "src": "resources/js/form_validations.js"
   },
   "resources/js/jquery-3.6.3.js": {
     "file": "assets/jquery-3.6.3-65bc4b45.js",
@@ -87,7 +67,7 @@
     "src": "resources/js/jquery-3.6.3.js"
   },
   "resources/js/validation_form.js": {
-    "file": "assets/validation_form-2edf1ea0.js",
+    "file": "assets/validation_form-b2fee555.js",
     "isEntry": true,
     "src": "resources/js/validation_form.js"
   }

@@ -49,16 +49,16 @@
                     }
                 }
                 .accordion-body{
-                    // background-color: v.$sidebar-bg;
-                    border: 1px solid v.$black;
-                    border-radius: 3px;
                     ul{
                         width: 100%;
                         padding: 0;
-                        li:hover{
-                            background-color: v.$sidebar-bg;
-                            a{
-                                color: v.$white;
+                        li{
+                            border-bottom: 1px solid v.$white-dark-mode;
+                            &:hover{
+                                background-color: v.$sidebar-bg;
+                                a{
+                                    color: v.$white;
+                                }
                             }
                         }
                     }

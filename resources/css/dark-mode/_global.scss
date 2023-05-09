@@ -56,6 +56,23 @@
         border-color: v.$red-dark-mode;
         color: v.$red-dark-mode;
     }
+    .btn-delete-to-cart{
+        color: v.$white-dark-mode;
+        &:hover{
+            cursor: pointer;
+            opacity: 1;
+            color: v.$green;
+        }
+    }
+    .btn-outline-green{
+        &:disabled{
+            &:hover{
+                .spinner-border{
+                    color: v.$white-dark-mode !important;
+                }
+            }
+        }
+    }
 }
 
 

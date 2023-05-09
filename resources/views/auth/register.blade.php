@@ -2,7 +2,7 @@
 @section('title', "Registro")
 
 @section('content')
-<div class="container-fluid vh-100 form__hero">
+<div class="container-fluid vh-100 form__hero" style="background-image: url({{asset('uploads/bookshop.jpg')}})">
 
     <div class="row flex-column gap-2 justify-content-center align-items-center h-100">
         <figure class="w-auto">

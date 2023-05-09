@@ -31,6 +31,7 @@ class WishlistComponent extends Component
         $this->emitTo('wishlist-component-icon', 'refreshComponent');
         // $this->message = session()->get('message', 'hola');
         // $this->success();
+        $this->dispatchBrowserEvent('toggle-wishlist', ['message' => 'Libro añadido a la lista de deseos']);
     }
 
     public function deleteToWishlist(){
@@ -39,12 +40,9 @@ class WishlistComponent extends Component
             session()->put('wishlist', $this->wishlist); //Actualizamos la wishlist
             Cookie::queue("cookie-wishlist-" . Auth::id(), serialize(session()->get('wishlist')), 60*24*30);
             $this->emitTo('wishlist-component-icon', 'refreshComponent');
+            $this->dispatchBrowserEvent('toggle-wishlist', ['message' => 'Libro eliminado de la lista de deseos']);
         }
         
-    }
-
-    public function success(){
-        $this->dispatchBrowserEvent('alert', ['message', 'Hola']);
     }
 
     public function render()

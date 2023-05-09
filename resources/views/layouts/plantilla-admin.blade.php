@@ -26,10 +26,10 @@
         <div class="sidebar-body text-white">
             <div class="user__info">
                 <figure>
-                    <img src="{{--asset(Auth::user()->avatar)--}}" alt="Imagen de perfil" class="img-fluid">
+                    <img src="{{asset(Auth::user()->avatar)}}" alt="Imagen de perfil" class="img-fluid">
                 </figure>
                 <div class="user__info__data">
-                    <p class="username">{{--Auth::user()->username--}}</p>
+                    <p class="username">{{Auth::user()->username}}</p>
                     <p class="rol">Administrador</p>
                 </div>
             </div>
@@ -38,16 +38,17 @@
                 <li class="py-1 px-2"><a href="{{route('admin.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
                 <li>
                     <div class="accordion-item">
-                        {{-- <h2 class="accordion-header" id="flush-headingOne"> --}}
-                          <button class="accordion-button collapsed dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                            <i class="bi bi-table"></i> Tablas
-                          </button>
-                        {{-- </h2> --}}
+                        <button class="accordion-button collapsed dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <i class="bi bi-table"></i> Tablas
+                        </button>
                         <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                           <div class="accordion-body">
                             <ul>
-                                <li class="py-1 px-2 active"><a href="{{route('admin.users')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li>
-                                <li class="py-1 px-2"><a href="{{route('libros.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li>
+                                <li class="py-1 px-2"><a href="{{route('admin.users')}}" class="d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li>
+                                <li class="py-1 px-2"><a href="{{route('libros.index')}}" class="d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li>
+                                <li class="py-1 px-2"><a href="" class="d-flex gap-2"><i class="bi bi-box-seam"></i>Pedidos</a></li>
+                                <li class="py-1 px-2"><a href="" class="d-flex gap-2"><i class="bi bi-chat-left-text"></i>Blog</a></li>
+                                <li class="py-1 px-2"><a href="" class="d-flex gap-2"><i class="bi bi-geo-alt-fill"></i>Provincias</a></li>
                             </ul>
                           </div>
                         </div>
@@ -122,7 +123,7 @@
                         </ul>
                     </div>
                     @if (Auth::check())
-                    <p class="m-0 text-white"><i class="bi bi-person"></i> {{--Auth::user()->username--}}</p>
+                    <p class="m-0 text-white"><i class="bi bi-person"></i> {{Auth::user()->username}}</p>
                     @endif
                 </div>
             </div>
@@ -136,7 +137,7 @@
                     <div id="navegacion" class="sidebar offcanvas offcanvas-start bg-dark" data-bs-backdrop="false" data-bs-scroll="true">
                         <!-- OffCanvas header -->
                         <div class="offcanvas-header py-3">
-                            <h5 class="offcanvas-title text-white flex-grow-1 text-center">Hola, {{--Auth::user()->username--}}</h5>
+                            <h5 class="offcanvas-title text-white flex-grow-1 text-center">Hola, {{Auth::user()->username}}</h5>
                             <div data-bs-theme="dark">
                                 <button class="btn btn-close" data-bs-dismiss="offcanvas"></button>
                             </div>
@@ -172,6 +173,7 @@
         </main>
     </div>
     <label for="toggler-sidebar" id="body-label"></label>
+    <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/r-2.4.1/datatables.min.js"></script>
     @yield('script')
 </body>
 </html>

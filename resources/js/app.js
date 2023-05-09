@@ -1,9 +1,6 @@
 import './bootstrap'
 import '../css/app.scss'
 import * as bootstrap from 'bootstrap'
-import $ from 'jquery';
-import 'datatables.net';
-import 'datatables.net-bs5';
 
 $(document).ready(function(){
     ellipsis_box(".libro__titulo", 18);
@@ -11,6 +8,16 @@ $(document).ready(function(){
     $(".togglePassword").click(togglerPassword);
     $("#togglePasswordConfirm").click(togglerPasswordConfirm);
     $("#btnBack").click(goToUp);
+
+    //Evento que se ejecuta cuando añado o elimino un libro a la wishlist
+    $(document).on('toggle-wishlist', function(){
+        $('body').append("<div id='alert-index' class='alert alert-success'><i class='bi bi-check-circle'></i> "+ event.detail.message +"</div>");
+        setTimeout(function(){
+        $(".alert-success").fadeOut(2000, function(){
+            $(".alert-success").remove();
+        });
+        }, 3000)
+    });
 
     //Cambio el contenido del modal dependiendo del método de pago seleccionado
     $(".metodos-pago input[type='radio']").click(modalMetodoPago);

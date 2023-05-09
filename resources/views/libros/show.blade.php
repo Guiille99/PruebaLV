@@ -1,5 +1,5 @@
 @extends('layouts.plantilla')
-@section("title", "Books | Nombre del libro")
+@section("title", "Books | $libro->titulo")
 @section("generos_libros")
     @foreach ($generos as $genero)
         <li><a class="dropdown-item" href="{{route('libros.filter', $genero->genero)}}">{{$genero->genero}}</a></li>

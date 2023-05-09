@@ -114,14 +114,9 @@
                 @endif
               </a>
             </div>
-            @endif
             @livewire('wishlist-component-icon')
+            @endif
           </div>
-
-          {{-- Mensaje cuando añades un libro al carrito --}}
-          {{-- <div style="border: 1px solid black; position: absolute; bottom: -120%; right: 5px; z-index: 999; width: 20%">
-            <p>Has añadido el libro a tu cesta</p>
-          </div> --}}
         </div>
       </div>
     
@@ -168,7 +163,6 @@
                 </a>
                 <ul class="dropdown-menu">
 
-                  {{-- @yield('generos_libros') --}}
                   @foreach ($generos as $genero)
                   <li><a class="dropdown-item" href="{{route('libros.filter', $genero->genero)}}">{{$genero->genero}}</a></li>
                   @endforeach
@@ -263,17 +257,13 @@
                   </a>
                 </div>
               @endif
-              
-            
+                  
             </div>
           </div>
         </div>
       </nav>
 
     </header>
-
-    {{-- {{var_dump(session()->get('carrito'))}} --}}
-    {{-- {{var_dump(session()->get('carrito-data'))}} --}}
 
     {{-- Mensaje cuando añades un libro al carrito --}}
     <div id="add-to-cart__message">

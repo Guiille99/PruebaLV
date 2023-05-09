@@ -35,13 +35,13 @@ Route::get('libros/{filtro}', [LibroController::class, "filter"])->name("libros.
 Route::post('libros', [LibroController::class, "getFiltro"])->name("libros.getFiltro"); //Página para mostrar los libros filtrados por título, autor o género
 Route::get('libro/{libro}', [LibroController::class, "show"])->name("libros.show"); //Página para mostrar un libro concreto
 
-Route::get('admin', [AdminController::class, "index"])->name("admin.index"); //Página principal del admin
-Route::delete('admin/{user}', [UserController::class, "destroy"])->name("user.destroy"); //Página para eliminar un usuario
-Route::get('admin/{user}/edit', [UserController::class, "edit"])->name("user.edit"); //Página para mostrar el formulario de actualización de usuario
-Route::put('admin/{user}/edit', [UserController::class, "update"])->name("user.update"); //Página para actualizar el usuario
-Route::get('admin/usuarios', [UserController::class, "show"])->name("admin.users"); //Página que muestra los registros de los usuarios
-Route::get('admin/user/create', [UserController::class, "create"])->name("user.create");
-Route::post('admin/user', [UserController::class, "store"])->name("user.store");
+Route::get('admin', [AdminController::class, "index"])->middleware('checkadmin')->name("admin.index"); //Página principal del admin
+Route::delete('admin/{user}', [UserController::class, "destroy"])->middleware('checkadmin')->name("user.destroy"); //Página para eliminar un usuario
+Route::get('admin/{user}/edit', [UserController::class, "edit"])->middleware('checkadmin')->name("user.edit"); //Página para mostrar el formulario de actualización de usuario
+Route::put('admin/{user}/edit', [UserController::class, "update"])->middleware('checkadmin')->name("user.update"); //Página para actualizar el usuario
+Route::get('admin/usuarios', [UserController::class, "show"])->middleware('checkadmin')->name("admin.users"); //Página que muestra los registros de los usuarios
+Route::get('admin/user/create', [UserController::class, "create"])->middleware('checkadmin')->name("user.create");
+Route::post('admin/user', [UserController::class, "store"])->middleware('checkadmin')->name("user.store");
 Route::get('perfil/{user}', [UserController::class, "editPerfil"])->middleware('auth')->name("user.editPerfil"); //Página para mostrar la interfaz para editar el perfil
 Route::get('perfil/my-data/{user}', [UserController::class, "myData"])->middleware('auth')->name("user.editPerfil-datos");
 Route::delete('perfil/my-data/{user}', [UserController::class, "deleteImageProfile"])->middleware('auth')->name("user.deleteImageProfile");
@@ -108,6 +108,7 @@ Route::controller(DireccionController::class)->group(function(){
 //RUTAS DE MANEJO DE LOS PEDIDOS
 Route::controller(PedidoController::class)->group(function(){
     Route::get("mis-pedidos", 'showPedidos')->middleware('auth')->name('show.orders');
+    Route::get("ultimos-pedidos", 'getUltimosPedidos')->middleware('auth')->middleware('checkadmin')->name('show.last-orders');
     Route::get("pedidos-cancelados", "showPedidosCancelados")->middleware('auth')->name('show.cancelOrders');
     Route::put("cancelar-pedido/{idPedido}", "cancelaPedido")->middleware('auth')->name('order.cancel');
 });

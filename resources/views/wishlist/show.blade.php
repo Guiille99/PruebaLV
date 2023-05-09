@@ -26,7 +26,7 @@
                                     <form action="{{route('delete_to_wishlist', $id)}}" method="post">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="border-0"><i class="btn-delete-to-cart bi bi-x-circle"></i></button>
+                                    <button type="submit" class="bg-transparent border-0"><i class="btn-delete-to-cart bi bi-x-circle"></i></button>
                                     </form>
                                     <figure class="m-0">
                                         <img src="{{$libro["portada"]}}" alt="" class="img-fluid">
@@ -39,6 +39,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{$wishlist->links()}}
                 </div>
             @else
             <div class="alert alert-warning mt-2" role="alert">
