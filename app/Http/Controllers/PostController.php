@@ -8,6 +8,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller{
 
@@ -22,7 +23,7 @@ class PostController extends Controller{
             "titulo" => "required|max:120|unique:posts,nombre",
             "slug" => "required",
             "cuerpo" => "required",
-            "portada" => "required|image|mimes:jpeg,jpg,png,svg|max:2048",
+            "portada" => "required|image|mimes:jpeg,jpg,png|max:2048",
             "categoria" => "required"
         ]);
 
@@ -31,10 +32,14 @@ class PostController extends Controller{
             $post = new Post();        
             $file = $request->portada; //Obtenemos los datos del archivo subido
             $destinationPath = "uploads/posts/"; //Se define la ruta donde se guardará el archivo subido
+            $thumbnailPath = $destinationPath . "thumbnails/"; //Ruta de las miniaturas
             $filename = time() . "-" . $file->GetClientOriginalName() ;//concatenamos el nombre del archivo con el tiempo en ms para que no se repita ningún archivo
             $uploadSuccess = $request->file('portada')->move($destinationPath, $filename);//Movemos el archivo a la carpeta correspondiente
             $post->portada = $destinationPath . $filename;//Subimos el archivo a la base de datos
 
+            $this->resizeImage($destinationPath, $thumbnailPath, $filename, 640, 427);
+           
+            $post->thumbnail = $thumbnailPath . "thumbnail-" . $filename;
             $post->nombre = $request->titulo;
             $post->slug = $request->slug;
             $post->cuerpo = $request->cuerpo;
@@ -46,6 +51,12 @@ class PostController extends Controller{
         } catch (\Throwable $e) {
             return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
+    }
+
+    private function resizeImage($destinationPath, $thumbnailPath, $filename, $width, $height) {
+        $img = Image::make($destinationPath . $filename); 
+        $img->fit($width, $height);
+        $img->save($thumbnailPath . "thumbnail-" . $filename);
     }
 
     public function showBlog(){
@@ -119,6 +130,7 @@ class PostController extends Controller{
         DB::beginTransaction();
         try {
             unlink($post->portada);
+            unlink($post->thumbnail);
             $post->delete();
             DB::commit();
             return redirect()->back()->with("message", "El post ha sido eliminado correctamente");

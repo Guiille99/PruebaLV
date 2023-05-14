@@ -50,7 +50,7 @@
                 <div class="resena">
                     <a href="{{route('show.post', $resena->slug)}}"></a>
                     <figure>
-                        <img src="{{asset($resena->portada)}}" alt="{{$resena->nombre}}" class="img-fluid">
+                        <img src="{{asset($resena->thumbnail)}}" alt="{{$resena->nombre}}" class="img-fluid">
                     </figure>
                     <div class="resena__info">
                         <h5>{{$resena->nombre}}</h5>
