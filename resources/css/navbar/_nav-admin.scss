@@ -13,4 +13,22 @@
             cursor: pointer;
         }
     }
+    #navbar_menu{
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+    }
+    .user__info{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        figure{
+            height: 35px;
+            width: 35px;
+            margin: 0;
+        }
+        &-username{
+            color: v.$white;
+        }
+    }
 }

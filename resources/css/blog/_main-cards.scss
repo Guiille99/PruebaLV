@@ -5,39 +5,34 @@
     width: 95%;
     margin: 0 auto;
     overflow: hidden;
-    // height: 80rem;
     @include m.grid(1, 10px);
 
     @include m.tablet{
         @include m.grid(4, 10px);
         grid-template-rows: repeat(3, 1fr);
-        // height: 50rem
     }
     @include m.desktop{
         height: 40rem;
         @include m.grid(6, 10px);
         grid-template-rows: repeat(2, 1fr);
-        // grid-template-columns: 1.5fr 0.5fr;
     }
     .blog__card{
         border-radius: 0px;
         background-position: bottom;
         position: relative;
         overflow: hidden;
-        // display: flex;
-        // align-items: start;
-        // justify-content: end;
-        // transition: 1s;
+        a{
+            position: absolute;
+            display: inline;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
         p{
             position: absolute;
             bottom: 0;
             left: 10px;
-            color: v.$white;
-            padding: 3px;
-            background: linear-gradient(45deg, transparent, v.$black);
-            // background-color: v.$black;
-            font-size: 2rem;
-            font-weight: bold;
+            @include m.titulo-post;
         }
         img{
             transition: all 1s ease;
@@ -48,9 +43,8 @@
             cursor: pointer;
         }
     }
-    .children{
+    .destacada1{
         grid-row: 1/-1;
-        // @include m.bg-image("children.jpg");
         @include m.tablet{
             grid-column: 1/-1;
             grid-row: 1/3;
@@ -59,8 +53,7 @@
             grid-column: 1/5;
         }
     }
-    .dia__mujer{
-        // @include m.bg-image("dia-mujer.jpg");
+    .destacada2{
         @include m.tablet{
             grid-row: -2/-1;
             grid-column: 1/3;
@@ -75,7 +68,6 @@
             top: 0;
             right: 0;
             height: 100%;
-            // width: 45%;
             width: 30%;
             text-align: center;
             clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%);
@@ -109,8 +101,7 @@
             }
         }
     }
-    .dia__sanvalentin{
-        // @include m.bg-image("heart.jpg");
+    .destacada3{
         @include m.tablet{
             grid-column: 3/-1;
         }
@@ -118,9 +109,6 @@
             grid-column: 5/-1;
         }
     }
-    // display: flex;
-    // width: 50%;
-
     figure, img{
         margin: 0;
         width: 100%;

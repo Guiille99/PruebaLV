@@ -80,9 +80,14 @@ class AdminController extends Controller
     }
 
     private function getLibrosVendidosUltMes(){
-        $librosUltMes = Libro::select(DB::raw('COUNT(id) as libros'))->where(DB::raw('MONTH(created_at)'), '=', Carbon::now()->subMonth()->month)->first();
-        $librosUltMes = ($librosUltMes->libros==null) ? 0 : $librosUltMes->libros;
-        return $librosUltMes;
+        $pedidosUltMes = Pedido::where(DB::raw('MONTH(created_at)'), '=', 5)->get();
+        $librosVendidosUltMes = 0;
+        foreach ($pedidosUltMes as $pedido) {
+            foreach ($pedido->libros as $libro) {
+                $librosVendidosUltMes += $libro->pivot->cantidad;
+            }
+        } 
+        return $librosVendidosUltMes;
     }
     private function getUsuariosRegistrados(){
         // $usuariosUltMes = User::select(DB::raw('COUNT(id) as usuarios'))->where(DB::raw('MONTH(created_at)'), '=', Carbon::now()->subMonth()->month)->first();

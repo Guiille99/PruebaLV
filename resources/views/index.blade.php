@@ -55,7 +55,6 @@
                             <h4 class="libro__titulo" title="{{$libro->titulo}}">{{$libro->titulo}}</h4>
                             <p class="libro__autor">{{$libro->autor}}</p>
                             <p class="libro__precio">{{$libro->precio}}€</p>
-                            {{-- <button class="boton">Comprar</button> --}}
                             @if ($libro->stock>0)
                             <form action="{{--{{route('add_to_cart', $libro)}}--}}" method="get" class="form-add-to-cart">
                                 @csrf
@@ -93,7 +92,6 @@
                             <h4 class="libro__titulo" title="{{$libro->titulo}}">{{$libro->titulo}}</h4>
                             <p class="libro__autor">{{$libro->autor}}</p>
                             <p class="libro__precio">{{$libro->precio}}€</p>
-                            {{-- <button>Comprar</button> --}}
                             @if ($libro->stock>0)
                             <form action="" method="get" class="form-add-to-cart">
                                 @csrf
@@ -120,9 +118,16 @@
             <div class="col suscribe__container" style="background-image: url({{asset('uploads/seccion-suscribe.jpg')}});">
                 <div class="suscribe__info">
                     <h2 class="suscribe__title">Suscríbete para conocer nuestras últimas noticas</h2>
-                    <form action="{{ route('enviar-correo') }}" method="POST">
+                    <form action="{{ route('suscribe.newstler') }}" method="POST">
                         @csrf
-                        <input type="email" name="mail" id="mail" class="form-control" placeholder="Introduce tu email">
+                        <input type="email" name="email" id="mail" class="form-control" placeholder="Introduce tu email">
+                        @error('email')
+                        <div id="alert-error" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                            <i class="bi bi-exclamation-circle"></i> 
+                            {{$message}} 
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        @enderror
                         <input type="submit" value="Suscribirse">
                     </form>
                 </div>
@@ -134,9 +139,6 @@
             <div class="col-10 col-md-9 ventajas__container">
                 <div class="ventaja">
                     <i class="bi bi-bag-check"></i>
-                    {{-- <figure>
-                        <img src="uploads/bag-check.svg" alt="Compra segura" class="img-fluid">
-                    </figure> --}}
                     <p>Compra segura</p>
                 </div>
 
@@ -159,56 +161,6 @@
     </div>
 @endsection
 @section('script')
-{{-- <script>
-    $(document).ready(function(){
-   
-        $(".form-add-to-cart").submit(function(e){
-            e.preventDefault();
-            let url = "{{route('add_to_cart')}}";
-            let id = $(this)[0][1].attributes['data-id'].value; //ID del libro
-            let token = $("input[name='_token']").val();
-  
-            $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            });
-            $.ajax({
-                async: true, //Indica si la comunicación será asincrónica (true)
-                method: "POST", //Indica el método que se envían los datos (GET o POST)
-                dataType: "html", //Indica el tipo de datos que se va a recuperar
-                contentType: "application/x-www-form-urlencoded", //cómo se
-                url: url, //el nombre de la página que procesará la petición
-                data: {
-                    "token": token,
-                    "id": id
-                },
-                success: function(){
-                    $(".carrito__cantidad").load("{{route('cantidadCarrito')}}"); //Actualizamos solo el número del carrito
-                    // location.reload();
-                    $('#add-to-cart__message').css("display", "block");
-                    //Obtenemos de nuevo el contenido del carrito a través de AJAX para que se actualice el offcanvas sin recargar la página
-                    $.ajax({
-                        type: "GET",
-                        url: "{{route('offcanvas-cart-content')}}",
-                        data:{
-                            "token": token
-                        },
-                        success: function(data){
-                            $(".offcanvas-content").html(data);
-                        }
-                    })
-                    
-                    setTimeout(function(){ //Degradado al desaparecer la alerta
-                         $("#add-to-cart__message").fadeOut(2000);
-                    }, 3000)
-  
-                }
-                });
-             return false;
-        });
-    })
-  </script> --}}
   <script>
         //Definición de rutas
         let url = "{{route('add_to_cart')}}";

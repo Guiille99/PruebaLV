@@ -119,6 +119,40 @@
         }
 }
 
+//Estilo de título subrayado
+@mixin outline-title($color){
+    font-size: 1.3rem;
+    font-weight: bolder;
+    border-bottom: 1px solid $color;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    @include tablet{
+        flex-direction: row;
+    }
+    p{
+        margin-bottom: 5px;
+    }
+}
+
+//Estilo de los títulos de los post
+@mixin titulo-post{
+    color: v.$white;
+    padding: 3px;
+    background: linear-gradient(45deg, transparent, v.$black);
+    font-size: 1rem;
+    font-weight: bold;
+    @include tablet{
+        font-size: 2rem;
+    }
+}
+@mixin efectoImgPost{
+    transform: scale(1.2);
+    filter: brightness(0.5);
+    cursor: pointer;
+}
+
 //Media-query
 // Media queries
 @mixin mobile{

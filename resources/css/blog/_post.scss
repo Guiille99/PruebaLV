@@ -1,0 +1,170 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.post__container{
+    .portada__container{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .portada{
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            height: 396px;
+            padding: 20px;
+            display: flex;
+            .titulo{
+                color: v.$white;
+                align-self: end;
+                @include m.titulo-post;
+            }
+        }
+    
+        .portada__details{
+            display: flex;
+            gap: 40px;
+            font-size: .9rem;
+        }
+    }
+
+    .post-categoria__container{
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        @include m.desktop{
+            flex-direction: row;
+            justify-content: space-between;
+            gap: unset;
+        }
+        .post{
+            @include m.desktop{
+                width: 60%;
+            }
+            .post__content{
+                &-titulo{
+                    position: relative;
+                    font-weight: bolder;
+                    .microfono-icon{
+                        position: absolute;
+                        right: 0;
+                        bottom: 8px;
+                        background-color: v.$white-dark-mode;
+                        font-size: 1.2rem;
+                        padding: 5px;
+                        border-radius: 50%;
+
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            .comentarios__container{
+                margin-top: 20px;
+                .title{
+                    border-bottom: 1px solid v.$black;
+                    p{
+                        margin-bottom: 5px;
+                        font-size: 1.5rem;
+                    }
+                }
+                .comentarios{
+                    padding: 10px 0px;
+                    .comentario{
+                        display: flex;
+                        gap: 10px;
+                        padding: 10px;
+                        border-bottom: 1px solid v.$black;
+                        font-size: .8rem;
+                        figure{
+                            min-height: 35px;
+                            min-width: 35px;
+                            max-height: 35px;
+                            max-width: 35px;
+                        }
+                        .user__info{
+                            &-username-date{
+                                display: flex;
+                                gap: 20px;
+                                align-items: center;
+    
+                                .date{
+                                    font-weight: bolder;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .nuevo-comentario{
+                    .title{
+                        font-size: 1.2rem;
+                    }
+                    .perfil-text{
+                        margin-top: 10px;
+                        display: flex;
+                        gap: 10px;
+
+                        figure{
+                            max-width: 35px;
+                            max-height: 35px;
+                        }
+
+                        textarea{
+                            height: 120px;
+                        }
+
+                        form{
+                            input[type="submit"]{
+                                width: 100%;
+                                @include m.tablet{
+                                    width: auto;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .categoria__container{
+            background-color: adjust-color($color: v.$bg-dark-green, $alpha: .7);
+            padding: 8px;
+            min-width: 240px;
+            @include m.tablet{
+                max-height: 410px;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            @include m.desktop{
+                width: 19%;
+                margin: unset;
+            }
+            .titulo{
+                text-align: center;
+                color: v.$white;
+            }
+
+            ul{
+                list-style: none;
+                padding: 0;
+                li{
+                    display: flex;
+                    gap: 5px;
+                    figure{
+                        max-width: 131px;
+                        height: 88px;
+                    }
+                    .titulo-post{
+                        font-size: .7rem;
+                        color: v.$white;
+                        height: min-content;
+                        position: relative;
+                        @include m.efectoNavLinks(v.$white, 0.5px, 0px, 1s);
+                        
+                    }
+                }
+            }
+        }
+    }
+}

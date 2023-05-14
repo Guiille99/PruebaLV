@@ -1,95 +1,79 @@
 @extends('layouts.plantilla-admin')
-@section('title', 'Books | Admin')
+@section('title', 'Books | Admin - Pedidos')
 @section('content')
-    {{-- DATOS --}}
-    <div id="registros__container" class="col col-lg-12 py-3">
-        <div class="registros row">
-            <div class="col">
-                <div class="header__container mb-2">
-                    <h3 class="title text-center">Lista de Usuarios</h3>
-                    <a href="{{route('user.create')}}" class="btn-add"> <i class="bi bi-plus"></i> Nuevo usuario</a>
-                </div>
-                <div>
-                    <table id="users" class="table text-center table-striped table-hover w-100">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Apellidos</th>
-                                <th>Usuario</th>
-                                <th>Email</th>
-                                <th>Rol</th>
-                                <th>Fecha creación</th>
-                                <th>Última modificación</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- @foreach ($users as $user)
-                                @include('admin.delete')  
-                                Añado el modal de confirmación para el borrado de registros
-                            @endforeach                   --}}
-
-                            <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modalEliminacionRegistro" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <form action="" method="post">
-                                        @csrf
-                                        @method('delete')
-                                    
-                                        <div class="modal-content">
-                                            <div class="modal-header d-flex gap-2">
-                                            <i class="bi bi-exclamation-circle"></i>
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminación de registro</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ¿Está seguro de que quiere eliminar el usuario <strong></strong>?
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            
-                                            <button type="submit" class="btn btn-danger text-white">Confirmar</button>
-                                            </div>
-                                        </div>  
-                                    </form>
-                                </div>
-                            </div>
-                        </tbody>
-                    </table>
-
-                </div>
-
-                {{-- <div class="w-100">
-                    {{$users->links()}}
-                </div> --}}
-            </div>
-        </div>
+<div id="registros__container" class="mt-5">
+    <div class="header__container justify-content-start mb-2">
+        <h3 class="title">Últimos pedidos</h3>
     </div>
+    <div class="registros">
+        <table id="last-orders" class="table text-center table-striped table-hover w-100">
+            <thead>
+                <th>Nº pedido</th>
+                <th>Usuario</th> 
+                <th>Total</th> 
+                <th>Estado</th> 
+                <th>Tipo de pago</th> 
+                <th>Dirección</th> 
+                <th>Fecha de compra</th>
+                <th>Acciones</th> 
+            </thead>
+
+            <tbody>
+                <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form id="modal-delete-form" action="" method="post">
+                            @csrf
+                            @method('delete')
+                        
+                            <div class="modal-content">
+                                <div class="modal-header d-flex gap-2">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel"> Eliminación de pedido</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Está seguro de que quiere eliminar el pedido? Esta acción no podrá deshacerse.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger text-white">Confirmar</button>
+                                </div>
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+            </tbody>
+        </table>
+    </div>
+</div>
 @endsection
 @section('script')
 <script>
     $(document).ready(function () {
         $.fn.dataTable.ext.errMode = 'throw';
-        $('#users').DataTable({
+        $('#last-orders').DataTable({
             processing:true,
             serverSide: true,
             responsive: true,
-            ajax: "{{route('admin.users')}}",
+            ajax: "{{route('show.last-orders')}}",
+            order: [[0, "desc"]],
             columns:[
                 {data: 'id'},
-                {data: 'nombre'},
-                {data: 'apellidos'},
-                {data: 'username'},
-                {data: 'email'},
-                {data: 'rol'},
+                {data: 'user_id'},
+                {data: 'total'},
+                {data: 'estado'},
+                {data: 'tipo_pago'},
+                {data: 'direccion_id'},
                 {data: 'created_at'},
-                {data: 'updated_at'},
                 {data: 'action'},
             ],
             lengthMenu: [5, 10, 15],
             columnDefs: [
-                {orderable: false, target:[8]},
-                {targets: [6, 7], render: function(data, type, row){
+                {orderable: false, target:[7]},
+                {targets: [2], render: function(data, type, row){
+                        return data + " €";
+                }},
+                {targets: [6], render: function(data, type, row){
                         return moment.utc(data).local().format('DD/MM/YYYY HH:mm:ss');
                 }},
             ],
@@ -221,11 +205,11 @@
                 },
                 "editor": {
                     "close": "Cerrar",
-                    "create": {
-                        "button": "Nuevo",
-                        "title": "Crear Nuevo Registro",
-                        "submit": "Crear"
-                    },
+                    // "create": {
+                    //     "button": "Nuevo",
+                    //     "title": "Crear Nuevo Registro",
+                    //     "submit": "Crear"
+                    // },
                     "error": {
                         "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Más información&lt;\\\/a&gt;).<\/a>"
                     }
@@ -240,13 +224,11 @@
 
     function openDeleteModal() {
         let id = $(this).attr("data-id");
-        let username = $(this).attr("data-username");
         let token = $("input[name='_token']").val();
-        let url = "{{route('user.destroy', 'num')}}";
+        let url = "{{route('order.destroy', 'num')}}";
         url=url.replace('num', id);
 
-        $(".modal-dialog form").attr("action", url); //Actualizo la url para eliminar el usuario
-        $(".modal-body").html("¿Está seguro de que quiere eliminar el usuario <strong>"+username+"</strong>?")       
+        $("#modal-delete-form").attr("action", url); //Actualizo la url para eliminar el pedido    
     }
 </script>
 @endsection

@@ -6,7 +6,6 @@
     .resenas{
         padding: v.$separation 0;
         color: v.$white;
-        
         h1{
             text-align: center;
             @include m.title-border(v.$white);
@@ -15,11 +14,9 @@
         }
     
         &__grid{
-            // width: 95%;
             margin: 0 auto;
             margin-top: v.$separation;
             @include m.grid(1, 10px);
-            // justify-content: center;
             @include m.tablet{
                 @include m.grid(2, 10px);
             }
@@ -29,15 +26,24 @@
         }
     
         .resena{
+            position: relative;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-
+            a{
+                position: absolute;
+                display: inline;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }
             figure{
                 overflow: hidden;
+                flex-grow: 1;
             }
             img{
                 transition: transform 1s;
+                height: 100%;
             }
             &:hover{
                 cursor: pointer;
@@ -66,5 +72,4 @@
             }
         }
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Estado;
 use App\Models\Pedido;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,6 +16,28 @@ class PedidoController extends Controller
         $user = User::find(Auth::user()->id);
         $pedidos = $user->pedidos()->orderby('created_at', 'desc')->paginate(5);
         return view('pedidos.mis-pedidos', compact('generos', 'user', 'pedidos'));
+    }
+
+    public function showAllOrders(){
+        return view("admin.orders");
+    }
+
+    public function edit(Pedido $pedido){
+        $estados = Estado::all();
+        return view("pedidos.edit", compact('pedido', 'estados'));
+    }
+
+    public function update(Request $request, Pedido $pedido){
+        DB::beginTransaction();
+        try {
+            $pedido->estado = $request->estado;
+            $pedido->save();
+            DB::commit();
+            return redirect()->route('admin.index')->with("message", "Estado actualizado correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
     }
 
     public function getUltimosPedidos(Request $request){
@@ -33,7 +56,7 @@ class PedidoController extends Controller
                     <i class='bi bi-trash3'></i> 
                 </button>
 
-                <a href='' class='d-flex gap-2 btn-modify text-white' title='Editar pedido'>
+                <a href='". route('edit.order', $pedido) ."' class='d-flex gap-2 btn-modify text-white' title='Editar pedido'>
                     <i class='bi bi-pencil-square'></i></a>
             </div>";
             return $btn;
@@ -60,6 +83,18 @@ class PedidoController extends Controller
             DB::commit();
             return redirect()->back()->with("message", "El pedido ha sido cancelado correctamente");
         } catch (\Throwable $e) {
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
+    }
+
+    public function destroy(Pedido $pedido){
+        DB::beginTransaction();
+        try {
+            $pedido->delete();
+            DB::commit();
+            return redirect()->route('admin.index')->with("message", "El pedido ha sido eliminado correctamente");
+        } catch (\Throwable $th) {
+            DB::rollBack();
             return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
     }

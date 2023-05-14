@@ -22,9 +22,6 @@ $(document).ready(function(){
     //Cambio el contenido del modal dependiendo del método de pago seleccionado
     $(".metodos-pago input[type='radio']").click(modalMetodoPago);
 
-    // $("#cc-number").keyup(formatCardNumber);
-    // $("#cc-expiry").keyup(formatCardExpiry);
-
     //Alerta cuando actualiza el perfil en la página principal
     setTimeout(function(){
         $("#alert-index").fadeOut(2000);
@@ -54,17 +51,8 @@ $(document).ready(function(){
         $('.nav-top').attr('class', 'nav-top container-fluid position-fixed top-0 w-100 z-3');
     }
 
-    // $("#form-detalles-pago").submit(function(){
-    //     alert("Hola")
-    // })
-    // $("#confirm-order").click(function(){
-    //     // alert("Entro")
-    //     if ($("#form-detalles-pago").valid) {
-    //         alert("Formulario válido")
-    //     } else {
-    //         alert("Formulario NO válido")
-    //     }
-    // })
+    //Cuando escribe una letra para el título del post
+    $("#form-new-post #titulo").keyup(getSlug);
 })
 
 
@@ -74,15 +62,12 @@ function goToUp() {
 
 function ellipsis_box(elemento, max_chars){
 	let titulos = $(elemento);
-	// let titulos = document.getElementsByClassName(elemento);
     for (let i = 0; i < titulos.length; i++) {
         if (titulos[i].innerHTML.length > max_chars) {
             let limite = titulos[i].innerHTML.substr(0, max_chars)+"...";
             titulos[i].innerHTML= limite;
-        }
-        
+        }   
     }
-
 }
 
 // OJO DE LOS CAMPOS PASSWORD
@@ -191,4 +176,33 @@ function modalMetodoPago() {
     }
     $("#cc-number").keyup(formatCardNumber);
     $("#cc-expiry").keypress(formatCardExpiry);
+}
+
+//FUNCIÓN QUE CARGA EL SLUG EN EL INPUT
+function getSlug() {
+    let titulo = $(this).val();
+    let slug = generateSlug(titulo);
+    $("#slug").val(slug);
+}
+
+//FUNCIÓN QUE GENERA EL SLUG
+function generateSlug(titulo) {
+    titulo = titulo.toLowerCase()
+            .trim()
+            .split(" ").join("-") //Reemplaza los espacios en blanco entre las palabras por guiones
+            .replace(/[áéíóú]/gi, match => { //Elimina las tildes de las vocales
+                switch (match) {
+                    case 'á': return 'a';
+                    case 'é': return 'e';
+                    case 'í': return 'i';
+                    case 'ó': return 'o';
+                    case 'ú': return 'u';
+                }
+            })
+            //Elimina todos los caracteres que no son letras, números, espacios en blanco o guiones y las ñ las reemplaza por n
+            .replace(/[^\w\s-]/g, function(char){ 
+                char = char.toLowerCase();
+                return (char=='ñ') ? 'n' : '';
+            })
+    return titulo;
 }

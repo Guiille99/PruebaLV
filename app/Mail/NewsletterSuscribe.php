@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EnviarCorreo extends Mailable
+class NewsletterSuscribe extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,7 +31,7 @@ class EnviarCorreo extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Enviar Correo',
+            subject: 'Suscripción a nuestro Newsletter',
         );
     }
 
@@ -43,7 +43,7 @@ class EnviarCorreo extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mails.enviar-correo',
+            view: 'mails.newsletter-suscribe',
         );
     }
 

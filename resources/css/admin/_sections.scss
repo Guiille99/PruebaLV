@@ -1,0 +1,14 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.register__section{
+    .title{
+        @include m.outline-title(v.$black);
+        .message_info{
+            font-size: .6rem;
+            @include m.tablet{
+                font-size: .8rem;
+            }
+        }
+    }
+}

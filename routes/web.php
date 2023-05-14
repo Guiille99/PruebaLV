@@ -7,8 +7,11 @@ use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
@@ -59,11 +62,6 @@ Route::put('admin/libros/{libro}/edit', [LibroController::class, "update"])->mid
 Route::get('admin/libros/create', [LibroController::class, "create"])->middleware('checkadmin')->name('libro.create');
 Route::post('admin/libros', [LibroController::class, "store"])->middleware('checkadmin')->name("libro.store");
 
-Route::get('blog', function(){
-    $generos = LibroController::getGeneros();
-    return view('blog', compact('generos'));
-})->name('blog');
-
 Route::get('/login', [LoginController::class, "index"])->name("login");
 Route::post('/login', [LoginController::class, "store"])->name("login.store");
 Route::put('/logout', [LoginController::class, "logout"])->name("login.logout");
@@ -109,8 +107,12 @@ Route::controller(DireccionController::class)->group(function(){
 Route::controller(PedidoController::class)->group(function(){
     Route::get("mis-pedidos", 'showPedidos')->middleware('auth')->name('show.orders');
     Route::get("ultimos-pedidos", 'getUltimosPedidos')->middleware('auth')->middleware('checkadmin')->name('show.last-orders');
+    Route::get("/admin/pedidos", "showAllOrders")->middleware("checkadmin")->name("showAll.orders");
+    Route::get("/admin/pedido/{pedido}", "edit")->middleware('checkadmin')->name("edit.order");
     Route::get("pedidos-cancelados", "showPedidosCancelados")->middleware('auth')->name('show.cancelOrders');
     Route::put("cancelar-pedido/{idPedido}", "cancelaPedido")->middleware('auth')->name('order.cancel');
+    Route::put("/admin/actualizarEstado/{pedido}", "update")->middleware('checkadmin')->name("update.order");
+    Route::delete("/admin/delete-order/{pedido}", "destroy")->middleware("checkadmin")->name("order.destroy");
 });
 
 //RUTAS PARA MANEJO DE LA WISHLIST
@@ -120,10 +122,24 @@ Route::controller(WishlistController::class)->group(function(){
     Route::get('wishlist', 'show')->middleware('auth')->name('show.wishlist');
 });
 
-Route::post('enviar-correo', function() 
-{
-    Mail::to(request()->mail)->send(new EnviarCorreo);
-    // return "Correo enviado exitosamente";
-    $generos = LibroController::getGeneros();
-    return view('mails.confirmacion-correo', compact('generos'));
-})->name('enviar-correo');
+//RUTAS PARA MANEJO DE LOS POSTS
+Route::controller(PostController::class)->group(function(){
+    Route::get('blog', 'showBlog')->name("blog");
+    Route::get('blog/{slug}', 'showPost')->name("show.post");
+    Route::get('admin/posts', 'showAllPosts')->middleware("checkadmin")->name("admin.posts");
+    Route::get('admin/posts/{post}', 'edit')->middleware("checkadmin")->name("edit.post");
+    Route::get('admin/ultimos-posts', 'getPosts')->middleware("checkadmin")->name("showAll.posts");
+    Route::get('admin/post/create', 'create')->middleware('checkadmin')->name("post.create");
+    Route::post('blog/{post}/add-comment', 'addComment')->middleware('auth')->name("add.comment");
+    Route::post('admin/posts/add-post', 'store')->middleware('checkadmin')->name('store.post');
+    Route::delete('admin/delete-post/{post}', 'destroy')->middleware('checkadmin')->name('post.destroy');
+});
+
+//RUTAS PARA MANEJO DE EMAILS
+// Route::controller(MailController::class)->group(function(){
+//     Route::post('suscribe-newstler', 'sendEmailSuscribeNewstler')->name('suscribe.newstler');
+// });
+
+Route::controller(NewsletterController::class)->group(function(){
+    Route::post('suscribe-newstler', 'suscribeNewstler')->name('suscribe.newstler');
+});
