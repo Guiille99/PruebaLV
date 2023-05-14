@@ -31,7 +31,7 @@ class PostController extends Controller{
         try {
             $post = new Post();        
             $file = $request->portada; //Obtenemos los datos del archivo subido
-            $destinationPath = "uploads/posts/"; //Se define la ruta donde se guardará el archivo subido
+            $destinationPath = env('ASSET_URL') . "uploads/posts/"; //Se define la ruta donde se guardará el archivo subido
             $thumbnailPath = $destinationPath . "thumbnails/"; //Ruta de las miniaturas
             $filename = time() . "-" . $file->GetClientOriginalName() ;//concatenamos el nombre del archivo con el tiempo en ms para que no se repita ningún archivo
             $uploadSuccess = $request->file('portada')->move($destinationPath, $filename);//Movemos el archivo a la carpeta correspondiente
