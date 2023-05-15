@@ -107,5 +107,5 @@
 </div>
 @endsection
 @section('script')
-    @vite(["resources/js/posts.js"]);
+    @vite(["resources/js/posts.js"])
 @endsection

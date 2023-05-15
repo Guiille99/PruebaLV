@@ -8,7 +8,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Intervention\Image\Facades\Image;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class PostController extends Controller{
 
@@ -31,15 +31,27 @@ class PostController extends Controller{
         try {
             $post = new Post();        
             $file = $request->portada; //Obtenemos los datos del archivo subido
-            $destinationPath = "uploads/posts/"; //Se define la ruta donde se guardará el archivo subido
-            $thumbnailPath = $destinationPath . "thumbnails/"; //Ruta de las miniaturas
-            $filename = time() . "-" . $file->GetClientOriginalName() ;//concatenamos el nombre del archivo con el tiempo en ms para que no se repita ningún archivo
-            $uploadSuccess = $request->file('portada')->move($destinationPath, $filename);//Movemos el archivo a la carpeta correspondiente
-            $post->portada = $destinationPath . $filename;//Subimos el archivo a la base de datos
+            //Subo la imagen original y alceno el objeto
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); //Obtengo el nombre de la img sin la extensión
+            $originalPath = Cloudinary::upload($file->getRealPath(),[
+                "public_id" => time() . "-" . $filename,
+                "folder" => "books/posts"
+            ]);
+            // dd($originalPath->getPublicID());
+            $post->portada = $originalPath->getSecurePath(); //Obtenemos la url de la imagen subida
 
-            $this->resizeImage($destinationPath, $thumbnailPath, $filename, 640, 427);
-           
-            $post->thumbnail = $thumbnailPath . "thumbnail-" . $filename;
+            //Subo la imagen redimensionada y almaceno el objeto
+            $thumbnailPath = Cloudinary::upload($file->getRealPath(), [
+                "public_id" => time() . "-" . $filename,
+                "transformation" => [
+                    "width" => "640",
+                    "height" => "427",
+                ],
+                "folder" => "books/posts/thumbnails"
+            ]);
+
+            $post->thumbnail = $thumbnailPath->getSecurePath();
+
             $post->nombre = $request->titulo;
             $post->slug = $request->slug;
             $post->cuerpo = $request->cuerpo;
@@ -49,15 +61,8 @@ class PostController extends Controller{
             DB::commit();
             return redirect()->route('admin.posts')->with("message", "El post ha sido creado correctamente");
         } catch (\Throwable $e) {
-            return $e;
-            // return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
-    }
-
-    private function resizeImage($destinationPath, $thumbnailPath, $filename, $width, $height) {
-        $img = Image::make($destinationPath . $filename); 
-        $img->fit($width, $height);
-        $img->save($thumbnailPath . "thumbnail-" . $filename);
     }
 
     public function showBlog(){
@@ -130,8 +135,13 @@ class PostController extends Controller{
         // dd($post);
         DB::beginTransaction();
         try {
-            unlink($post->portada);
-            unlink($post->thumbnail);
+            $portadaPublicId = $this->getPublicID($post->portada, true);
+            $thumbnailPublicId = $this->getPublicID($post->thumbnail, false);
+            $publicsID = [$portadaPublicId, $thumbnailPublicId];
+
+            foreach ($publicsID as $publicID) {
+                Cloudinary::destroy($publicID); //Eliminamos las imágenes de Cloudinary
+            }
             $post->delete();
             DB::commit();
             return redirect()->back()->with("message", "El post ha sido eliminado correctamente");
@@ -139,5 +149,13 @@ class PostController extends Controller{
             DB::rollBack();
             return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
+    }
+
+    private function getPublicID($url, $isPortada){ //Función que genera el public id de la imagen
+        $parts = explode("/", $url);
+        $filename = explode(".", array_pop($parts))[0];
+        $parentPath = ($isPortada) ? "books/posts/" : "books/posts/thumbnails/";
+        $publicID = urldecode($parentPath . $filename);
+        return $publicID;
     }
 }

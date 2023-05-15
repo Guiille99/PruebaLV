@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Libro;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -73,8 +74,11 @@ class LibroController extends Controller
     }
 
     public function destroy(Libro $libro){ 
-        unlink($libro->portada);//Borra la anterior foto registrada
-        $libro->delete(); //Elimina el libro
+        // unlink($libro->portada);//Borra la anterior foto registrada
+        $publicID = $this->getPublicID($libro->portada);
+        Cloudinary::destroy($publicID);
+        dd($publicID);
+        // $libro->delete(); //Elimina el libro
         return redirect()->route('libros.index')->with("message", "Libro eliminado correctamente");
     }
 
@@ -185,6 +189,14 @@ class LibroController extends Controller
     public function show(Libro $libro){
         $generos = Libro::select('genero')->distinct()->get();
         return view("libros.show", compact('libro', 'generos'));
+    }
+
+    private function getPublicID($url){ //Función que genera el public id de la imagen
+        $parts = explode("/", $url);
+        $filename = explode(".", array_pop($parts))[0];
+        $parentPath = "books/libros/";
+        $publicID = urldecode($parentPath . $filename);
+        return $publicID;
     }
 
 }
