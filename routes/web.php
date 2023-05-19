@@ -15,6 +15,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Livewire\CarritoComponent;
 use App\Mail\ContactanosMailable;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
@@ -81,8 +82,12 @@ Route::controller(PasswordResetController::class)->group(function(){
 });
 
 // RUTAS DE MANEJO DEL CARRITO
+// Route::controller(CarritoComponent::class)->group(function(){
+//     Route::post('add-to-cart/{libro}', 'addCarrito')->middleware('auth')->name('add_to_cart');
+
+// });
+
 Route::controller(CarritoController::class)->group(function(){
-    Route::post('add-to-cart', 'addCarrito')->middleware('auth')->name('add_to_cart');
     Route::get('cantidadCarrito', 'showCantidad')->middleware('auth')->name('cantidadCarrito');
     Route::get('offcanvas-cart-content', 'getContent')->middleware('auth')->name('offcanvas-cart-content');
     Route::put('update-cart', 'updateCart')->middleware('auth')->name('carrito.update');

@@ -39,7 +39,7 @@
             transform: scale(1.05);
         }
 
-        form{
+        .btn__container{
             position: absolute;
             bottom: 0;
             width: 90%;
@@ -59,7 +59,7 @@
                 background-color: color.scale(v.$green, $lightness: 60%);
             }
         }
-        &:hover form{
+        &:hover .btn__container{
             transform: translateY(0%);
             margin-bottom: 20px;
         }

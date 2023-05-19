@@ -1,6 +1,7 @@
 @extends('layouts.plantilla')
 @section("title", "Books | Inicio")
 @section('content')
+{{-- @livewire('cart-quantity') --}}
     {{-- @if (session('message'))
         <div id="alert-index" class="alert alert-success"><i class="bi bi-check-circle"></i> {{session('message')}}</div>
     @endif --}}
@@ -56,14 +57,10 @@
                             <p class="libro__autor">{{$libro->autor}}</p>
                             <p class="libro__precio">{{$libro->precio}}€</p>
                             @if ($libro->stock>0)
-                            <form action="{{--{{route('add_to_cart', $libro)}}--}}" method="get" class="form-add-to-cart">
-                                @csrf
-                                @if (Auth::check()) {{-- Si hay una sesión iniciada --}}
-                                    <input type="submit" value="Comprar" class="boton" data-id="{{$libro->id}}">
-                                 @else
-                                    <input type="submit" value="Comprar" class="boton" disabled>
-                                @endif
-                            </form>
+                            {{-- <form action="{{route('add_to_cart', $libro)}}" method="POST" class="form-add-to-cart"> --}}
+                                {{-- @csrf --}}
+                                @livewire('carrito-component', ['libro' => $libro])
+                            {{-- </form> --}}
                             @else
                             <span class="btn-delete">Fuera de Stock</span>
                             @endif
@@ -93,14 +90,7 @@
                             <p class="libro__autor">{{$libro->autor}}</p>
                             <p class="libro__precio">{{$libro->precio}}€</p>
                             @if ($libro->stock>0)
-                            <form action="" method="get" class="form-add-to-cart">
-                                @csrf
-                                @if (Auth::check()) {{-- Si hay una sesión iniciada --}}
-                                    <input type="submit" value="Comprar" class="boton" data-id="{{$libro->id}}">
-                                 @else
-                                    <input type="submit" value="Comprar" class="boton" disabled>
-                                @endif
-                            </form>
+                            @livewire('carrito-component', ['libro' => $libro])
                             @else
                             <span class="btn-delete">Fuera de Stock</span>
                             @endif
@@ -161,12 +151,12 @@
     </div>
 @endsection
 @section('script')
-  <script>
+  {{-- <script>
         //Definición de rutas
         let url = "{{route('add_to_cart')}}";
         let urlCartContent = "{{route('offcanvas-cart-content')}}";
         let urlCantidadCarrito = "{{route('cantidadCarrito')}}";
-  </script>
+  </script> --}}
       @vite(['resources/js/cart.js'])
   {{-- <script src="{{asset('build/assets/cart.js')}}"></script> --}}
 @endsection

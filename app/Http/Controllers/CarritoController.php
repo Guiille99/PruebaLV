@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CarritoLibro;
 use App\Models\Libro;
 use App\Models\Pedido;
 use App\Models\Provincia;
@@ -74,26 +75,40 @@ class CarritoController extends Controller
     }
 
     public static function deleteToCart(Request $request, $IDlibro){ //Eliminar un libro del carrito
-        $carrito = session()->get('carrito');
-        $carritoData = session()->get('carrito-data');
-        unset($carrito[$IDlibro]); //Eliminamos el libro del carrito
-        session()->put('carrito', $carrito); //Actualizamos el carrito
-        $carritoData["total"] = CarritoController::getTotal();
-        $carritoData["cantidad"] = CarritoController::getCantidad();
-        session()->put("carrito-data", $carritoData);
-        Cookie::queue("cookie-cart-" . Auth::id(), serialize(session()->get('carrito')), 60*24*30);
-        Cookie::queue("cookie-cartData-" . Auth::id(), serialize(session()->get('carrito-data')), 60*24*30);
-
-        if ($carritoData["cantidad"]==0) { //Si se ha vaciado la cesta retornaremos la vista con un alert
-            if ($request->ajax()) { //Si es una petición AJAX
-                return response()->json(['message' => 'Has vaciado la cesta de la compra']);
+        $carrito = Auth::user()->carrito;
+        $item = CarritoLibro::where('carrito_id', $carrito->id)->where('libro_id', $IDlibro);
+        DB::beginTransaction();
+        try {
+            $item->delete();
+            DB::commit();
+            if ($carrito->items->count() == 0) {
+                return redirect()->back()->with('message', 'Has vaciado la cesta de la compra');
             }
-            return redirect()->back()->with('message', 'Has vaciado la cesta de la compra');
+            return redirect()->back();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
-        if ($request->ajax()) {
-            return response()->json(['message'=>'Has vaciado la cesta de la compra']);
-        }
-        return redirect()->back();
+        // $carrito = session()->get('carrito');
+        // $carritoData = session()->get('carrito-data');
+        // unset($carrito[$IDlibro]); //Eliminamos el libro del carrito
+        // session()->put('carrito', $carrito); //Actualizamos el carrito
+        // $carritoData["total"] = CarritoController::getTotal();
+        // $carritoData["cantidad"] = CarritoController::getCantidad();
+        // session()->put("carrito-data", $carritoData);
+        // Cookie::queue("cookie-cart-" . Auth::id(), serialize(session()->get('carrito')), 60*24*30);
+        // Cookie::queue("cookie-cartData-" . Auth::id(), serialize(session()->get('carrito-data')), 60*24*30);
+
+        // if ($carritoData["cantidad"]==0) { //Si se ha vaciado la cesta retornaremos la vista con un alert
+        //     if ($request->ajax()) { //Si es una petición AJAX
+        //         return response()->json(['message' => 'Has vaciado la cesta de la compra']);
+        //     }
+        //     return redirect()->back()->with('message', 'Has vaciado la cesta de la compra');
+        // }
+        // if ($request->ajax()) {
+        //     return response()->json(['message'=>'Has vaciado la cesta de la compra']);
+        // }
+        // return redirect()->back();
     }
 
     public function showCart(){

@@ -31,6 +31,10 @@ class User extends Authenticatable
         return $this->hasMany(Comentario::class);
     }
 
+    public function carrito(){
+        return $this->hasOne(Carrito::class);
+    }
+
     public function getDireccionPrincipal(){
         $user = User::find(Auth::user()->id);
         return $user->direcciones()->wherePivot('principal', '1')->first();

@@ -107,11 +107,12 @@
             <div class="carrito__container">
               <a href="" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasRight">
                 <img src="{{asset('uploads/cart.svg')}}" alt="Carrito" class="img-fluid">
-                @if (session()->get('carrito'))
+                {{-- @if (session()->get('carrito'))
                 <span class="carrito__cantidad">{{session('carrito-data')["cantidad"]}}</span>
                 @else
                 <span class="carrito__cantidad">{{count((array) session('carrito'))}}</span>
-                @endif
+                @endif --}}
+                @livewire('cart-quantity')
               </a>
             </div>
             @livewire('wishlist-component-icon')
@@ -136,11 +137,12 @@
             <div class="carrito__container d-block d-lg-none">
               <a href="" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasRight">
                 <img src="{{asset('uploads/cart.svg')}}" alt="Carrito" class="img-fluid">
-                @if (session()->get('carrito'))
+                {{-- @if (session()->get('carrito'))
                 <span class="carrito__cantidad">{{session('carrito-data')["cantidad"]}}</span>
                 @else
                 <span class="carrito__cantidad">{{count((array) session('carrito'))}}</span>
-                @endif
+                @endif --}}
+                @livewire('cart-quantity')
               </a>
             </div>
             @livewire('wishlist-component-icon')
@@ -265,6 +267,8 @@
 
     </header>
 
+    {{-- @livewire('carrito-component') --}}
+
     {{-- Mensaje cuando añades un libro al carrito --}}
     <div id="add-to-cart__message">
       <p class="m-0">Has añadido el libro a tu cesta</p>
@@ -272,68 +276,7 @@
     </div>
 
     {{-- Offcanvas carrito --}}
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" aria-labelledby="offcanvasCart">
-      <div class="offcanvas-header">
-        <button type="button" class="bi bi-x" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        
-        <div class="m-auto d-flex justify-content-center align-items-center gap-3">
-          <i class="bi bi-bag">
-            @if (session()->get('carrito'))
-            <span class="carrito__cantidad">{{session('carrito-data')['cantidad']}}</span>
-            @else
-            <span class="carrito__cantidad">{{count((array) session('carrito'))}}</span>
-            @endif
-          </i>
-          <h5 class="offcanvas-title" id="offcanvasCart">Mi carrito</h5>
-        </div>
-      </div>
-      <div class="offcanvas-content d-flex flex-column flex-grow-1">
-        @if (session()->get('carrito'))
-        <div class="offcanvas-body">
-            @foreach (session()->get('carrito') as $id=>$libro)
-                <div class="cart-book">
-                  <figure>
-                    <img src="{{asset($libro['portada'])}}" alt="portada" class="img-fluid">
-                  </figure>
-  
-                  <div class="book-data">
-                    <p>{{$libro["titulo"]}}</p>
-                    <div class="book-data__body">
-                      <p>{{$libro["cantidad"]}} x <span class="fw-bold">{{$libro["precio"]}}€</span></p>
-                    </div>
-                    <div class="book-data__footer">
-                      <p class="total-unidad">{{$libro["precio"]*$libro["cantidad"]}}€</p>
-                      <form action="{{route('delete_to_cart', $id)}}" method="post">
-                        @csrf
-                        @method('delete')
-                        <button type="submit" class="bi bi-trash3 bg-transparent border-0"></button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                @endforeach
-          @else
-              <div class="offcanvas-body d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                  <i class="bi bi-emoji-frown"></i>
-                  <p>El carrito está vacío</p>
-                </div>
-          @endif
-        </div>
-        @if (session()->get('carrito'))
-        <div class="offcanvas-footer">
-          <p id="total">Total: <span class="precio">{{session()->get('carrito-data')["total"]}}€</span></p>
-          <a href="{{route('show-cart')}}" class="text-center text-decoration-none">Ver carrito</a>
-          <form action="{{route('vaciar-carrito')}}" method="post">
-            @csrf
-            @method('delete')
-            <input type="submit" class="w-100" value="Vaciar cesta">
-          </form>
-        </div>
-        @endif
-      </div>
-
-    </div>
+    @livewire('cart-sidebar')
     @if (session('message'))
         <div id="alert-index" class="alert alert-success"><i class="bi bi-check-circle"></i> {{session('message')}}</div>
     @endif
