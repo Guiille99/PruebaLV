@@ -30,10 +30,12 @@ class LoginController extends Controller
             if (Cookie::get('cookie-cart-'. Auth::id())) { //Si existen cookies del carrito almacenadas
                 session()->put('carrito', unserialize(Cookie::get('cookie-cart-'. Auth::id())));
                 session()->put('carrito-data', unserialize(Cookie::get('cookie-cartData-'. Auth::id())));
+                CarritoController::compruebaLibrosEliminados(session()->get('carrito'));
             }
 
             if (Cookie::get('cookie-wishlist-'. Auth::id())) { //Si existe la cookie de la lista de deseos
                 session()->put('wishlist', unserialize(Cookie::get('cookie-wishlist-'.Auth::id())));
+                WishlistController::compruebaEliminadosWishlist(session()->get('wishlist'));
             }
 
             if ($user->rol=="Administrador") { //Si el usuario es un admin lo redirigimos a la página de admins

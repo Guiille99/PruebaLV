@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Libro;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -74,12 +77,33 @@ class LibroController extends Controller
     }
 
     public function destroy(Libro $libro){ 
-        // unlink($libro->portada);//Borra la anterior foto registrada
-        $publicID = $this->getPublicID($libro->portada);
-        Cloudinary::destroy($publicID);
-        dd($publicID);
-        // $libro->delete(); //Elimina el libro
-        return redirect()->route('libros.index')->with("message", "Libro eliminado correctamente");
+        DB::beginTransaction();
+        try {
+            if (isset($carrito[$libro->id])) { //Si el libro está en el carrito
+                $carrito = session()->get('carrito');
+                $carritoData = session()->get('carrito-data');
+                unset($carrito[$libro->id]); //Eliminamos el libro del carrito
+                session()->put('carrito', $carrito); //Actualizamos el carrito
+                $carritoData["total"] = CarritoController::getTotal();
+                $carritoData["cantidad"] = CarritoController::getCantidad();
+                session()->put("carrito-data", $carritoData);
+                Cookie::queue("cookie-cart-" . Auth::id(), serialize(session()->get('carrito')), 60*24*30);
+                Cookie::queue("cookie-cartData-" . Auth::id(), serialize(session()->get('carrito-data')), 60*24*30);
+            }
+
+            $wishlist = session()->get('wishlist');
+            if (array_key_exists($libro->id, $wishlist)) { //Si el libro está en la wishlist
+                WishlistController::deleteToWishlist($libro);
+            }
+            $publicID = $this->getPublicID($libro->portada);
+            Cloudinary::destroy($publicID); //Elimina la imagen
+            $libro->delete(); //Elimina el libro
+            DB::commit();
+            return redirect()->route('libros.index')->with("message", "Libro eliminado correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
     }
 
     public function edit(Libro $libro){ 
@@ -96,7 +120,7 @@ class LibroController extends Controller
             "autor" => "required|min:2|max:100",
             "editorial" => "required|min:2|max:80",
             "isbn" => "required|min:14|max:17|unique:libros",
-            "portada" => "required",
+            "portada" => "required|image|mimes:jpeg,jpg,png|max:2048",
             "fecha_publicacion" => "required",
             "precio" => "required",
             "genero" => "required|min:2|max:40",
@@ -106,32 +130,37 @@ class LibroController extends Controller
             "stock" => "required",
         ]);
 
+        DB::beginTransaction();
 
-        $libro = new Libro();
-
-        if($request->hasFile('portada')){
-            $file = $request->file('portada');//Obtenemos los datos del archivo subido
-            $destinationPath = "uploads/libros/";//Se define la ruta donde se guardará el archivo subido
-            $filename = time() . "-" . $file->GetClientOriginalName() ;//concatenamos el nombre del archivo con el tiempo en ms para que no se repita ningún archivo
-            $uploadSuccess = $request->file('portada')->move($destinationPath, $filename);//Movemos el archivo a la carpeta correspondiente
-            $libro->portada = $destinationPath . $filename;//Subimos el archivo a la base de datos
+        try {
+            $libro = new Libro();
+    
+            if($request->hasFile('portada')){
+                $file = $request->file('portada');//Obtenemos los datos del archivo subido
+                $libro->portada = $this->uploadImage($file); //Subimos la imagen y almacenamos la url
+            }
+    
+            
+            $libro->titulo = $request->titulo;
+            $libro->autor = $request->autor;
+            $libro->editorial = $request->editorial;
+            $libro->isbn = $request->isbn;
+            $libro->fecha_publicacion = $request->fecha_publicacion;
+            $libro->precio = $request->precio;
+            $libro->genero = $request->genero;
+            $libro->descripcion = $request->descripcion;
+            $libro->valoracion = $request->valoracion;
+            $libro->paginas = $request->paginas;
+            $libro->stock = $request->stock;
+    
+            $libro->save();
+            DB::commit();
+            return redirect()->route('libros.index')->with("message", "Libro añadido correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
 
-        
-        $libro->titulo = $request->titulo;
-        $libro->autor = $request->autor;
-        $libro->editorial = $request->editorial;
-        $libro->isbn = $request->isbn;
-        $libro->fecha_publicacion = $request->fecha_publicacion;
-        $libro->precio = $request->precio;
-        $libro->genero = $request->genero;
-        $libro->descripcion = $request->descripcion;
-        $libro->valoracion = $request->valoracion;
-        $libro->paginas = $request->paginas;
-        $libro->stock = $request->stock;
-
-        $libro->save();
-        return redirect()->route('libros.index')->with("message", "Libro añadido correctamente");
     }
 
 
@@ -150,45 +179,72 @@ class LibroController extends Controller
             "stock" => "required",
         ]);
 
-        $isbns = Libro::all('isbn');
-
-        foreach ($isbns as $isbn) {
-            if ($isbn->isbn==$request->isbn && $isbn->isbn!=$libro->isbn) {
+        DB::beginTransaction();
+        try {
+            $isbns = Libro::select('isbn')->where('isbn', $request->isbn)->whereNot('isbn', $libro->isbn);
+    
+            if (count($isbns) != 0) {
                 return redirect()->route('libro.edit', $libro)->withErrors([
-                    "isbn" => "ISBN está en uso"
+                    "isbn" => "La ISBN ya está en uso"
                 ]);
             }
+            // $isbns = Libro::all('isbn');
+    
+            // foreach ($isbns as $isbn) {
+            //     if ($isbn->isbn==$request->isbn && $isbn->isbn!=$libro->isbn) {
+            //         return redirect()->route('libro.edit', $libro)->withErrors([
+            //             "isbn" => "ISBN está en uso"
+            //         ]);
+            //     }
+            // }
+    
+            if($request->hasFile('portada')){
+                $publicID = $this->getPublicID($libro->portada);
+                Cloudinary::destroy($publicID);
+                $libro->portada = $this->uploadImage($request->portada);
+                // unlink($libro->portada);//Borra la anterior foto registrada
+                // $file = $request->file('portada');//Obtenemos los datos del archivo subido
+                // $destinationPath = "uploads/libros/";//Se define la ruta donde se guardará el archivo subido
+                // $filename = time() . "-" . $file->GetClientOriginalName() ;//concatenamos el nombre del archivo con el tiempo en ms para que no se repita ningún archivo
+                // $uploadSuccess = $request->file('portada')->move($destinationPath, $filename);//Movemos el archivo a la carpeta correspondiente
+                // $libro->portada = $destinationPath . $filename;//Subimos el archivo a la base de datos
+            }
+                    
+            $libro->titulo = $request->titulo;
+            $libro->autor = $request->autor;
+            $libro->editorial = $request->editorial;
+            $libro->isbn = $request->isbn;
+            $libro->fecha_publicacion = $request->fecha_publicacion;
+            $libro->precio = $request->precio;
+            $libro->genero = $request->genero;
+            $libro->descripcion = $request->descripcion;
+            $libro->valoracion = $request->valoracion;
+            $libro->paginas = $request->paginas;
+            $libro->stock = $request->stock;
+    
+    
+            $libro->save();
+            DB::commit();
+            return redirect()->route('libros.index')->with("message", "Libro actualizado correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
 
-        if($request->hasFile('portada')){
-            unlink($libro->portada);//Borra la anterior foto registrada
-            $file = $request->file('portada');//Obtenemos los datos del archivo subido
-            $destinationPath = "uploads/libros/";//Se define la ruta donde se guardará el archivo subido
-            $filename = time() . "-" . $file->GetClientOriginalName() ;//concatenamos el nombre del archivo con el tiempo en ms para que no se repita ningún archivo
-            $uploadSuccess = $request->file('portada')->move($destinationPath, $filename);//Movemos el archivo a la carpeta correspondiente
-            $libro->portada = $destinationPath . $filename;//Subimos el archivo a la base de datos
-        }
-                
-        $libro->titulo = $request->titulo;
-        $libro->autor = $request->autor;
-        $libro->editorial = $request->editorial;
-        $libro->isbn = $request->isbn;
-        $libro->fecha_publicacion = $request->fecha_publicacion;
-        $libro->precio = $request->precio;
-        $libro->genero = $request->genero;
-        $libro->descripcion = $request->descripcion;
-        $libro->valoracion = $request->valoracion;
-        $libro->paginas = $request->paginas;
-        $libro->stock = $request->stock;
-
-
-        $libro->save();
-        return redirect()->route('libros.index')->with("message", "Libro actualizado correctamente");
     }
 
     public function show(Libro $libro){
         $generos = Libro::select('genero')->distinct()->get();
         return view("libros.show", compact('libro', 'generos'));
+    }
+
+    private function uploadImage($file){
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); //Obtengo el nombre de la img sin la extensión
+        $imagePath = Cloudinary::upload($file->getRealPath(),[
+            "public_id" => time() . "-" . $filename,
+            "folder" => "books/libros"
+        ]);
+        return $imagePath->getSecurePath();
     }
 
     private function getPublicID($url){ //Función que genera el public id de la imagen

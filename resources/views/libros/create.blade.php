@@ -1,8 +1,10 @@
 @extends('layouts.plantilla-admin')
 @section('title', 'Creación de libro')
 @section('content')
-<div class="form__modify__container col-12 col-md-7 col-lg-5 pt-4">
-    <h1 class="title">Creación de Libro</h1>
+<div class="form__modify__container register__section pt-4">
+    <div class="title">
+        <p>Creación de un nuevo libro</p>
+    </div>
     <form action="{{route('libro.store')}}" method="post" class="needs-validation" novalidate enctype="multipart/form-data" >
         @csrf
         <div class="container-fluid">

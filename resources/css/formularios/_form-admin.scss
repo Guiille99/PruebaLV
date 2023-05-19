@@ -1,0 +1,15 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.form__modify__container.register__section{
+    #btn-deleteAvatar{
+        flex: none;
+    }
+    .profile-image-section{
+        figure{
+            img{
+                object-fit: cover;
+            }
+        }
+    }
+}

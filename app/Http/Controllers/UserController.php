@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Libro;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    //Constantes
+    const DEFAULT_AVATAR_URL = "https://res.cloudinary.com/det0ae4ke/image/upload/v1684158473/books/avatars/1682946038-default_hhfcep.png";
+
     public function show(Request $request){ //Listado de todos los usuarios
         $users = User::paginate(5);
         // dd($users);
@@ -40,21 +44,29 @@ class UserController extends Controller
     public function store(Request $request){
         $request->validate([ //Validación de campos
             "nombre" => "required|min:2|max:80|",
-            "apellidos" => "required|min:2|max:80|",
+            "apellidos" => "required|min:2|max:100|",
             "email" => "required|unique:users",
             "username" => "required|min:5|max:25|unique:users",
-            "password" => "required|min:5|max:80"
+            "password" => "required|min:5|max:80",
+            "avatar" => "required|image|mimes:jpeg,jpg,png|max:500"
         ]);
-        $user = new User();
-        $user->nombre = $request->nombre;
-        $user->apellidos = $request->apellidos;
-        $user->username = $request->username;
-        $user->password =  Hash::make($request->password); //Codificamos la contraseña
-        $user->email = $request->email;
-        $user->rol = $request->rol;
-
-        $user->save();
-        return redirect()->route('admin.users')->with("message", "Usuario añadido correctamente");
+        DB::beginTransaction();
+        try {
+            $user = new User();
+            $user->nombre = $request->nombre;
+            $user->apellidos = $request->apellidos;
+            $user->username = $request->username;
+            $user->password =  Hash::make($request->password); //Codificamos la contraseña
+            $user->email = $request->email;
+            $user->rol = $request->rol;
+            $user->avatar = $this->uploadImage($request->avatar);
+            $user->save();
+            DB::commit();
+            return redirect()->route('admin.users')->with("message", "Usuario añadido correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
     }
 
     public function destroyAccountView(User $user){
@@ -72,7 +84,7 @@ class UserController extends Controller
                 return redirect()->back()->with("message", "Usuario eliminado correctamente");
             } catch (\Throwable $e) {
                 DB::rollBack();
-                return $e->getMessage();
+                return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
             }
         }
         else{
@@ -82,9 +94,20 @@ class UserController extends Controller
 
     // public function destroy(User $user){ 
     public function destroy($id){ 
-        $user=User::where('id', $id)->first();
-        $user->delete(); //Elimina el usuario
-        return redirect()->back()->with("message", "Usuario eliminado correctamente");
+        DB::beginTransaction();
+        try {
+            $user=User::where('id', $id)->first();
+            if ($user->avatar != UserController::DEFAULT_AVATAR_URL) {
+                $avatarPublicId = $this->getPublicID($user->avatar);
+                Cloudinary::destroy($avatarPublicId); //Elimina la imagen de Cloudinary
+            }
+            $user->delete(); //Elimina el usuario
+            DB::commit();
+            return redirect()->back()->with("message", "Usuario eliminado correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
     }
 
     public function edit(User $user){ 
@@ -113,7 +136,6 @@ class UserController extends Controller
 
 
     public function updatePerfil(Request $request, User $user){ 
-        // dd($request);
         $request->validate([ //Validación de campos
             "nombre" => "required|min:2|max:80|",
             "apellidos" => "required|min:2|max:100|",
@@ -121,83 +143,99 @@ class UserController extends Controller
             "email" => "required|email|max:255",
         ]);
 
-        if ($request->hasFile("avatar")) { //Si desea cambiar la imagen de perfil
-            $request->validate([
-                "avatar" => "image|mimes:jpeg,png|max:3000"
-            ]);
-            $file = $request->file("avatar");
-            $destinationPath = "uploads/avatars/";//Se define la ruta donde se guardará el archivo subido
-            $filename = time() . "-" . $file->GetClientOriginalName() ;//concatenamos el nombre del archivo con el tiempo en ms para que no se repita ningún archivo
-            $uploadSuccess = $request->file('avatar')->move($destinationPath, $filename);//Movemos el archivo a la carpeta correspondiente
-            $user->avatar = $destinationPath . $filename;//Subimos el archivo a la base de datos
-        }
-
-        $emails = User::all('email'); //Obtengo todos los emails
-
-        foreach ($emails as $email) {
-            if ($email->email==$request->email && $email->email!=$user->email) { //Si el email existe y no es el tuyo  
-                return redirect()->route('user.editPerfil', $user)->withErrors([
-                    "email" => "Este Email está en uso"
+        DB::beginTransaction();
+        try {
+            if ($request->hasFile("avatar")) { //Si desea cambiar la imagen de perfil
+                $request->validate([
+                    "avatar" => "image|mimes:jpeg,png|max:500"
                 ]);
+                if ($user->avatar != UserController::DEFAULT_AVATAR_URL) {
+                    $avatarPublicId = $this->getPublicID($user->avatar);
+                    Cloudinary::destroy($avatarPublicId); //Elimina la imagen de Cloudinary
+                }
+                $user->avatar = $this->uploadImage($request->avatar); //Subimos la nueva imagen
             }
-        }
-
-        $usuarios = User::all('username');
-        foreach ($usuarios as $usuario){
-            if($usuario->username==$request->username && $usuario->username!=$user->username){
-                return redirect()->route('user.editPerfil', $user)->withErrors([
+    
+             $emails = User::select('email')->where('email', $request->email)->whereNot('id', $user->id)->get(); //Obtengo todos los emails excluyendo el del usuario
+            if (count($emails) != 0) { //Si el email existe y no es el tuyo
+                return redirect()->back()->withErrors([
+                    "email" => "Este email está en uso"
+                ]);   
+               
+            }
+    
+            $usuarios = User::select('username')->where('username', $request->username)->whereNot('id', $user->id)->get();
+            if (count($usuarios) != 0) {
+                return redirect()->route('user.edit')->withErrors([
                     "username" => "Este usuario está en uso"
-                ]);
+                ]);   
+                
             }
+    
+            $user->nombre = $request->nombre;
+            $user->apellidos = $request->apellidos;
+            $user->username = $request->username;
+    
+            if ($request->password != null) { //Si el campo contraseña no se ha dejado vacío y desea cambiarla
+                $request->validate([
+                    "password" => "min:5|max:80"
+                ]);
+                $user->password =  Hash::make($request->password); //Codificamos la contraseña
+            }
+            $user->email = $request->email;
+    
+            if ($request->rol!=null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
+                $user->rol = $request->rol;
+            }
+    
+            $user->save();
+            DB::commit();
+            return redirect()->back()->with("message", "Usuario actualizado correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
 
-        $user->nombre = $request->nombre;
-        $user->apellidos = $request->apellidos;
-        $user->username = $request->username;
-
-        if ($request->password != null) { //Si el campo contraseña no se ha dejado vacío y desea cambiarla
-            $request->validate([
-                "password" => "min:5|max:80"
-            ]);
-            $user->password =  Hash::make($request->password); //Codificamos la contraseña
-        }
-        $user->email = $request->email;
-
-        if ($request->rol!=null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
-            $user->rol = $request->rol;
-        }
-
-        $user->save();
-
-        return redirect()->back()->with("message", "Usuario actualizado correctamente");
     }
 
     
     public function update(Request $request, User $user){ 
-        // dd($request->rol);
         $request->validate([ //Validación de campos
             "nombre" => "required|min:2|max:80|",
-            "apellidos" => "required|min:2|max:80|"
+            "apellidos" => "required|min:2|max:100|",
         ]);
 
-        $emails = User::all('email'); //Obtengo todos los emails
-
-        foreach ($emails as $email) {
-            if ($email->email==$request->email && $email->email!=$user->email) { //Si el email existe y no es el tuyo
+        DB::beginTransaction();
+        try {
+            $emails = User::select('email')->where('email', $request->email)->whereNot('id', $user->id)->get(); //Obtengo todos los emails excluyendo el del usuario
+            if (count($emails) != 0) { //Si el email existe y no es el tuyo
                 if ($request->rol==null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
-                     return redirect()->route('user.edit')->withErrors([
-                        "email" => "Este Email está en uso"
-                        ]);   
-                }
-                return redirect()->route('user.edit', $user)->withErrors([
-                    "email" => "Este Email está en uso"
-                ]);
+                    return redirect()->route('user.edit')->withErrors([
+                       "email" => "Este email está en uso"
+                       ]);   
+               }
+               return redirect()->route('user.edit', $user)->withErrors([
+                   "email" => "Este email está en uso"
+               ]);
             }
-        }
-
-        $usuarios = User::all('username');
-        foreach ($usuarios as $usuario){
-            if($usuario->username==$request->username && $usuario->username!=$user->username){
+            
+            // $emails = User::all('email'); //Obtengo todos los emails
+            
+            // foreach ($emails as $email) {
+            //     if ($email->email==$request->email && $email->email!=$user->email) { //Si el email existe y no es el tuyo
+            //         if ($request->rol==null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
+            //              return redirect()->route('user.edit')->withErrors([
+            //                 "email" => "Este Email está en uso"
+            //                 ]);   
+            //         }
+            //         return redirect()->route('user.edit', $user)->withErrors([
+            //             "email" => "Este Email está en uso"
+            //         ]);
+            //     }
+            // }
+    
+            $usuarios = User::select('username')->where('username', $request->username)->whereNot('id', $user->id)->get();
+            if (count($usuarios) != 0) {
                 if ($request->rol==null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
                     return redirect()->route('user.edit')->withErrors([
                         "username" => "Este usuario está en uso"
@@ -207,37 +245,74 @@ class UserController extends Controller
                     "username" => "Este usuario está en uso"
                 ]);
             }
+    
+            // $usuarios = User::all('username');
+            // foreach ($usuarios as $usuario){
+            //     if($usuario->username==$request->username && $usuario->username!=$user->username){
+            //         if ($request->rol==null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
+            //             return redirect()->route('user.edit')->withErrors([
+            //                 "username" => "Este usuario está en uso"
+            //                ]);   
+            //         }
+            //         return redirect()->route('user.edit', $user)->withErrors([
+            //             "username" => "Este usuario está en uso"
+            //         ]);
+            //     }
+            // }
+    
+            $user->nombre = $request->nombre;
+            $user->apellidos = $request->apellidos;
+            $user->username = $request->username;
+    
+            if ($request->password != null) { //Si el campo contraseña no se ha dejado vacío y desea cambiarla
+                $request->validate([
+                    "password" => "min:5|max:80"
+                ]);
+                $user->password =  Hash::make($request->password); //Codificamos la contraseña
+            }
+            $user->email = $request->email;
+    
+            if ($request->hasFile('avatar')) { //Si se desea moficiar el avatar
+                if ($user->avatar != UserController::DEFAULT_AVATAR_URL) {
+                    $avatarPublicId = $this->getPublicID($user->avatar);
+                    Cloudinary::destroy($avatarPublicId); //Elimina la imagen de Cloudinary
+                }
+                $user->avatar = $this->uploadImage($request->avatar); //Subimos la nueva imagen
+            }
+    
+            if ($request->rol!=null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
+                $user->rol = $request->rol;
+            }
+    
+            $user->save();
+            DB::commit();
+    
+            if ($request->rol==null) { 
+                return redirect()->route('index');
+            }
+            return redirect()->route('admin.users')->with("message", "Usuario actualizado correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
 
-        $user->nombre = $request->nombre;
-        $user->apellidos = $request->apellidos;
-        $user->username = $request->username;
-
-        if ($request->password != null) { //Si el campo contraseña no se ha dejado vacío y desea cambiarla
-            $request->validate([
-                "password" => "min:5|max:80"
-            ]);
-            $user->password =  Hash::make($request->password); //Codificamos la contraseña
-        }
-        $user->email = $request->email;
-
-        if ($request->rol!=null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
-            $user->rol = $request->rol;
-        }
-
-        $user->save();
-
-        if ($request->rol==null) { 
-            return redirect()->route('index');
-        }
-        return redirect()->route('admin.users')->with("message", "Usuario actualizado correctamente");
     }
 
     public function deleteImageProfile(User $user){
-        unlink($user->avatar);//Borra la imagen de la carpeta
-        $user->avatar = "uploads/default.png";
-        $user->save();
-        return redirect()->back()->with("message", "Imagen eliminada correctamente");
+        DB::beginTransaction();
+        try {
+            if ($user->avatar != UserController::DEFAULT_AVATAR_URL) {
+                $publicID = $this->getPublicID($user->avatar);
+                Cloudinary::destroy($publicID);
+            }
+            $user->avatar = UserController::DEFAULT_AVATAR_URL;
+            $user->save();
+            DB::commit();
+            return redirect()->back()->with("message", "Imagen eliminada correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
     }
 
     public function updatePassword(Request $request){
@@ -254,11 +329,28 @@ class UserController extends Controller
                 return redirect()->back()->with("message", "Contraseña actualizada correctamente");
             } catch (\Throwable $e) {
                 DB::rollBack();
-                return $e->getMessage();
+                return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
             }
         }
         else{
             return redirect()->back()->withErrors(["current_password"=>"Contraseña incorrecta"]);
         }
+    }
+
+    private function uploadImage($file){
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); //Obtengo el nombre de la img sin la extensión
+        $imagePath = Cloudinary::upload($file->getRealPath(),[
+            "public_id" => time() . "-" . $filename,
+            "folder" => "books/avatars"
+        ]);
+        return $imagePath->getSecurePath();
+    }
+
+    private function getPublicID($url){ //Función que genera el public id de la imagen
+        $parts = explode("/", $url);
+        $filename = explode(".", array_pop($parts))[0];
+        $parentPath = "books/avatars/";
+        $publicID = urldecode($parentPath . $filename);
+        return $publicID;
     }
 }

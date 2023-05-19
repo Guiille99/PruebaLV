@@ -6,11 +6,6 @@
            <div class="registros row">
                <div class="col">
 
-                {{-- Alerta si se ha añadido, actualizado o eliminado un libro --}}
-                @if (session("message")) 
-                    <div class="alert alert-success"><i class="bi bi-check-circle"></i> {{session('message')}}</div>
-                @endif
-
                 <div class="header__container mb-2">
                     <h3 class="title text-center">Lista de Libros</h3>
                     <a href="{{route('libro.create')}}" class="btn-add"> <i class="bi bi-plus"></i> Nuevo libro</a>

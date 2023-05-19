@@ -215,4 +215,8 @@ return [
         'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
     ])->toArray(),
 
+    'constantes' => [
+        'DEFAULT_AVATAR_URL' => 'https://res.cloudinary.com/det0ae4ke/image/upload/v1684158473/books/avatars/1682946038-default_hhfcep.png'
+    ]
+
 ];

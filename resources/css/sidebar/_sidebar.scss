@@ -19,6 +19,13 @@
             figure{
                 height: 60px;
                 width: 60px;
+                border-radius: 50%;
+                overflow: hidden;
+                img{
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                }
             }
             &__data{
                 .username{
@@ -101,9 +108,7 @@
     top: 0;
     right: 0%;
     height: 100%;
-    // width: calc(100% - v.$sidebar-width);
     width: 100%;
-    // margin-left: v.$sidebar-width;
     background-color: v.$black;
     opacity: 0.8;
     z-index: 2;

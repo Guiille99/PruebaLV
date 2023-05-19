@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("nombre", 80);
             $table->string("apellidos", 100);
             $table->string("email")->unique();
-            $table->string("avatar")->default("uploads/default.png");
+            $table->string("avatar")->default("https://res.cloudinary.com/det0ae4ke/image/upload/v1684158473/books/avatars/1682946038-default_hhfcep.png");
             $table->string("rol", 20)->default("Usuario");
             $table->rememberToken();
             $table->timestamps();

@@ -73,7 +73,7 @@ class CarritoController extends Controller
         return redirect()->back()->with('message', 'Carrito actualizado');
     }
 
-    public function deleteToCart(Request $request, $IDlibro){ //Eliminar un libro del carrito
+    public static function deleteToCart(Request $request, $IDlibro){ //Eliminar un libro del carrito
         $carrito = session()->get('carrito');
         $carritoData = session()->get('carrito-data');
         unset($carrito[$IDlibro]); //Eliminamos el libro del carrito
@@ -172,6 +172,24 @@ class CarritoController extends Controller
             DB::rollBack();
             return $e->getMessage();
             // return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
+    }
+
+    public static function compruebaLibrosEliminados($carrito){
+        $cambios = false;
+        foreach ($carrito as $idLibro => $datos) {
+            $libro = Libro::where('id', $idLibro)->first();
+            if ($libro == null) {
+                unset($carrito[$idLibro]);
+                $cambios = true;
+            }
+        }
+        if ($cambios) { //Si hay cambios actualizamos
+            $carritoData = session()->get('carrito-data');
+            session()->put('carrito', $carrito); //Actualizamos la sesión
+            $carritoData["total"] = CarritoController::getTotal(); //Almacenamos el precio total
+            $carritoData["cantidad"] = CarritoController::getCantidad(); //Almacenamos la cantidad total
+            session()->put("carrito-data", $carritoData);
         }
     }
 }

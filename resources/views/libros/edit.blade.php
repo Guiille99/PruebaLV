@@ -1,8 +1,10 @@
 @extends('layouts.plantilla-admin')
 @section('title', 'Modificación de usuario')
 @section('content')
-<div class="form__modify__container col-12 col-md-9 py-4">
-    <h1 class="title">Modificación de <strong>{{$libro->titulo}}</strong></h1>
+<div class="form__modify__container register__section py-4">
+    <div class="title">
+        <p>Modificación del libro <i>{{$libro->titulo}}</i></p>
+    </div>
     <form action="{{route('libro.update', $libro)}}" method="post" class="needs-validation" novalidate enctype="multipart/form-data" >
         @csrf
         @method('put')

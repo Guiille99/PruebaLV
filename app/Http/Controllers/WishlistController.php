@@ -32,7 +32,7 @@ class WishlistController extends Controller
         }
     }
 
-    public function deleteToWishlist(Libro $libro){
+    public static function deleteToWishlist(Libro $libro){
         $wishlist = session()->get('wishlist');
         if (array_key_exists($libro->id, $wishlist)) {
             unset($wishlist[$libro->id]);
@@ -59,5 +59,21 @@ class WishlistController extends Controller
             ['path' => request()->url(), 'query' => request()->query()]
         );
         return view('wishlist.show', ['wishlist'=>$paginator], compact('generos'));
+    }
+
+    public static function compruebaEliminadosWishlist($wishlist){
+        $cambios = false;
+        foreach ($wishlist as $idLibro => $datos) {
+            $libro = Libro::where('id', $idLibro)->first();
+            if ($libro == null) {
+                unset($wishlist[$idLibro]);
+                $cambios = true;
+            }
+        }
+
+        if ($cambios) {
+            session()->put('wishlist', $wishlist); //Actualizamos la wishlist
+            Cookie::queue("cookie-wishlist-" . Auth::id(), serialize(session()->get('wishlist')), 60*24*30);
+        }
     }
 }

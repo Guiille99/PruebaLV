@@ -27,7 +27,7 @@
                 </div>
 
                 {{-- Si la imagen de perfil no es por defecto dará la opción de eliminar la imagen --}}
-                @if (Auth::user()->avatar != "uploads/default.png")
+                @if (Auth::user()->avatar != config('app.constantes.DEFAULT_AVATAR_URL'))
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteImageProfile">
                     <i class="bi bi-trash3"></i>
                     <span>Eliminar</span>

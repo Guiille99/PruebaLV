@@ -43,7 +43,7 @@
                             @else
                                 @foreach ($comentarios as $comentario)
                                     <div class="comentario">
-                                        <figure>
+                                        <figure class="img-profile">
                                             <img src="{{asset($comentario->user->avatar)}}" alt="Imagen de perfil de {{$comentario->user->username}}" class="img-fluid">
                                         </figure>
                                         <div class="user__info">
@@ -68,7 +68,7 @@
                                     Añade un comentario
                                 </div>
                                 <div class="perfil-text">
-                                    <figure>
+                                    <figure class="img-profile">
                                         <img src="{{asset(Auth::user()->avatar)}}" alt="Imagen de perfil" class="img-fluid">
                                     </figure>
                                     <form action="{{route('add.comment', $post)}}" method="post" class="w-100">

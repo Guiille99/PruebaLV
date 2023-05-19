@@ -61,8 +61,7 @@ class PostController extends Controller{
             DB::commit();
             return redirect()->route('admin.posts')->with("message", "El post ha sido creado correctamente");
         } catch (\Throwable $e) {
-            return $e;
-            // return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
     }
 
@@ -133,7 +132,6 @@ class PostController extends Controller{
     }
 
     public function destroy(Post $post){
-        // dd($post);
         DB::beginTransaction();
         try {
             $portadaPublicId = $this->getPublicID($post->portada, true);
@@ -148,8 +146,7 @@ class PostController extends Controller{
             return redirect()->back()->with("message", "El post ha sido eliminado correctamente");
         } catch (\Throwable $e) {
             DB::rollBack();
-            return $e;
-            // return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
     }
 

@@ -11,7 +11,7 @@
             <figure class="m-0">
                 <img src="{{asset(Auth::user()->avatar)}}" alt="Imagen de perfil" class="img-fluid">
             </figure>
-            <p><span id="nPedidos">0</span> Pedidos</p>
+            <p><span id="nPedidos">{{count(Auth::user()->pedidos)}}</span> {{(count(Auth::user()->pedidos)) == 1 ? "Pedido" : "Pedidos"}}</p>
         </div>
 
         <div class="account__content mt-2">
