@@ -1,5 +1,6 @@
 @extends('layouts.plantilla-admin')
 @section('title', 'Admin | Nuevo Post')
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.0/classic/ckeditor.js"></script>
 @section('content')
     <div class="register__section new-post__container">
         <div class="title">
@@ -57,32 +58,13 @@
         </form>
     </div>
 @endsection
-{{-- @section('script')
+@section('script')
 <script>
-    $("#form-new-post #titulo").keyup(function(){
-        let titulo = $(this).val();
-        let slug = getSlug(titulo);
-        $("#slug").val(slug);
-    })
-    function getSlug(titulo) {
-        titulo = titulo.toLowerCase()
-                .trim()
-                .split(" ").join("-") //Reemplaza los espacios en blanco entre las palabras por guiones
-                .replace(/[áéíóú]/gi, match => { //Elimina las tildes de las vocales
-                    switch (match) {
-                        case 'á': return 'a';
-                        case 'é': return 'e';
-                        case 'í': return 'i';
-                        case 'ó': return 'o';
-                        case 'ú': return 'u';
-                    }
-                })
-                //Elimina todos los caracteres que no son letras, números, espacios en blanco o guiones y las ñ las reemplaza por n
-                .replace(/[^\w\s-]/g, function(char){ 
-                    char = char.toLowerCase();
-                    return (char=='ñ') ? 'n' : '';
-                })
-        return titulo;
-    }
+    ClassicEditor
+        .create( document.querySelector( '#cuerpo' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+
 </script>
-@endsection --}}
+@endsection

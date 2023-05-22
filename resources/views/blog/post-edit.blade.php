@@ -1,5 +1,6 @@
 @extends('layouts.plantilla-admin')
 @section('title', 'Admin | Editar Post')
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.0/classic/ckeditor.js"></script>
 @section('content')
     <div class="register__section edit-post__container form__modify__container">
         <div class="title">
@@ -49,7 +50,7 @@
                         @enderror
                     </div>
                     <div class="form-floating mt-3">
-                       <textarea  id="cuerpo" name="cuerpo" class="form-control" placeholder="Cuerpo del post">{{$post->cuerpo}}</textarea>
+                       <textarea  id="cuerpo" name="cuerpo" class="form-control" placeholder="Cuerpo del post">{!! $post->cuerpo !!}</textarea>
                        <label for="cuerpo" class="form-label ms-1">Cuerpo del post</label>
                        @error('cuerpo')
                             <small class="text-danger">* {{$message}}</small>
@@ -134,5 +135,12 @@
             $(".modal-dialog form").attr("action", url); //Actualizo la url para eliminar el comentario
             $(".modal-body").html("¿Está seguro de que quiere eliminar este comentario?")       
         }
+
+        ClassicEditor
+        .create( document.querySelector( '#cuerpo' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+
     </script>
 @endsection
