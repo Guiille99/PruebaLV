@@ -29,7 +29,6 @@
                     <div class="post__content">
                         <div class="post__content-header">
                             <h1 class="post__content-titulo">{{$post->nombre}} <i role="checkbox" aria-checked="false" class="microfono-icon bi bi-mic-fill"></i></h1>
-                            {{-- <i class="bi bi-mic-fill"></i> --}}
                         </div>
                         <p class="post__content-body">{{$post->cuerpo}}</p>
                     </div>
