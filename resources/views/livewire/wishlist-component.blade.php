@@ -1,7 +1,13 @@
 <div>
-    {{-- {{count($wishlist)}} --}}
+    {{-- @if (session('message_error'))
+        <div id="alert-error" class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+            <i class="bi bi-exclamation-circle"></i> 
+            {{session('message_error')}} 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif --}}
     @if (Auth::check())
-        @if (session()->get('wishlist')!=null && array_key_exists($libro->id,session()->get('wishlist')))
+        @if (session()->get('wishlist')!=null && $libroWishlistExists)
             <div wire:ignore>
                 <button wire:click="deleteToWishlist" wire:loading.attr="disabled" class="boton btn-carrito mt-2" data-id="{{$libro->id}}">
                     <i wire:loading.remove class="bi bi-heart-fill"></i> 

@@ -1,5 +1,32 @@
 @use "../base/variables" as v;
 @use "../base/mixins" as m;
+.blog__card{
+    border-radius: 0px;
+    background-position: bottom;
+    position: relative;
+    overflow: hidden;
+    a{
+        position: absolute;
+        display: inline;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+    p{
+        position: absolute;
+        bottom: 0;
+        left: 10px;
+        @include m.titulo-post;
+    }
+    img{
+        transition: all 1s ease;
+    }
+    &:hover img{
+       transform: scale(1.2);
+        filter: brightness(0.5);
+        cursor: pointer;
+    }
+}
 
 .imagenes__principales{
     width: 95%;
@@ -16,33 +43,33 @@
         @include m.grid(6, 10px);
         grid-template-rows: repeat(2, 1fr);
     }
-    .blog__card{
-        border-radius: 0px;
-        background-position: bottom;
-        position: relative;
-        overflow: hidden;
-        a{
-            position: absolute;
-            display: inline;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        p{
-            position: absolute;
-            bottom: 0;
-            left: 10px;
-            @include m.titulo-post;
-        }
-        img{
-            transition: all 1s ease;
-        }
-        &:hover img{
-           transform: scale(1.2);
-            filter: brightness(0.5);
-            cursor: pointer;
-        }
-    }
+    // .blog__card{
+    //     border-radius: 0px;
+    //     background-position: bottom;
+    //     position: relative;
+    //     overflow: hidden;
+    //     a{
+    //         position: absolute;
+    //         display: inline;
+    //         width: 100%;
+    //         height: 100%;
+    //         z-index: 1;
+    //     }
+    //     p{
+    //         position: absolute;
+    //         bottom: 0;
+    //         left: 10px;
+    //         @include m.titulo-post;
+    //     }
+    //     img{
+    //         transition: all 1s ease;
+    //     }
+    //     &:hover img{
+    //        transform: scale(1.2);
+    //         filter: brightness(0.5);
+    //         cursor: pointer;
+    //     }
+    // }
     .destacada1{
         grid-row: 1/-1;
         @include m.tablet{

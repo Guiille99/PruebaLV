@@ -1,0 +1,7 @@
+@use "../base/variables" as v;
+.spinner-container{
+    background-color: rgba(v.$white, $alpha: .5);
+    .spinner{
+        color: v.$green;
+    }
+}

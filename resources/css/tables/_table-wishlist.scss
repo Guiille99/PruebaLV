@@ -1,5 +1,7 @@
 @use "../base/mixins" as m;
-
+.wishlist__container{
+    position: relative;
+}
 .wislist-table{
     thead  td:first-child{
         @include m.tablet{

@@ -6,12 +6,12 @@
             <p>Detalles del pedido # {{$pedido->id}}</p>
             <span class="message_info">* Únicamente se puede modificar el estado del pedido</span>
         </div>
-        <div class="content order-details">
+        <div class="content order-details form__modify__container">
             <form action="{{route('update.order', $pedido)}}" method="post">
                 @csrf
                 @method('put')
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row justify-content-end">
                         <div class="form-floating mt-3 col-md-3">
                             <input type="text" name="nPedido" id="nPedido" class="form-control" value="{{$pedido->id}}" placeholder="Nº de pedido" readonly>
                             <label for="nPedido" class="form-label ms-1">Nº de pedido</label>
@@ -59,12 +59,46 @@
                             <input type="text" name="direccion" id="direccion" class="form-control" value="{{$pedido->direccion->calle}}, {{$pedido->direccion->numero}} ({{$pedido->direccion->provincia->nombre}} - {{$pedido->direccion->cp}})" placeholder="Dirección" readonly>
                             <label for="direccion" class="form-label ms-1">Dirección</label>
                         </div>
-                    </div>
-                    <div class="mt-3 float-end">
-                        <input type="submit" class="btn-modify" value="Actualizar">
+
+                        <div class="mt-3">
+                            <input type="submit" class="btn-modify" value="Actualizar">
+                        </div>
                     </div>
                 </div>
             </form>
+
+            <div class="books__pedido__container my-2">
+                <div class="title">
+                    <p>Productos del pedido</p>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th>Título</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                        </thead>
+                        <tbody>
+                            @foreach ($libros as $libro)
+                                <tr>
+                                    <td>{{$libro->titulo}}</td>
+                                    <td>{{$libro->precio}} €</td>
+                                    <td>{{$libro->pivot->cantidad}}</td>
+                                    <td>{{$libro->pivot->subtotal}} €</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="100%"><strong>Total: </strong> {{$pedido->total}} €</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    {{$libros->links()}}
+                </div>
+            </div>
         </div>
     </div>
 @endsection

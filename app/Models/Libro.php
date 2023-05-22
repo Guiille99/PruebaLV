@@ -20,4 +20,8 @@ class Libro extends Model
     public function items(){
         return $this->hasMany(CarritoLibro::class);
     }
+
+    public function wishlistItems(){
+        return $this->hasMany(WishListLibro::class);
+    }
 }

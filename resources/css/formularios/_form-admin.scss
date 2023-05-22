@@ -1,15 +1,24 @@
 @use "../base/variables" as v;
 @use "../base/mixins" as m;
 
-.form__modify__container.register__section{
-    #btn-deleteAvatar{
-        flex: none;
+.form__modify__container{
+    .btn-modify, .btn-add{
+        width: 100%;
+        @include m.tablet{
+            width: unset;
+        }
     }
-    .profile-image-section{
-        figure{
-            img{
-                object-fit: cover;
+    &.register__section{
+        #btn-deleteAvatar{
+            flex: none;
+        }
+        .profile-image-section{
+            figure{
+                img{
+                    object-fit: cover;
+                }
             }
         }
     }
 }
+

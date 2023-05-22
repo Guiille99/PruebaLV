@@ -7,7 +7,7 @@
             <li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{route('blog')}}">Blog</a></li> 
             {{-- FALTA ENLACE CATEGORÍA --}}
-            <li class="breadcrumb-item" aria-current="page"><a href="">{{$post->categoria->nombre}}</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{route('show.categoria', $post->categoria->slug)}}">{{$post->categoria->nombre}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{$post->nombre}}</li> 
         </ol>
     </nav>

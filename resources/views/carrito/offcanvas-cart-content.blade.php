@@ -1,19 +1,19 @@
+@if ($carrito!=null && $carrito->items->count() > 0)
 <div class="offcanvas-body">
-  @if (session()->get('carrito'))
-    @foreach (session()->get('carrito') as $id=>$libro)
+    @foreach ($carrito->items as $item)
         <div class="cart-book">
           <figure>
-            <img src="{{asset($libro['portada'])}}" alt="portada" class="img-fluid">
+            <img src="{{asset($item->libro->portada)}}" alt="portada" class="img-fluid">
           </figure>
 
           <div class="book-data">
-            <p>{{$libro["titulo"]}}</p>
+            <p>{{$item->libro->titulo}}</p>
             <div class="book-data__body">
-              <p>{{$libro["cantidad"]}} x <span class="fw-bold">{{$libro["precio"]}}€</span></p>
+              <p>{{$item->cantidad}} x <span class="fw-bold">{{$item->libro->precio}}€</span></p>
             </div>
             <div class="book-data__footer">
-              <p class="total-unidad">{{$libro["precio"]*$libro["cantidad"]}}€</p>
-              <form action="{{route('delete_to_cart', $id)}}" method="post">
+              <p class="total-unidad">{{$item->libro->precio * $item->cantidad}}€</p>
+              <form action="{{route('delete_to_cart', $item->libro->id)}}" method="post">
                 @csrf
                 @method('delete')
                 <button type="submit" class="bi bi-trash3 bg-transparent border-0"></button>
@@ -23,12 +23,16 @@
         </div>
         @endforeach
   @else
-      <p>El carrito está vacío</p>
+    <div class="offcanvas-body d-flex align-items-center justify-content-center">
+      <div class="text-center">
+        <i class="bi bi-emoji-frown"></i>
+        <p>El carrito está vacío</p>
+      </div>
   @endif
 </div>
-@if (session()->get('carrito'))
+@if ($carrito!=null && $carrito->items->count() > 0)
 <div class="offcanvas-footer bottom-0">
-  <p id="total">Total: <span class="precio">{{session()->get('carrito-data')["total"]}}€</span></p>
+  <p id="total">Total: <span class="precio">{{$total}}€</span></p>
   <a href="{{route('show-cart')}}" class="text-center text-decoration-none">Ver carrito</a>
   <form action="{{route('vaciar-carrito')}}" method="post">
     @csrf

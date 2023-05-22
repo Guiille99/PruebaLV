@@ -85,7 +85,7 @@ class LibroController extends Controller
                 unset($carrito[$libro->id]); //Eliminamos el libro del carrito
                 session()->put('carrito', $carrito); //Actualizamos el carrito
                 $carritoData["total"] = CarritoController::getTotal();
-                $carritoData["cantidad"] = CarritoController::getCantidad();
+                $carritoData["cantidad"] = CarritoController::getCantidad($carrito);
                 session()->put("carrito-data", $carritoData);
                 Cookie::queue("cookie-cart-" . Auth::id(), serialize(session()->get('carrito')), 60*24*30);
                 Cookie::queue("cookie-cartData-" . Auth::id(), serialize(session()->get('carrito-data')), 60*24*30);

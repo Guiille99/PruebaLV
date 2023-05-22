@@ -9,8 +9,8 @@
         <div class="title">
             <p>MI WISHLIST</p>
         </div>
-        <div class="data">
-            @if (count($wishlist)>0)
+        <div class="data wishlist__container">
+            @if (count($wishlistItems)>0)
                 <div class="table-responsive">
                     <table class="table table-striped align-middle wislist-table">
                         <thead>
@@ -20,26 +20,26 @@
                             <td>Precio</td>
                         </thead>
                         <tbody>
-                            @foreach ($wishlist as $id=>$libro)
+                            @foreach ($wishlistItems as $item)
                             <tr>
                                 <td class="d-flex align-items-center gap-2">
-                                    <form action="{{route('delete_to_wishlist', $id)}}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="bg-transparent border-0"><i class="btn-delete-to-cart bi bi-x-circle"></i></button>
-                                    </form>
+                                    {{-- <form action="{{route('delete_to_wishlist', $item->libro_id)}}" method="post"> --}}
+                                    {{-- @csrf --}}
+                                    {{-- @method('delete') --}}
+                                    <button class="btn-delete-wishlist bg-transparent border-0" data-idlibro="{{$item->libro_id}}"><i class="btn-delete-to-cart bi bi-x-circle"></i></button>
+                                    {{-- </form> --}}
                                     <figure class="m-0">
-                                        <img src="{{$libro["portada"]}}" alt="" class="img-fluid">
+                                        <img src="{{$item->libro->portada}}" alt="" class="img-fluid">
                                     </figure>
                                 </td>
-                                <td>{{$libro["titulo"]}}</td>
-                                <td>{{$libro["autor"]}}</td>
-                                <td>{{$libro["precio"]}} €</td>
+                                <td>{{$item->libro->titulo}}</td>
+                                <td>{{$item->libro->autor}}</td>
+                                <td>{{$item->libro->precio}} €</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{$wishlist->links()}}
+                    {{$wishlistItems->links()}}
                 </div>
             @else
             <div class="alert alert-warning mt-2" role="alert">
@@ -49,4 +49,10 @@
             @endif
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        let url = "{{route('delete_to_wishlist', 'num')}}";
+    </script>
+    @vite(['resources/js/wishlist.js'])
 @endsection

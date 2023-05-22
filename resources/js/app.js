@@ -10,7 +10,7 @@ $(document).ready(function(){
     $("#btnBack").click(goToUp);
 
     //Evento que se ejecuta cuando añado o elimino un libro a la wishlist
-    $(document).on('toggle-wishlist', function(){
+    $(document).on('toggle-wishlist', function(event){
         $('body').append("<div id='alert-index' class='alert alert-success'><i class='bi bi-check-circle'></i> "+ event.detail.message +"</div>");
         setTimeout(function(){
         $(".alert-success").fadeOut(2000, function(){
@@ -18,6 +18,20 @@ $(document).ready(function(){
         });
         }, 3000)
     });
+
+    //Evento que se ejecuta cuando hay un error con el manejo de la wishlist
+    $(document).on('wishlist-error', function(event){
+        if ($("#alert-error").length > 0) {
+            $("#alert-error").remove();
+        }
+        $("header").after("<div id='alert-error' class='alert alert-danger alert-dismissible fade show my-2' role='alert'>"+
+        "<i class='bi bi-exclamation-circle'></i> "+ 
+        event.detail.message+ 
+        "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>"+
+    "</div>")
+    });
+
+
 
     //Cambio el contenido del modal dependiendo del método de pago seleccionado
     $(".metodos-pago input[type='radio']").click(modalMetodoPago);

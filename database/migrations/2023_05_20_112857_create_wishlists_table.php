@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('carrito_libros', function (Blueprint $table) {
+        Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("carrito_id")->constrained("carritos")->onDelete("cascade")->onUpdate("cascade");
-            $table->foreignId("libro_id")->constrained("libros")->onDelete("cascade")->onUpdate("cascade");
-            $table->unsignedTinyInteger("cantidad");
-            $table->double("subtotal",4,2);
+            $table->foreignId("user_id")->constrained("users")->onDelete("cascade")->onUpdate("cascade");
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carrito_libros');
+        Schema::dropIfExists('wishlists');
     }
 };

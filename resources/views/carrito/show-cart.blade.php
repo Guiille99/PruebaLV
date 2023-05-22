@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
 @section("title", "Carrito")
-@if (count((array) session('carrito')) < 2)
+@if (Auth::user()->carrito->items->count() < 2)
 @section('body-class', 'vh-100 d-flex flex-column justify-content-between')
     
 @endif
@@ -40,7 +40,7 @@
         </ul>
     </div>
     <div class="cart-container row py-4 m-auto col-md-12 col-lg-10">
-        @if (session()->get('carrito'))
+        @if (Auth::user()->carrito != null && Auth::user()->carrito->items->count() > 0)
         <div class="productos__carrito col-12 col-md-8 border-end position-relative">
             <form action="{{route('carrito.update')}}" method="post">
                 @csrf
@@ -54,19 +54,19 @@
                             <th>SUBTOTAL</th>
                         </thead>
                         <tbody>
-                            @foreach (session()->get('carrito') as $id => $libro)
+                            @foreach (Auth::user()->carrito->items as $item)
                             <tr>
                                 <td class="d-flex align-items-center gap-3">
-                                    <i class="btn-delete-to-cart bi bi-x-circle" data-idlibro="{{$id}}"></i>
+                                    <i class="btn-delete-to-cart bi bi-x-circle" data-idlibro="{{$item->libro_id}}"></i>
                                   <figure>
-                                      <img src="{{$libro["portada"]}}" alt="{{$libro["titulo"]}}" class="img-fluid">
+                                      <img src="{{$item->libro->portada}}" alt="{{$item->libro->titulo}}" class="img-fluid">
                                   </figure>
-                                  <p>{{$libro["titulo"]}}</p>
+                                  <p>{{$item->libro->titulo}}</p>
                                 </td>
           
-                                <td>{{$libro["precio"]}} €</td>
-                                <td><input type="number" name="{{$id}}" id="{{$id}}-cantidad" value="{{$libro["cantidad"]}}" min="1" max="{{$libro["stock"]}}" data-idlibro="{{$id}}"></td>
-                                <td>{{$libro["precio"]*$libro["cantidad"]}} €</td>
+                                <td>{{$item->libro->precio}} €</td>
+                                <td><input type="number" name="{{$item->libro_id}}" id="{{$item->libro_id}}-cantidad" value="{{$item->cantidad}}" min="1" max="{{$item->libro->stock}}" data-idlibro="{{$item->libro_id}}"></td>
+                                <td>{{$item->subtotal}} €</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -86,7 +86,7 @@
                     <th>Total del carrito</th>
                 </thead>
                 <tbody>
-                    <td><p>Total: <span class="fw-bold">{{session()->get('carrito-data')["total"]}} €</span><span id="iva-message"> (IVA incluido)</span></p> </td>
+                    <td><p>Total: <span class="fw-bold">{{Auth::user()->carrito->items->sum('subtotal')}} €</span><span id="iva-message"> (IVA incluido)</span></p> </td>
                 </tbody>
                 <tfoot>
                     {{-- <td><input type="button" value="Finalizar compra" class="boton"></td> --}}
@@ -105,29 +105,6 @@
 @endsection
 @section('script')
     <script>
-        // $(document).ready(function(){
-        //     $('.btn-delete').click(function(){
-        //         let url = "{{route('delete_to_cart', 'num')}}";
-        //         let id = $(this).attr("data-idlibro");
-        //         url = url.replace('num', id);
-        //         $.ajaxSetup({
-        //             headers: {
-        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //             }
-        //         });
-        //         $.ajax({
-        //             async: true,
-        //             url: url,
-        //             method: "DELETE",
-        //             success: function (data) {
-        //                 location.reload();
-        //                 // $('#alert-index').text(data.message);
-        //                 // $('#alert-index').css('display', 'block');
-        //             },
-        //         });
-        //     })
-        // })
-
         let url = "{{route('delete_to_cart', 'num')}}";
     </script>
     @vite(['resources/js/cart.js'])

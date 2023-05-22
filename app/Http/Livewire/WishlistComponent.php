@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Wishlist;
+use App\Models\WishListLibro;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class WishlistComponent extends Component
@@ -15,38 +18,62 @@ class WishlistComponent extends Component
 
     public function mount($libro){
         $this->libro = $libro;
-        $this->wishlist = session()->get('wishlist'); //Obtengo la sesión del carrito
+        $this->wishlist = Auth::user()->wishlist; //Obtengo la sesión del carrito
     }
 
     public function addToWishlist(){
-        $this->wishlist[$this->libro->id] = [
-            "titulo"=>$this->libro->titulo,
-            "autor"=>$this->libro->autor,
-            "portada"=>$this->libro->portada,
-            "stock" => $this->libro->stock,
-            "precio"=>$this->libro->precio,
-        ];
-        session()->put('wishlist', $this->wishlist);
-        Cookie::queue("cookie-wishlist-" . Auth::id(), serialize(session()->get('wishlist')), 60*24*30);
+        DB::beginTransaction();
+        try {
+            if ($this->wishlist == null) {
+                $this->wishlist = new Wishlist();
+                $this->wishlist->user_id = Auth::id();
+                $this->wishlist->save();
+            }
+            if (!$this->libroWishlistExist($this->wishlist, $this->libro)) { //Si el libro no está en la wishlist
+                $item = new WishListLibro();
+                $item->wishlist_id = $this->wishlist->id;
+                $item->libro_id = $this->libro->id;
+                $item->save();
+            }
+            DB::commit();
+            $this->dispatchBrowserEvent('toggle-wishlist', ['message' => 'Libro añadido a la lista de deseos']);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            $this->dispatchBrowserEvent('wishlist-error', ['message' => 'Ha ocurrido un error inesperado']);
+        }
+
         $this->emitTo('wishlist-component-icon', 'refreshComponent');
-        // $this->message = session()->get('message', 'hola');
-        // $this->success();
-        $this->dispatchBrowserEvent('toggle-wishlist', ['message' => 'Libro añadido a la lista de deseos']);
     }
 
     public function deleteToWishlist(){
-        if (array_key_exists($this->libro->id, $this->wishlist)) {
-            unset($this->wishlist[$this->libro->id]);
-            session()->put('wishlist', $this->wishlist); //Actualizamos la wishlist
-            Cookie::queue("cookie-wishlist-" . Auth::id(), serialize(session()->get('wishlist')), 60*24*30);
+        DB::beginTransaction();
+        try {
+            if ($this->libroWishlistExist($this->wishlist, $this->libro)) {
+                WishListLibro::where('wishlist_id', $this->wishlist->id)->where('libro_id', $this->libro->id)->delete();
+            }
+            DB::commit();
             $this->emitTo('wishlist-component-icon', 'refreshComponent');
             $this->dispatchBrowserEvent('toggle-wishlist', ['message' => 'Libro eliminado de la lista de deseos']);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            // session()->flash('message_error', 'Ha ocurrido un error inesperado');
+            $this->dispatchBrowserEvent('wishlist-error', ['message' => 'Ha ocurrido un error inesperado']);
         }
-        
+    }
+
+    private function libroWishlistExist($wishlist, $libro){
+        if ($wishlist == null) {
+            $exists = false;
+        }
+        else{
+            $exists = (WishListLibro::where('wishlist_id', $wishlist->id)->where('libro_id', $libro->id)->first() == null) ? false : true;
+        }
+        return $exists;
     }
 
     public function render()
     {
-        return view('livewire.wishlist-component');
+        $libroWishlistExists = $this->libroWishlistExist($this->wishlist, $this->libro);
+        return view('livewire.wishlist-component', compact("libroWishlistExists"));
     }
 }

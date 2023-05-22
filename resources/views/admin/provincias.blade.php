@@ -3,23 +3,19 @@
 @section('content')
 <div id="registros__container" class="mt-5">
     <div class="header__container mb-2">
-        <h3 class="title">Últimos posts</h3>
-        <a href="{{route('post.create')}}" class="btn-add"> <i class="bi bi-plus"></i> Nuevo Post</a>
+        <h3 class="title">Provincias</h3>
+        <a href="{{route('provincia.create')}}" class="btn-add"> <i class="bi bi-plus"></i> Añadir provincia</a>
     </div>
     <div class="registros">
-        <table id="posts" class="table text-center table-striped table-hover w-100">
+        <table id="provincias" class="table text-center table-striped table-hover w-100">
             <thead>
                 <th>ID</th>
-                <th>Título</th> 
-                <th>Autor</th> 
-                <th>Categoría</th> 
-                <th>Fecha de creación</th> 
-                <th>Fecha de actualización</th>
+                <th>Provincia</th> 
                 <th>Acciones</th> 
             </thead>
 
             <tbody>
-                <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="eliminaProvinciaModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <form id="modal-delete-form" action="" method="post">
                             @csrf
@@ -28,7 +24,7 @@
                             <div class="modal-content">
                                 <div class="modal-header d-flex gap-2">
                                     <i class="bi bi-exclamation-circle"></i>
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel"> Eliminación de pedido</h1>
+                                    <h1 class="modal-title fs-5"> Eliminación de pedido</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -51,27 +47,19 @@
 <script>
     $(document).ready(function () {
         $.fn.dataTable.ext.errMode = 'throw';
-        $('#posts').DataTable({
+        $('#provincias').DataTable({
             processing:true,
             serverSide: true,
             responsive: true,
-            ajax: "{{route('showAll.posts')}}",
-            order: [[0, "desc"]],
+            ajax: "{{route('provincias.showAll')}}",
             columns:[
                 {data: 'id'},
                 {data: 'nombre'},
-                {data: 'user_id'},
-                {data: 'categoria_id'},
-                {data: 'created_at'},
-                {data: 'updated_at'},
                 {data: 'action'},
             ],
             lengthMenu: [5, 10, 15],
             columnDefs: [
-                {orderable: false, target:[6]},
-                {targets: [4, 5], render: function(data, type, row){
-                        return moment.utc(data).local().format('DD/MM/YYYY HH:mm:ss');
-                }},
+                {orderable: false, target:[0,1,2]},
             ],
             language: {
                 "processing": "<div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>",

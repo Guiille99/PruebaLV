@@ -24,7 +24,21 @@ class PedidoController extends Controller
 
     public function edit(Pedido $pedido){
         $estados = Estado::all();
-        return view("pedidos.edit", compact('pedido', 'estados'));
+        $libros = $pedido->libros;
+        $collection = collect($libros);
+
+        //Paginar una colección de datos
+        $perPage = 5;
+        $page = request()->get('page', 1);
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+            $collection->forPage($page, $perPage),
+            $collection->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+        
+        return view("pedidos.edit", ["libros" => $paginator] , compact('pedido', 'estados'));
     }
 
     public function update(Request $request, Pedido $pedido){

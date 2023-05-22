@@ -34,7 +34,6 @@
         </li>
     </ul>
 </div>
-{{-- {{Auth::user()->direcciones()->count()}} --}}
 <form action="{{route('compra-finalizada')}}" class="needs-validation m-0 p-0" id="form-detalles-pago" method="POST">
     @csrf
     <div class="detalle-pago__container col-lg-10 row m-auto py-4 d-flex gap-5 justify-content-center">
@@ -113,16 +112,16 @@
                     <th>SUBTOTAL</th>
                 </thead>
                 <tbody>
-                    @foreach (session()->get('carrito') as $id => $libro)
+                    @foreach (Auth::user()->carrito->items as $item)
                         <tr>
-                            <td>{{$libro["titulo"]}} <strong>x {{$libro["cantidad"]}}</strong></td>
-                            <td><strong>{{$libro["precio"]*$libro["cantidad"]}} €</strong></td>
+                            <td>{{$item->libro->titulo}} <strong>x {{$item->cantidad}}</strong></td>
+                            <td><strong>{{$item->subtotal}} €</strong></td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot class="border-3 border-bottom">
                     <td><strong>Total</strong></td>
-                    <td><strong>{{session()->get('carrito-data')["total"]}} €</strong></td>
+                    <td><strong>{{$total}} €</strong></td>
                 </tfoot>
             </table>
 

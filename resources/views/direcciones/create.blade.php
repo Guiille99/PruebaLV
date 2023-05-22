@@ -18,7 +18,7 @@
                 <div class="row py-2">
                     <div class="form-floating mt-3 col-md-6">
                         <input type="text" name="calle" id="calle" class="form-control" placeholder="Calle" required>
-                        <label for="nombre" class="form-label ms-1">* Calle</label>
+                        <label for="calle" class="form-label ms-1">* Calle</label>
                         @error('calle')
                             <small class="text-danger">* {{$message}}</small> <br>
                         @enderror

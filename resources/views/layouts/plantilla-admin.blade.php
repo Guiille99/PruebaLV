@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="{{asset('uploads/logo.ico')}}" type="image/x-icon">
     <script src="{{asset('build/assets/jquery-3.6.3.js')}}"></script>
     <script src="{{asset('build/assets/moment.min.js')}}"></script>
-    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/validation_form.js", "resources/js/color-theme.js"])
+    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/validation_form.js"])
 </head>
 <body>
     <input type="checkbox" name="" id="toggler-sidebar">
@@ -48,26 +48,12 @@
                                 <li class="py-1 px-2"><a href="{{route('libros.index')}}" class="d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li>
                                 <li class="py-1 px-2"><a href="{{route('showAll.orders')}}" class="d-flex gap-2"><i class="bi bi-box-seam"></i>Pedidos</a></li>
                                 <li class="py-1 px-2"><a href="{{route('admin.posts')}}" class="d-flex gap-2"><i class="bi bi-chat-left-text"></i>Blog</a></li>
-                                <li class="py-1 px-2"><a href="" class="d-flex gap-2"><i class="bi bi-geo-alt-fill"></i>Provincias</a></li>
+                                <li class="py-1 px-2"><a href="{{route('provincias.show')}}" class="d-flex gap-2"><i class="bi bi-geo-alt-fill"></i>Provincias</a></li>
                             </ul>
                           </div>
                         </div>
                     </div>
                 </li>
-                {{-- <li class="py-1 px-2">
-                    <div class="dropdown">
-                        <a href="" role="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-table"></i>  Tablas
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="py-1 px-2 active"><a href="{{route('admin.users')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li>
-                            <li class="py-1 px-2"><a href="{{route('libros.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li>
-                        </ul>
-                    </div>
-                </li> --}}
-                {{-- <li class="py-1 px-2 active"><a href="{{route('admin.users')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li> --}}
-                {{-- <li class="py-1 px-2"><a href="{{route('libros.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li> --}}
-                {{-- <li class="d-flex gap-2 py-1 px-2"><a href="{{route('login.logout')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-box-arrow-left"></i>Cerrar Sesión</a></li> --}}
                 <li class="d-flex gap-2 py-1 px-2">
                 <form action="{{route('login.logout')}}" method="post">
                     @csrf
@@ -140,37 +126,13 @@
                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
-                <!-- navegación -->
-                {{-- <div id="navegacion" class="sidebar offcanvas offcanvas-start bg-dark" data-bs-backdrop="false" data-bs-scroll="true">
-                    <div class="offcanvas-header py-3">
-                        <h5 class="offcanvas-title text-white flex-grow-1 text-center">Hola, {{Auth::user()->username}}</h5>
-                        <div data-bs-theme="dark">
-                            <button class="btn btn-close" data-bs-dismiss="offcanvas"></button>
-                        </div>
-                    </div>
-                    <div class="offcanvas-body text-white">
-                        <p class="text-center fw-bold">TABLAS</p>
-                        <ul>
-                            
-                            <li class="d-flex gap-2 py-1 px-2 active"><a href="{{route('admin.users')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-person-circle"></i>Usuarios</a></li>
-                            <li class="d-flex gap-2 py-1 px-2"><a href="{{route('libros.index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-book"></i>Libros</a></li>
-                            <li class="d-flex gap-2 py-1 px-2">
-                            <form action="{{route('login.logout')}}" method="post">
-                                @method('put')
-                                @csrf
-                                <a href="#" onclick="this.closest('form').submit()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a>
-                            </li>
-                                </form>
-                            <li class="d-flex gap-2 py-1 px-2"><a href="{{route('index')}}" class="text-decoration-none d-flex gap-2"><i class="bi bi-house-door"></i>Volver a inicio</a></li>
-                        </ul>
-                    </div>
-                </div> --}}
                 
                 @yield('content')            
     
             </div>
         </main>
     </div>
+    <label for="toggler-sidebar" id="body-label"></label>
     <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/r-2.4.1/datatables.min.js"></script>
     @yield('script')
 </body>

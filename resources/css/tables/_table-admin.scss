@@ -2,6 +2,13 @@
 @use "../base/mixins" as m;
 @use "sass:color";
 
+table{
+    font-size: .7rem;
+    @include m.tablet{
+        font-size: unset;
+    }
+}
+
 #registros__container{
     margin: 0 auto;
     .header__container{

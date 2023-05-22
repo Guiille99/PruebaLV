@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="{{asset('uploads/logo.ico')}}" type="image/x-icon">
     <script src="{{asset('build/assets/jquery-3.6.3.js')}}"></script>
     @livewireStyles
-    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/font-awesome.js", "resources/js/validation_form.js"])
+    @vite(["resources/css/app.scss","resources/js/color-theme.js", "resources/js/app.js", "resources/js/validation_form.js"])
 </head>
 <body class="@yield('body-class')">
     <header>
@@ -107,12 +107,12 @@
             <div class="carrito__container">
               <a href="" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasRight">
                 <img src="{{asset('uploads/cart.svg')}}" alt="Carrito" class="img-fluid">
-                {{-- @if (session()->get('carrito'))
-                <span class="carrito__cantidad">{{session('carrito-data')["cantidad"]}}</span>
+                @if (Auth::user()->carrito != null)
+                  <span class="carrito__cantidad">{{Auth::user()->carrito->items->sum('cantidad')}}</span>
+                {{-- <span class="carrito__cantidad">{{session('carrito-data')["cantidad"]}}</span> --}}
                 @else
-                <span class="carrito__cantidad">{{count((array) session('carrito'))}}</span>
-                @endif --}}
-                @livewire('cart-quantity')
+                  <span class="carrito__cantidad">0</span>
+                @endif
               </a>
             </div>
             @livewire('wishlist-component-icon')
@@ -137,12 +137,11 @@
             <div class="carrito__container d-block d-lg-none">
               <a href="" class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasRight">
                 <img src="{{asset('uploads/cart.svg')}}" alt="Carrito" class="img-fluid">
-                {{-- @if (session()->get('carrito'))
-                <span class="carrito__cantidad">{{session('carrito-data')["cantidad"]}}</span>
+                @if (Auth::user()->carrito != null)
+                <span class="carrito__cantidad">{{Auth::user()->carrito->items->sum('cantidad')}}</span>
                 @else
-                <span class="carrito__cantidad">{{count((array) session('carrito'))}}</span>
-                @endif --}}
-                @livewire('cart-quantity')
+                <span class="carrito__cantidad">0</span>
+                @endif
               </a>
             </div>
             @livewire('wishlist-component-icon')
@@ -267,8 +266,6 @@
 
     </header>
 
-    {{-- @livewire('carrito-component') --}}
-
     {{-- Mensaje cuando añades un libro al carrito --}}
     <div id="add-to-cart__message">
       <p class="m-0">Has añadido el libro a tu cesta</p>
@@ -276,12 +273,76 @@
     </div>
 
     {{-- Offcanvas carrito --}}
-    @livewire('cart-sidebar')
+    @if (Auth::check())
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" aria-labelledby="offcanvasCart">
+      <div class="offcanvas-header">
+        <button type="button" class="bi bi-x" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        
+        <div class="m-auto d-flex justify-content-center align-items-center gap-3">
+          <i class="bi bi-bag">
+            @if (Auth::user()->carrito != null)
+              <span class="carrito__cantidad">{{Auth::user()->carrito->items->sum('cantidad')}}</span>
+            {{-- <span class="carrito__cantidad">{{session('carrito-data')['cantidad']}}</span> --}}
+            @else
+            <span class="carrito__cantidad">0</span>
+            @endif
+          </i>
+          <h5 class="offcanvas-title" id="offcanvasCart">Mi carrito</h5>
+        </div>
+      </div>
+      <div class="offcanvas-content d-flex flex-column flex-grow-1">
+        @if (Auth::user()->carrito != null && Auth::user()->carrito->items->count() > 0)
+        <div class="offcanvas-body">
+            @foreach (Auth::user()->carrito->items as $item)
+                <div class="cart-book">
+                  <figure>
+                    <img src="{{asset($item->libro->portada)}}" alt="portada" class="img-fluid">
+                  </figure>
+  
+                  <div class="book-data">
+                    <p>{{$item->libro->titulo}}</p>
+                    <div class="book-data__body">
+                      <p>{{$item->cantidad}} x <span class="fw-bold">{{$item->libro->precio}}€</span></p>
+                    </div>
+                    <div class="book-data__footer">
+                      <p class="total-unidad">{{$item->libro->precio * $item->cantidad}}€</p>
+                      <form action="{{route('delete_to_cart', $item->libro->id)}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="bi bi-trash3 bg-transparent border-0"></button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                @endforeach
+          @else
+              <div class="offcanvas-body d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                  <i class="bi bi-emoji-frown"></i>
+                  <p>El carrito está vacío</p>
+                </div>
+          @endif
+        </div>
+        @if (Auth::user()->carrito!=null && Auth::user()->carrito->items->count() > 0)
+        <div class="offcanvas-footer">
+          <p id="total">Total: <span class="precio">{{Auth::user()->carrito->items->sum('subtotal')}}€</span></p>
+          <a href="{{route('show-cart')}}" class="text-center text-decoration-none">Ver carrito</a>
+          <form action="{{route('vaciar-carrito')}}" method="post">
+            @csrf
+            @method('delete')
+            <input type="submit" class="w-100" value="Vaciar cesta">
+          </form>
+        </div>
+        @endif
+      </div>
+
+    </div>
+    @endif
     @if (session('message'))
         <div id="alert-index" class="alert alert-success"><i class="bi bi-check-circle"></i> {{session('message')}}</div>
     @endif
 
-    @if (session('message_error'))
+    @if (session()->has('message_error'))
       <div id="alert-error" class="alert alert-danger alert-dismissible fade show my-2" role="alert">
         <i class="bi bi-exclamation-circle"></i> 
         {{session('message_error')}} 
@@ -335,7 +396,7 @@
         </div>
 
         <div class="rrss__container">
-          <a href=""><i class="fa-brands fa-facebook-f"></i></a>
+          <a href=""><i class="bi bi-facebook"></i></a>
           <a href=""><i class="bi bi-instagram"></i></a>
           <a href=""><i class="bi bi-twitter"></i></a>
           <a href=""><i class="bi bi-linkedin"></i></a>
@@ -347,55 +408,5 @@
       Livewire.onPageExpired((response, message) => {})
   </script>
 </body>
-{{-- <script>
-  $(document).ready(function(){
- 
-      $(".form-add-to-cart").submit(function(e){
-          e.preventDefault();
-          let url = "{{route('add_to_cart')}}";
-          let id = $(this)[0][1].attributes['data-id'].value; //ID del libro
-          let token = $("input[name='_token']").val();
-
-          $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-          });
-          $.ajax({
-              async: true, //Indica si la comunicación será asincrónica (true)
-              method: "POST", //Indica el método que se envían los datos (GET o POST)
-              dataType: "html", //Indica el tipo de datos que se va a recuperar
-              contentType: "application/x-www-form-urlencoded", //cómo se
-              url: url, //el nombre de la página que procesará la petición
-              data: {
-                  "token": token,
-                  "id": id
-              },
-              success: function(){
-                  $(".carrito__cantidad").load("{{route('cantidadCarrito')}}"); //Actualizamos solo el número del carrito
-                  // location.reload();
-                  $('#add-to-cart__message').css("display", "block");
-                  //Obtenemos de nuevo el contenido del carrito a través de AJAX para que se actualice el offcanvas sin recargar la página
-                  $.ajax({
-                      type: "GET",
-                      url: "{{route('offcanvas-cart-content')}}",
-                      data:{
-                          "token": token
-                      },
-                      success: function(data){
-                          $(".offcanvas-content").html(data);
-                      }
-                  })
-                  
-                  setTimeout(function(){ //Degradado al desaparecer la alerta
-                       $("#add-to-cart__message").fadeOut(2000);
-                  }, 3000)
-
-              }
-              });
-           return false;
-      });
-  })
-</script> --}}
 @yield('script')
 </html>

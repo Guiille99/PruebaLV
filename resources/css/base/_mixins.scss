@@ -153,6 +153,44 @@
     cursor: pointer;
 }
 
+@mixin comentarios-section{
+    margin-top: 20px;
+    .title{
+        border-bottom: 1px solid v.$black;
+        p{
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+        }
+    }
+    .comentarios{
+        padding: 10px 0px;
+        .comentario{
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid v.$black;
+            font-size: .8rem;
+            figure{
+                min-height: 35px;
+                min-width: 35px;
+                max-height: 35px;
+                max-width: 35px;
+            }
+            .user__info{
+                &-username-date{
+                    display: flex;
+                    gap: 20px;
+                    align-items: center;
+
+                    .date{
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
+    }
+}
+
 //Media-query
 // Media queries
 @mixin mobile{

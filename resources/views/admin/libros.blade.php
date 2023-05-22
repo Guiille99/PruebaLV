@@ -30,35 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($libros as $libro) --}}
-                                {{-- <tr>
-                                    <td>{{$libro->id}}</td>
-                                    <td>{{$libro->titulo}}</td>
-                                    <td>{{$libro->autor}}</td>
-                                    <td>{{$libro->editorial}}</td>
-                                    <td>{{$libro->stock}}</td>
-                                    <td>{{$libro->fecha_publicacion}}</td>
-                                    <td>{{$libro->precio}}€</td>
-                                    <td>{{$libro->genero}}</td>
-                                    <td>{{$libro->valoracion}}</td>
-                                    <td>{{$libro->created_at}}</td>
-                                    <td>{{$libro->updated_at}}</td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <button type="button" class="d-flex gap-2 btn-delete text-white" data-bs-toggle="modal" data-bs-target="#modal-delete-{{$libro->id}}" >
-                                                <i class="bi bi-trash3"></i> Eliminar
-                                            </button>
-
-                                            <a href="{{route('libro.edit', $libro)}}" class="d-flex gap-2 btn-modify text-white">
-                                                <i class="bi bi-pencil-square"></i> Modificar</a>
-                                        </div>
-                                    </td>
-                                </tr> --}}
-    
-                                {{-- @include('admin.deleteLibro') 
-                                Añado el modal de confirmación para el borrado de registros --}}
-                            {{-- @endforeach --}}
-                            <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modalDeleteRegistro" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <form action="" method="post">
                                         @csrf
@@ -67,7 +39,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header d-flex gap-2">
                                                 <i class="bi bi-exclamation-circle"></i>
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminación de registro</h1>
+                                                <h1 class="modal-title fs-5" id="modalDeleteRegistro">Eliminación de registro</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">

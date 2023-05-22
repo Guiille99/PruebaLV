@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Carrito extends Model
+class Wishlist extends Model
 {
     use HasFactory;
 
@@ -14,6 +14,6 @@ class Carrito extends Model
     }
 
     public function items(){
-        return $this->hasMany(CarritoLibro::class);
+        return $this->hasMany(WishListLibro::class);
     }
 }

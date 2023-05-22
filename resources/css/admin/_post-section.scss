@@ -1,8 +1,34 @@
 @use "../base/variables" as v;
 @use "../base/mixins" as m;
 
-.new-post__container{
+.new-post__container, .edit-post__container{
     #cuerpo{
         height: 400px;
+    }
+}
+
+.edit-post__container{
+    .portada-image-section{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        @include m.tablet{
+            flex-direction: row;
+        }
+        figure{
+            width: 20%;
+            min-width: 150px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+    }
+    .comentarios__container{
+        @include m.comentarios-section;
+        .btn-delete{
+            padding: 5px 10px;
+            margin-bottom: 1rem;
+        }
     }
 }
