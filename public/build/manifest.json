@@ -12,7 +12,8 @@
   },
   "resources/css/app.scss": {
     "file": "assets/app-a61cea2c.css",
-    "src": "resources/js/app.css"
+    "isEntry": true,
+    "src": "resources/css/app.scss"
   },
   "resources/fonts/Montserrat-Medium.ttf": {
     "file": "assets/Montserrat-Medium-20ebfd65.ttf",
@@ -28,7 +29,8 @@
   },
   "resources/js/app.css": {
     "file": "assets/app-a61cea2c.css",
-    "src": "resources/js/app.css"
+    "isEntry": true,
+    "src": "resources/css/app.scss"
   },
   "resources/js/app.js": {
     "assets": [

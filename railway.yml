@@ -1,7 +1,0 @@
-version: 1
-services:
-  worker:
-    build:
-      context: .
-    start:
-      command: php artisan queue:work --tries=3 --stop-when-empty
