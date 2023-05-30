@@ -1,1 +1,0 @@
-worker: php artisan queue:work --tries=3 --stop-when-empty
