@@ -1,6 +1,6 @@
 @extends('layouts.plantilla-admin')
 @section('title', 'Admin | Nuevo Post')
-<script src="https://cdn.ckeditor.com/ckeditor5/38.0.0/classic/ckeditor.js"></script>
+<script src="{{asset('build/assets/ckeditor.js')}}"></script>
 @section('content')
     <div class="register__section new-post__container">
         <div class="title">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-floating mt-3">
                        <textarea  id="cuerpo" name="cuerpo" class="form-control" placeholder="Cuerpo del post">{{old('cuerpo')}}</textarea>
-                       <label for="cuerpo" class="form-label ms-1">Cuerpo del post</label>
+                       <label for="cuerpo" class="form-label ms-1"></label>
                        @error('cuerpo')
                             <small class="text-danger">* {{$message}}</small>
                         @enderror
@@ -64,7 +64,6 @@
         .create( document.querySelector( '#cuerpo' ) )
         .catch( error => {
             console.error( error );
-        } );
-
+    } );
 </script>
 @endsection

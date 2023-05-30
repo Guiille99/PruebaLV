@@ -112,4 +112,9 @@ class PedidoController extends Controller
             return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
     }
+
+    public static function getLastNPedidos($nPedidos){
+        $pedidos = Pedido::orderby('id', 'desc')->take($nPedidos)->paginate($nPedidos);
+        return $pedidos;
+    }
 }

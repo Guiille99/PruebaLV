@@ -1,10 +1,6 @@
 @extends('layouts.plantilla')
 @section("title", "Books | Inicio")
 @section('content')
-    {{-- @if (session('message'))
-        <div id="alert-index" class="alert alert-success"><i class="bi bi-check-circle"></i> {{session('message')}}</div>
-    @endif --}}
-
     <div id="carrusel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carrusel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>

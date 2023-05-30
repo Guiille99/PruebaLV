@@ -14,6 +14,7 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProvinciaController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
 use App\Mail\ContactanosMailable;
@@ -98,8 +99,8 @@ Route::controller(CarritoController::class)->group(function(){
 Route::controller(DireccionController::class)->group(function(){
     Route::delete('perfil/deleteAddress/{user}/{direccion}', 'destroy')->name('delete-address');
     Route::put('perfil/update-principal-address/{user}', 'updatePrincipalAddress')->name('update-principal-address');
-    Route::get('new_address_process', 'create')->name('address.create');
-    Route::post('perfil/new_address', 'store')->name('store.address');
+    Route::get('new_address_process', 'create')->middleware('auth')->name('address.create');
+    Route::post('perfil/new_address', 'store')->middleware('auth')->name('store.address');
     Route::get('perfil/address/{user}/{direccion}', 'edit')->name('edit.address');
     Route::put('perfil/address/{direccion}/update-address', 'update')->middleware('auth')->name('update.address');
 });
@@ -147,6 +148,15 @@ Route::controller(ProvinciaController::class)->group(function(){
     Route::post('admin/provincia/add-provincia', 'store')->middleware('checkadmin')->name('provincia.store');
 });
 
+//RUTAS PARA EL MANEJO DE LAS TAREAS DEL USUARIO
+Route::controller(TareaController::class)->group(function(){
+    Route::get('admin/tareas', 'getTareas')->middleware('checkadmin')->name('tareas.get');
+    Route::get('admin/calendario', 'showCalendar')->middleware('checkadmin')->name('calendar.show');
+    Route::post('admin/calendario/add-task', 'store')->middleware('checkadmin')->name('tarea.store');
+    Route::put('admin/calendario/modify-task', 'update')->middleware('checkadmin')->name('tarea.update');
+    Route::delete('admin/calendario/delete-task', 'destroy')->middleware('checkadmin')->name('tarea.destroy');
+});
+
 //RUTAS PARA MANEJO DE EMAILS
 // Route::controller(MailController::class)->group(function(){
 //     Route::post('suscribe-newstler', 'sendEmailSuscribeNewstler')->name('suscribe.newstler');
@@ -154,4 +164,9 @@ Route::controller(ProvinciaController::class)->group(function(){
 
 Route::controller(NewsletterController::class)->group(function(){
     Route::post('suscribe-newstler', 'suscribeNewstler')->name('suscribe.newstler');
+    Route::get('desuscribir-newsletter/{user}', 'destroyNewsletterView')->middleware('auth')->name('newsletter.destroy-view');
+    Route::get('desuscribir-newsletter', 'destroyNewsletterNoAccountView')->name('newsletter.destroy-no-account-view');
+    Route::post('desuscribir-newsletter', 'unsuscribeEmail')->name('unsuscribe.newsletter.sendEmail');
+    Route::get('desuscribir-newsletter/{token}/{email}', 'unsuscribeNoAccount')->name('unsuscribeNoAccount.newsletter');
+    Route::delete('desuscribir-newsletter', 'unsuscribe')->name('unsuscribe.newsletter');
 });

@@ -41,7 +41,7 @@
                               <label for="estado" class="form-label ms-1">Estado</label>
                         </div>
                         <div class="form-floating mt-3 col-md-3">
-                            <input type="text" name="fecha" id="fecha" class="form-control" value="{{$pedido->created_at->format('d/m/Y H:m:s')}}" placeholder="Fecha de pedido" readonly>
+                            <input type="text" name="fecha" id="fecha" class="form-control" value="{{$pedido->created_at->format('d/m/Y H:i:s')}}" placeholder="Fecha de pedido" readonly>
                             <label for="fecha" class="form-label ms-1">Fecha de pedido</label>
                         </div>
                         <div class="form-floating mt-3 col-md-3">

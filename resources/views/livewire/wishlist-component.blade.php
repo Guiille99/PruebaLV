@@ -7,7 +7,7 @@
         </div>
     @endif --}}
     @if (Auth::check())
-        @if (session()->get('wishlist')!=null && $libroWishlistExists)
+        @if ($libroWishlistExists)
             <div wire:ignore>
                 <button wire:click="deleteToWishlist" wire:loading.attr="disabled" class="boton btn-carrito mt-2" data-id="{{$libro->id}}">
                     <i wire:loading.remove class="bi bi-heart-fill"></i> 
@@ -33,16 +33,4 @@
     @else
     <button class="btn-outline-green mt-2" disabled><i class="bi bi-heart"></i> Añadir a la lista de deseos</button>
     @endif
-    {{-- <script>
-        $(document).ready(function(){
-            $(document).on('toggle-wishlist', function(){
-                $('body').append("<div id='alert-index' class='alert alert-success'><i class='bi bi-check-circle'></i> "+ event.detail.message +"</div>");
-                setTimeout(function(){
-                $("#alert-index").fadeOut(2000, function(){
-                    $("#alert-index").remove();
-                });
-                }, 3000)
-            });
-        })
-    </script> --}}
 </div>

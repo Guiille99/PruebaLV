@@ -6,7 +6,6 @@
         <ol class="breadcrumb m-0">
             <li class="breadcrumb-item"><a href="{{route('index')}}">Inicio</a></li>
             <li class="breadcrumb-item" aria-current="page"><a href="{{route('blog')}}">Blog</a></li> 
-            {{-- FALTA ENLACE CATEGORÍA --}}
             <li class="breadcrumb-item" aria-current="page"><a href="{{route('show.categoria', $post->categoria->slug)}}">{{$post->categoria->nombre}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{$post->nombre}}</li> 
         </ol>
@@ -29,8 +28,9 @@
                     <div class="post__content">
                         <div class="post__content-header">
                             <h1 class="post__content-titulo">{{$post->nombre}} <i role="checkbox" aria-checked="false" class="microfono-icon bi bi-mic-fill"></i></h1>
+                            {{-- <i class="bi bi-mic-fill"></i> --}}
                         </div>
-                        <div id="cuerpo" class="post__content-body">{!! $post->cuerpo !!}</div>
+                        <div class="post__content-body">{!! $post->cuerpo !!}</div>
                     </div>
                     <div class="comentarios__container">
                         <div class="title">

@@ -386,7 +386,7 @@
           <div class="footer__menu">
             <h4>Otros enlaces</h4>
             <div class="info__details">
-              <a href="">Mapa del sitio</a>
+              <a href="{{route('newsletter.destroy-no-account-view')}}">Baja del Newsletter</a>
               <a href="">Empleo</a>
               <a href="">Quiénes somos</a>
             </div>

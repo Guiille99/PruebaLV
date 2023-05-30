@@ -39,6 +39,10 @@ class User extends Authenticatable
         return $this->hasOne(Wishlist::class);
     }
 
+    public function tareas(){
+        return $this->hasMany(Tarea::class);
+    }
+
     public function getDireccionPrincipal(){
         $user = User::find(Auth::user()->id);
         return $user->direcciones()->wherePivot('principal', '1')->first();

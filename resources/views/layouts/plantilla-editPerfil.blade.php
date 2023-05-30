@@ -32,6 +32,7 @@
                                     <li><a href="{{route('user.editPerfil-datos', Auth::user())}}">Mis Datos</a></li>
                                     <li><a href="{{route('user.editPerfil-direcciones', Auth::user())}}">Mis Direcciones</a></li>
                                     <li><a href="{{route('user.editPerfil-password', Auth::user())}}">Contraseña</a></li>
+                                    <li><a href="{{route('newsletter.destroy-view', Auth::user())}}">Desuscribirse de Newsletter</a></li>
                                     <li><a href="{{route('user.destroy-view', Auth::user())}}">Eliminar Cuenta</a></li>
                                 </ul>
                             </li>

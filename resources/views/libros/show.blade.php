@@ -6,7 +6,6 @@
     @endforeach
 @endsection
 @section('content')
-{{-- {{count(session()->get('wishlist'))}} --}}
     <div class="libro__container py-4">
         <div class="portada__container">
             <figure>
@@ -54,23 +53,7 @@
                 <p class="stock text-danger">Sin stock</p>
                 <button class="boton btn-carrito" disabled><i class="bi bi-cart"></i> Añadir a mi cesta</button>
             @endif
-                {{-- @if (Auth::check())
-                    @if (session()->get('wishlist')!=null && array_key_exists($libro->id,session()->get('wishlist')))
-                        <form action="{{route('delete_to_wishlist', $libro)}}" method="post">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" class="boton btn-carrito mt-2" data-id="{{$libro->id}}"><i class="bi bi-heart-fill"></i> Eliminar de la lista de deseos</button>
-                        </form>
-                    @else
-                        <form action="{{route('add_to_wishlist', $libro)}}" method="post">
-                            @csrf
-                            <button type="submit" class="btn-outline-green mt-2" data-id="{{$libro->id}}"><i class="bi bi-heart"></i> Añadir a la lista de deseos</button>
-                        </form>
-                    @endif
-                @else
-                <button class="btn-outline-green mt-2" disabled><i class="bi bi-heart"></i> Añadir a la lista de deseos</button>
-                @endif --}}
-                @livewire('wishlist-component', ['libro'=>$libro])
+            @livewire('wishlist-component', ['libro'=>$libro])
 
         </div>
     </div>

@@ -48,7 +48,6 @@ class CarritoController extends Controller
             } catch (\Throwable $e) {
                 DB::rollBack();
                 return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
-                return $e;
             }     
         }
         return redirect()->back();

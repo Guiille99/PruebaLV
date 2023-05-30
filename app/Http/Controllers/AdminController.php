@@ -19,10 +19,12 @@ class AdminController extends Controller
         $beneficioUltMes = $this->getBeneficioUltimoMes();
         $librosVendidosUltMes = $this->getLibrosVendidosUltMes();
         $usuariosRegistrados = $this->getUsuariosRegistrados();
+        $ultimosPedidos = PedidoController::getLastNPedidos(5);
+        // dd($ultimosPedidos);
         $ventaChart = $chartData["ventaChart"];
         $userChart = $chartData["userChart"];
         
-        return view('admin.dashboard', compact('ingresoUltMes', 'beneficioUltMes', 'librosVendidosUltMes', 'usuariosRegistrados', 'ventaChart', 'userChart'));
+        return view('admin.dashboard', compact('ingresoUltMes', 'beneficioUltMes', 'librosVendidosUltMes', 'usuariosRegistrados', 'ultimosPedidos', 'ventaChart', 'userChart'));
     }
 
     private function generaGrafica(){

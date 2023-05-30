@@ -31,6 +31,28 @@ $(document).ready(function(){
     "</div>")
     });
 
+    //Evento que se ejecuta cuando se realiza una ejecución correctamente en un livewire en la parte del administrador
+    $(document).on('alert-admin-live-success', function(event){
+        $('main').prepend("<div id='alert-index' class='alert alert-success'><i class='bi bi-check-circle'></i> "+ event.detail.message +"</div>");
+        setTimeout(function(){
+        $(".alert-success").fadeOut(2000, function(){
+            $(".alert-success").remove();
+        });
+        }, 3000)
+    });
+
+    //Evento que se ejecuta cuando hay un error en un livewire en la parte del administrador
+    $(document).on('alert-admin-live-error', function(event){
+        if ($("#alert-error").length > 0) {
+            $("#alert-error").remove();
+        }
+        $("main").prepend("<div id='alert-error' class='alert alert-danger alert-dismissible fade show my-2' role='alert'>"+
+        "<i class='bi bi-exclamation-circle'></i> "+ 
+        event.detail.message+ 
+        "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>"+
+    "</div>")
+    });
+
 
 
     //Cambio el contenido del modal dependiendo del método de pago seleccionado

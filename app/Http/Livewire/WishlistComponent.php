@@ -18,7 +18,9 @@ class WishlistComponent extends Component
 
     public function mount($libro){
         $this->libro = $libro;
-        $this->wishlist = Auth::user()->wishlist; //Obtengo la sesión del carrito
+        if (Auth::check()) {
+            $this->wishlist = Auth::user()->wishlist; //Obtengo la sesión del carrito
+        }
     }
 
     public function addToWishlist(){

@@ -29,7 +29,7 @@
                         @foreach ($pedidos as $pedido)
                             <tr>
                                 <td>{{$pedido->id}}</td>
-                                <td>{{$pedido->created_at->format('d-m-Y H:m:s')}}</td>
+                                <td>{{$pedido->created_at->format('d-m-Y H:i:s')}}</td>
                                 <td>{{$pedido->estado}}</td>
                                 <td>{{$pedido->tipo_pago}}</td>
                                 <td>{{$pedido->total}}€</td>

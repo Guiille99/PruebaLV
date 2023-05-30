@@ -1,0 +1,110 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+@use "sass:color";
+
+.tasks__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @include m.desktop{
+        flex-direction: row;
+    }
+    #calendar {
+        width: 100%;
+        @include m.desktop {
+            width: 65%;
+        }
+        .fc-daygrid-event-harness {
+            font-size: 0.8rem;
+        }
+
+        .fc-header-toolbar{
+            flex-direction: column;
+            gap: 5px;
+            @include m.tablet{
+                flex-direction: row;
+            }
+        }
+    }
+
+    .tasklist__container {
+        height: fit-content;
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 30px color.adjust(v.$black, $alpha: -0.6);
+        @include m.desktop {
+            width: 30%;
+        }
+        .header {
+            text-align: center;
+            padding: 7px 0px;
+            width: fit-content;
+            margin: 0 auto;
+            border-bottom: 3px solid v.$green;
+        }
+
+        .tasks {
+            padding: 10px 0px;
+            .task {
+                padding: 20px;
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                border-bottom: 1px solid v.$white-dark-mode;
+                .tarea_check-label{
+                    display: unset;
+                    align-items: unset;
+                }
+                p{
+                    margin: 0;
+                }
+
+                .task__info{
+                    display: grid;
+                    gap: 5px;
+                    &-date{
+                        font-size: .8rem;
+                    }
+                }
+            }
+        }
+        .btn-modify{
+            display: none;
+        }
+    }
+}
+
+.tarea_check {
+    &:checked ~ .tarea_check-label {
+        .bi-check {
+            display: block;
+        }
+        .task-list-mark {
+            border-color: v.$green;
+        }
+    }
+    &:checked ~ .task__info{
+        .title{
+            text-decoration: line-through;
+        }
+    }
+}
+.tarea_check-label {
+    display: flex;
+    align-items: center;
+    .task-list-mark {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 12px;
+        width: 20px;
+        height: 20px;
+        border: 2px solid grey;
+        border-radius: 12px;
+    }
+    .bi-check {
+        display: none;
+        color: v.$green;
+    }
+}

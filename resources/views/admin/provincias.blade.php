@@ -62,7 +62,7 @@
                 {orderable: false, target:[0,1,2]},
             ],
             language: {
-                "processing": "<div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>",
+                "processing": "<div class='spinner-border' role='status'><span class='visually-hidden'>Loading...</span></div>",
                 "lengthMenu": "Mostrar _MENU_ registros",
                 "zeroRecords": "No se encontraron resultados",
                 "emptyTable": "Ningún dato disponible en esta tabla",
@@ -70,7 +70,7 @@
                 "infoFiltered": "(filtrado de un total de _MAX_ registros)",
                 "search": "Buscar:",
                 "infoThousands": ",",
-                "loadingRecords": "<div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>",
+                "loadingRecords": "<div class='spinner-border' role='status'><span class='visually-hidden'>Loading...</span></div>",
                 "paginate": {
                     "first": "Primero",
                     "last": "Último",
