@@ -20,7 +20,6 @@ class AdminController extends Controller
         $librosVendidosUltMes = $this->getLibrosVendidosUltMes();
         $usuariosRegistrados = $this->getUsuariosRegistrados();
         $ultimosPedidos = PedidoController::getLastNPedidos(5);
-        // dd($ultimosPedidos);
         $ventaChart = $chartData["ventaChart"];
         $userChart = $chartData["userChart"];
         

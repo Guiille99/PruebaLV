@@ -114,26 +114,23 @@ class PostController extends Controller{
     }
 
     public function showBlog(){
-        $generos = LibroController::getGeneros();
         //Obtiene los 3 últimos post de la categoría Destacados
         $postsDestacados = Post::where('categoria_id', '5')->latest()->take(3)->get();
         $ultimasResenas = Post::orderby('created_at', 'desc')->take(6)->get();
-        return view('blog.blog', compact('generos', 'postsDestacados', 'ultimasResenas'));
+        return view('blog.blog', compact('postsDestacados', 'ultimasResenas'));
     }
 
     public function showPost($slug){
-        $generos = LibroController::getGeneros();
         $post = Post::where('slug', $slug)->first();
         $postsMismaCategoria = Post::where('categoria_id', $post->categoria->id)->where('nombre', '!=', $post->nombre)->take(3)->get();
         $comentarios = $post->comentarios;
-        return view('blog.post', compact('post', 'postsMismaCategoria', 'comentarios', 'generos'));
+        return view('blog.post', compact('post', 'postsMismaCategoria', 'comentarios'));
     }
 
     public function showPostsCategory($slug){
-        $generos = LibroController::getGeneros();
         $categoria = Categoria::where('slug', $slug)->first();
         $posts = Post::where('categoria_id', $categoria->id)->get();
-        return view("blog.posts-categoria", compact("categoria", "posts", "generos"));
+        return view("blog.posts-categoria", compact("categoria", "posts"));
     }
 
     public function getPosts(Request $request){

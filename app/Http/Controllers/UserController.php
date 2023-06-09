@@ -70,8 +70,7 @@ class UserController extends Controller
     }
 
     public function destroyAccountView(User $user){
-        $generos = LibroController::getGeneros();
-        return view("users.editPerfil-deleteAccount", compact('user', 'generos'));
+        return view("users.editPerfil-deleteAccount", compact('user'));
     }
 
     public function destroyAccountPerfil(Request $request, User $user){
@@ -115,23 +114,19 @@ class UserController extends Controller
     }
 
     public function editPerfil(User $user){ 
-        $generos=LibroController::getGeneros();
-        return view("users.editPerfil", compact('user', 'generos'));
+        return view("users.editPerfil", compact('user'));
     }
 
     public function myData(User $user){
-        $generos=LibroController::getGeneros();
-        return view("users.editPerfil-datos", compact('user', 'generos'));
+        return view("users.editPerfil-datos", compact('user'));
     }
     public function myAddresses(User $user){
-        $generos=LibroController::getGeneros();
         $direcciones = $user->direcciones()->orderby('principal', 'desc')->get();
-        return view("users.editPerfil-direcciones", compact('user', 'generos', 'direcciones'));
+        return view("users.editPerfil-direcciones", compact('user', 'direcciones'));
     }
 
     public function myAccountPassword(User $user){
-        $generos=LibroController::getGeneros();
-        return view("users.editPerfil-password", compact('user', 'generos'));
+        return view("users.editPerfil-password", compact('user'));
     }
 
 

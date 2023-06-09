@@ -76,7 +76,7 @@ class LibroController extends Controller
         return redirect()->route('libros.filter', $request->filtro); //Envío el filtro recogido en la barra de búsqueda y lo envío
     }
 
-    public function destroy(Libro $libro){ 
+    public function destroy(Request $request, Libro $libro){ 
         DB::beginTransaction();
         try {
             if (isset($carrito[$libro->id])) { //Si el libro está en el carrito
@@ -93,7 +93,8 @@ class LibroController extends Controller
 
             $wishlist = session()->get('wishlist');
             if (array_key_exists($libro->id, $wishlist)) { //Si el libro está en la wishlist
-                WishlistController::deleteToWishlist($libro);
+                $wishlistController = new WishlistController();
+                $wishlistController -> deleteToWishlist($request, $libro->id);
             }
             $publicID = $this->getPublicID($libro->portada);
             Cloudinary::destroy($publicID); //Elimina la imagen

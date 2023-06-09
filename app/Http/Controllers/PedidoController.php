@@ -12,10 +12,9 @@ use Illuminate\Support\Facades\DB;
 class PedidoController extends Controller
 {
     public function showPedidos(){
-        $generos = LibroController::getGeneros();
         $user = User::find(Auth::user()->id);
         $pedidos = $user->pedidos()->orderby('created_at', 'desc')->paginate(5);
-        return view('pedidos.mis-pedidos', compact('generos', 'user', 'pedidos'));
+        return view('pedidos.mis-pedidos', compact('user', 'pedidos'));
     }
 
     public function showAllOrders(){
@@ -81,10 +80,9 @@ class PedidoController extends Controller
     }
 
     public function showPedidosCancelados(){
-        $generos = LibroController::getGeneros();
         $user = User::find(Auth::user()->id);
         $pedidos = $user->pedidos()->where('estado', 'Cancelado')->orderby('created_at', 'desc')->paginate(5);
-        return view('pedidos.pedidos-cancelados', compact('generos', 'user', 'pedidos'));
+        return view('pedidos.pedidos-cancelados', compact('user', 'pedidos'));
     }
 
     public function cancelaPedido($idPedido){

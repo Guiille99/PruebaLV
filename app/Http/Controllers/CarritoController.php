@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 class CarritoController extends Controller
 {
     public function addCarrito(Request $request){
-        // dd(Auth::id());
         if ($request->ajax() && $request->input("token")) { //Si se ha recibido el token
             $libro = Libro::where('id', $request->input('id'))->first();
             $carrito = Auth::user()->carrito; //Obtengo el carrito
