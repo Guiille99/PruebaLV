@@ -1,10 +1,5 @@
 @extends('layouts.plantilla')
 @section("title", "Books | $libro->titulo")
-@section("generos_libros")
-    @foreach ($generos as $genero)
-        <li><a class="dropdown-item" href="{{route('libros.filter', $genero->genero)}}">{{$genero->genero}}</a></li>
-    @endforeach
-@endsection
 @section('content')
     <div class="libro__container py-4">
         <div class="portada__container">

@@ -235,8 +235,7 @@ class LibroController extends Controller
     }
 
     public function show(Libro $libro){
-        $generos = Libro::select('genero')->distinct()->get();
-        return view("libros.show", compact('libro', 'generos'));
+        return view("libros.show", compact('libro'));
     }
 
     private function uploadImage($file){

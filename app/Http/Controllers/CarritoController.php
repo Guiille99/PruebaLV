@@ -109,8 +109,7 @@ class CarritoController extends Controller
     }
 
     public function showCart(){
-        $generos = LibroController::getGeneros();
-        return view("carrito.show-cart", compact('generos'));
+        return view("carrito.show-cart");
     }
 
     public function showCantidad(){
@@ -143,14 +142,12 @@ class CarritoController extends Controller
     }
 
     public function showDetallesEnvio(){
-        $generos = LibroController::getGeneros();
         $provincias = Provincia::select('nombre')->orderby('nombre', 'asc')->get();
         $total = Auth::user()->carrito->items->sum('subtotal');
-        return view("carrito.detalles-envio", compact("generos", "provincias", "total"));
+        return view("carrito.detalles-envio", compact("provincias", "total"));
     }
 
     public function shop(Request $request){
-        $generos = LibroController::getGeneros();
         if (Auth::user()->carrito == null || Auth::user()->carrito->items->count() == 0) {
             return redirect()->route('show-cart');
         }
@@ -173,11 +170,11 @@ class CarritoController extends Controller
     
             CarritoLibro::where('carrito_id', Auth::user()->carrito->id)->delete();
             DB::commit();
-            return view("carrito.compra-finalizada", compact("generos"));
+            return view("carrito.compra-finalizada");
         } catch (\Throwable $e) {
             DB::rollBack();
-            // return $e->getMessage();
-            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+            return $e->getMessage();
+            // return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
         }
     }
 
