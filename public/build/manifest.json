@@ -11,7 +11,7 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-a61cea2c.css",
+    "file": "assets/app-b4405580.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
@@ -28,7 +28,7 @@
     "src": "resources/fonts/WorkSans-Regular.ttf"
   },
   "resources/js/app.css": {
-    "file": "assets/app-a61cea2c.css",
+    "file": "assets/app-b4405580.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
@@ -41,9 +41,9 @@
       "assets/WorkSans-Regular-1b94e0d8.ttf"
     ],
     "css": [
-      "assets/app-a61cea2c.css"
+      "assets/app-b4405580.css"
     ],
-    "file": "assets/app-48da100a.js",
+    "file": "assets/app-2cdd77d1.js",
     "imports": [
       "_axios-ca6126ea.js"
     ],

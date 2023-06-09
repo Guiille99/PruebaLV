@@ -3,6 +3,7 @@
 @use "sass:color";
 
 .tasks__container {
+    text-decoration: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
