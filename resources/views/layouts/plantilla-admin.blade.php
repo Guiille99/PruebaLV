@@ -57,15 +57,15 @@
                     </div>
                 </li>
                 <li class="py-1 px-2"><a href="{{route('calendar.show')}}" class="d-flex gap-2 align-items-center"><i class="bi bi-calendar"></i> Calendario</a></li>
-                <li class="d-flex gap-2 py-1 px-2">
-                <form action="{{route('login.logout')}}" method="post">
-                    @csrf
-                    @method('put')
-                    {{-- Cuando haga click en el enlace hará un submit --}}
-                    <a href="#" onclick="this.closest('form').submit()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a>
-                </li>
-                    </form>
                 <li class="py-1 px-2"><a href="{{route('index')}}" class="text-decoration-none d-flex gap-2 align-items-center"><i class="bi bi-house-door"></i>Volver a inicio</a></li>
+                <li class="d-flex gap-2 py-1 px-2">
+                    <form action="{{route('login.logout')}}" method="post">
+                        @csrf
+                        @method('put')
+                        {{-- Cuando haga click en el enlace hará un submit --}}
+                        <a href="#" onclick="this.closest('form').submit()"><i class="bi bi-box-arrow-left"></i> Cerrar sesión</a>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>

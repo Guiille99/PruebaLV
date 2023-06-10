@@ -27,8 +27,7 @@
                 <div class="post">
                     <div class="post__content">
                         <div class="post__content-header">
-                            <h1 class="post__content-titulo">{{$post->nombre}} <i role="checkbox" aria-checked="false" class="microfono-icon bi bi-mic-fill"></i></h1>
-                            {{-- <i class="bi bi-mic-fill"></i> --}}
+                            <h1 class="post__content-titulo">{{$post->nombre}} <i role="checkbox" aria-checked="false" class="play-btn bi bi-volume-down-fill"></i></h1>
                         </div>
                         <div class="post__content-body">{!! $post->cuerpo !!}</div>
                     </div>
@@ -58,6 +57,9 @@
                                         </div>
                                     </div>
                                 @endforeach
+                                <div class="paginator__container">
+                                    {{$comentarios->links()}}
+                                </div>
                             @endif
                         </div>
 

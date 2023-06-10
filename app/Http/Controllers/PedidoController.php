@@ -60,9 +60,6 @@ class PedidoController extends Controller
             ->addColumn('user_id', function($pedido){
                 return $pedido->user->username;
             })
-            ->addColumn('direccion_id', function($pedido){
-                return $pedido->direccion->calle . ", " . $pedido->direccion->numero . " - " . $pedido->direccion->cp ." (" . $pedido->direccion->provincia->nombre . ")";
-            })
             ->addColumn('action', function($pedido){
                 $btn="<div class='d-flex align-items-center justify-content-center gap-2'>
                 <button type='button' id='btn-delete' data-id='$pedido->id' class='d-flex gap-2 btn-delete text-white btn-delete-user' title='Eliminar pedido' data-bs-toggle='modal' data-bs-target='#modal-delete' >
@@ -86,7 +83,6 @@ class PedidoController extends Controller
     }
 
     public function cancelaPedido($idPedido){
-        // dd($idPedido);
         $pedido = Pedido::find($idPedido);
         DB::beginTransaction();
         try {
@@ -111,8 +107,29 @@ class PedidoController extends Controller
         }
     }
 
-    public static function getLastNPedidos($nPedidos){
-        $pedidos = Pedido::orderby('id', 'desc')->take($nPedidos)->paginate($nPedidos);
-        return $pedidos;
+    public static function getLastNPedidos(Request $request){
+        if ($request->ajax()) {
+            $pedidos = Pedido::orderby('id', 'desc')->take(5);
+            return datatables()->of($pedidos)
+            ->addColumn('user_id', function($pedido){
+                return $pedido->user->username;
+            })
+            // ->addColumn('direccion_id', function($pedido){
+            //     return $pedido->direccion->calle . ", " . $pedido->direccion->numero . " - " . $pedido->direccion->cp ." (" . $pedido->direccion->provincia->nombre . ")";
+            // })
+            ->addColumn('action', function($pedido){
+                $btn="<div class='d-flex align-items-center justify-content-center gap-2'>
+                <button type='button' id='btn-delete' data-id='$pedido->id' class='d-flex gap-2 btn-delete text-white btn-delete-user' title='Eliminar pedido' data-bs-toggle='modal' data-bs-target='#modal-delete' >
+                    <i class='bi bi-trash3'></i> 
+                </button>
+
+                <a href='". route('edit.order', $pedido) ."' class='d-flex gap-2 btn-modify text-white' title='Editar pedido'>
+                    <i class='bi bi-pencil-square'></i></a>
+            </div>";
+            return $btn;
+            })
+            ->toJson();
+        }
+        return redirect()->back();
     }
 }

@@ -1,17 +1,20 @@
 @use "../base/variables" as v;
 @use "../base/mixins" as m;
 
-.resenas__container{
+.blog-main-content{
     background-color: v.$bg-dark-green;
+    h1{
+        color: v.$white;
+        text-align: center;
+        @include m.title-border(v.$white);
+        width: fit-content;
+        margin: 0 auto;
+    }
+}
+.resenas__container{
     .resenas{
         padding: v.$separation 0;
         color: v.$white;
-        h1{
-            text-align: center;
-            @include m.title-border(v.$white);
-            width: fit-content;
-            margin: 0 auto;
-        }
     
         &__grid{
             margin: 0 auto;

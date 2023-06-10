@@ -1,0 +1,10 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+.quienes-somos__container{
+    .portada{
+        background-image: url("https://res.cloudinary.com/det0ae4ke/image/upload/v1685913363/books/quienes-somos-bg_qimlof.jpg");
+    }
+    // .quienes-somos__info{
+    //     padding: 20px;
+    // }
+}

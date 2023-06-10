@@ -20,6 +20,12 @@
     padding: 10px 15px;
 }
 
+.btn-back{
+    @include m.btn(v.$dark-green, $white);
+    border-radius: 0.4rem;
+    padding: 10px 15px;
+}
+
 .btn-outline-green{
     @include m.btn-outline(v.$white, v.$green);
 }

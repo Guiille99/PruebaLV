@@ -22,7 +22,7 @@ class ProvinciaController extends Controller
                     <i class='bi bi-trash3'></i> 
                 </button>
 
-                <a href='". route('edit.post', $provincia) ."' class='d-flex gap-2 btn-modify text-white' title='Editar provincia'>
+                <a href='". route('provincia.edit', $provincia) ."' class='d-flex gap-2 btn-modify text-white' title='Editar provincia'>
                     <i class='bi bi-pencil-square'></i></a>
             </div>";
             return $btn;
@@ -47,6 +47,42 @@ class ProvinciaController extends Controller
             $provincia->save();
             DB::commit();
             return redirect()->route('provincias.show')->with("message", "Provincia añadida correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
+    }
+
+    public function edit(Provincia $provincia){
+        return view('provincias.edit', compact('provincia'));
+    }
+    public function update(Provincia $provincia, Request $request){
+        $request->validate([
+            "nombre" => "required|max:40"
+        ]);
+        $provincias = Provincia::where('nombre', $request->nombre)->whereNot('id', $provincia->id)->count();
+        if ($provincias != 0) { //Si hay alguna provincia con ese nombre que no es ella misma
+            return redirect()->route('provincia.edit', $provincia)->withErrors([
+                "nombre" => "Esta provincia está en uso"
+            ]); 
+        }
+        DB::beginTransaction();
+        try {
+            $provincia->nombre = $request->nombre;
+            $provincia->save();
+            DB::commit();
+            return redirect()->route('provincias.show')->with("message", "Provincia actualizada correctamente");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+        }
+    }
+    public function destroy(Provincia $provincia){
+        DB::beginTransaction();
+        try {
+            $provincia->delete();
+            DB::commit();
+            return redirect()->route('provincias.show')->with("message", "Provincia eliminada correctamente");
         } catch (\Throwable $e) {
             DB::rollBack();
             return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");

@@ -25,11 +25,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($users as $user)
-                                @include('admin.delete')  
-                                Añado el modal de confirmación para el borrado de registros
-                            @endforeach                   --}}
-
                             <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modalEliminacionRegistro" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <form action="" method="post">
@@ -39,7 +34,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header d-flex gap-2">
                                             <i class="bi bi-exclamation-circle"></i>
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminación de registro</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminación de usuario</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -56,12 +51,8 @@
                             </div>
                         </tbody>
                     </table>
-
                 </div>
 
-                {{-- <div class="w-100">
-                    {{$users->links()}}
-                </div> --}}
             </div>
         </div>
     </div>

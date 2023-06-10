@@ -1,0 +1,7 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+.condiciones-uso__container{
+    .portada{
+        background-image: url("https://res.cloudinary.com/det0ae4ke/image/upload/v1685917579/books/condiciones-uso-bg_fttuie.jpg");
+    }
+}

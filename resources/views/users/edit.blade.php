@@ -91,21 +91,6 @@
                     @enderror
                 </div>
 
-                {{-- <div class="form-floating mt-3 d-flex align-items-center gap-2 col-md-6">
-                    <input type="file" name="avatar" id="avatar" class="form-control" placeholder="Imagen de perfil">
-                    <label for="avatar" class="form-label ms-1">Imagen de perfil</label>
-                    @error('avatar')
-                        <small class="text-danger">* {{$message}}</small>
-                    @enderror
-                   Si la imagen de perfil no es por defecto dará la opción de eliminar la imagen
-                    @if ($user->avatar !=  config('app.constantes.defaultAvatar'))
-                        <button id="btn-deleteAvatar" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteImageProfile">
-                            <i class="bi bi-trash3"></i>
-                            <span>Eliminar</span>
-                        </button>
-                    @endif
-                </div> --}}
-
                 <div class="mt-3 col-md-6">
                     <select name="rol" id="rol" class="form-select h-100" aria-label="rol" required>
                         <option value="">-- Selecciona un rol --</option>
@@ -125,8 +110,9 @@
                 </div>
         
         
-                <div class="mt-4">
+                <div class="buttons__container mt-4">
                     <input type="submit" value="Modificar" class="btn-modify">
+                    <a href="{{route('admin.users')}}" class="btn-back">Volver</a>
                 </div>
     
             </div>

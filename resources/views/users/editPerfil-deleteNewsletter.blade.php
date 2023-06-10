@@ -6,7 +6,7 @@
 <li class="breadcrumb-item active" aria-current="page">Desuscribirse de Newsletter</li> 
 @endsection
 @section('miCuenta-isActive', 'active')
-    <div class="column account__details profile-section">
+    <div class="column account__details profile-section unsuscribe-newsletter__container">
         <div class="title">
             <p>Baja del Newsletter</p>
         </div>
@@ -25,9 +25,6 @@
                     <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
                     <i class="bi bi-eye togglePassword"></i>
                     <label for="password" class="form-label ms-1">Confirme la contraseña</label>
-                    @error('password')
-                        <small class="text-danger">* {{$message}}</small> <br>
-                    @enderror
                 </div>
                 
                 <button class="btn btn-danger">
@@ -35,6 +32,9 @@
                     <span>Darse de baja</span>
                 </button>
             </form>
+            @error('password')
+                <small class="text-danger">* {{$message}}</small> <br>
+            @enderror
             @else
                 <div class="alert alert-warning mt-2" role="alert">
                     <i class="bi bi-exclamation-triangle"></i>

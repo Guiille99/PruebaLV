@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Charts\UsersChart;
 use App\Charts\VentasChart;
 use App\Models\Libro;
+use App\Models\LibroPedido;
 use App\Models\Pedido;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -19,12 +19,11 @@ class AdminController extends Controller
         $beneficioUltMes = $this->getBeneficioUltimoMes();
         $librosVendidosUltMes = $this->getLibrosVendidosUltMes();
         $usuariosRegistrados = $this->getUsuariosRegistrados();
-        $ultimosPedidos = PedidoController::getLastNPedidos(5);
-        dd($ultimosPedidos);
+        // $ultimosPedidos = PedidoController::getLastNPedidos(5);
         $ventaChart = $chartData["ventaChart"];
         $userChart = $chartData["userChart"];
         
-        return view('admin.dashboard', compact('ingresoUltMes', 'beneficioUltMes', 'librosVendidosUltMes', 'usuariosRegistrados', 'ultimosPedidos', 'ventaChart', 'userChart'));
+        return view('admin.dashboard', compact('ingresoUltMes', 'beneficioUltMes', 'librosVendidosUltMes', 'usuariosRegistrados', 'ventaChart', 'userChart'));
     }
 
     private function generaGrafica(){
@@ -66,35 +65,29 @@ class AdminController extends Controller
 
     private function getBeneficioUltimoMes(){
         $mesAnterior = Carbon::now()->subMonth()->month;
-        $ingresosUltMes = Pedido::select(DB::raw('SUM(total) as ingreso'))->where(DB::raw('MONTH(created_at)'), '=', $mesAnterior)->first();
+        $ingresosUltMes = $this->getIngresoUltMes();
         $gastoUltMes = Libro::select(DB::raw('SUM(precio*0.6) as gasto'))->where(DB::raw('MONTH(created_at)'), '=', $mesAnterior)->first();
         $gastoUltMes = ($gastoUltMes->gasto==null) ? 0 : $gastoUltMes->gasto;
-        $ingresosUltMes = ($ingresosUltMes->ingreso==null) ? 0 : $ingresosUltMes->ingreso;
+        $ingresosUltMes = ($ingresosUltMes==null) ? 0 : $ingresosUltMes;
         $beneficioUltMes = $ingresosUltMes - $gastoUltMes;
         return $beneficioUltMes;
 
     }
 
     private function getIngresoUltMes(){
-        $ingresosUltMes = Pedido::select(DB::raw('SUM(total) as ingreso'))->where(DB::raw('MONTH(created_at)'), '=', Carbon::now()->subMonth()->month)->first();
-        $ingresosUltMes = ($ingresosUltMes->ingreso==null) ? 0 : $ingresosUltMes->ingreso;
+        $ingresosUltMes = Pedido::where(DB::raw('MONTH(created_at)'), '=', Carbon::now()->subMonth()->month)->where('estado', '!=', 'Cancelado')->sum('total');
+        $ingresosUltMes = ($ingresosUltMes==null) ? 0 : $ingresosUltMes;
         return $ingresosUltMes;
     }
 
     private function getLibrosVendidosUltMes(){
-        $pedidosUltMes = Pedido::where(DB::raw('MONTH(created_at)'), '=', 5)->get();
-        $librosVendidosUltMes = 0;
-        foreach ($pedidosUltMes as $pedido) {
-            foreach ($pedido->libros as $libro) {
-                $librosVendidosUltMes += $libro->pivot->cantidad;
-            }
-        } 
+        $idPedidos = Pedido::where(DB::raw('MONTH(created_at)'), '=', Carbon::now()->subMonth()->month)->pluck('id')->toArray();
+        $librosVendidosUltMes = LibroPedido::whereIn('pedido_id', $idPedidos)->sum('cantidad');
         return $librosVendidosUltMes;
     }
     private function getUsuariosRegistrados(){
-        // $usuariosUltMes = User::select(DB::raw('COUNT(id) as usuarios'))->where(DB::raw('MONTH(created_at)'), '=', Carbon::now()->subMonth()->month)->first();
-        $usuariosRegistrados = User::select(DB::raw('COUNT(id) as usuarios'))->first();
-        $usuariosRegistrados = ($usuariosRegistrados->usuarios==null) ? 0 : $usuariosRegistrados->usuarios;
+        $usuariosRegistrados = User::count('id');
+        $usuariosRegistrados = ($usuariosRegistrados==null) ? 0 : $usuariosRegistrados;
         return $usuariosRegistrados;
     }
 }

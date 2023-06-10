@@ -1,5 +1,6 @@
 @extends('layouts.plantilla-admin')
 @section('title', 'Creación de libro')
+<script src="{{asset('build/assets/ckeditor.js')}}"></script>
 @section('content')
 <div class="form__modify__container register__section pt-4">
     <div class="title">
@@ -111,10 +112,10 @@
                 </div>
 
                 <div class="form-floating mt-3 col-md-4">
-                    <input type="number" name="valoracion" id="valoracion" class="form-control" value="{{old('valoracion')}}"  placeholder="Valoracion" required>
-                    <label for="valoracion" class="form-label ms-1">Valoracion</label>
+                    <input type="number" name="valoracion" id="valoracion" class="form-control" value="{{old('valoracion')}}"  placeholder="Valoracion" step="any" required>
+                    <label for="valoracion" class="form-label ms-1">Valoración</label>
                     <div class="invalid-feedback">
-                        <small>Valoracion obligatoria</small> 
+                        <small>Valoración obligatoria</small> 
                     </div>
                     @error('valoracion')
                         <small class="text-danger">* {{$message}}</small> <br>
@@ -144,8 +145,9 @@
                     @enderror
                 </div>
 
-                <div class="mt-4">
+                <div class="buttons__container mt-4">
                     <input type="submit" value="Crear Libro" class="btn-add">
+                    <a href="{{route('libros.index')}}" class="btn-back">Volver</a>
                 </div>
     
             </div>
@@ -153,4 +155,13 @@
 
     </form>
 </div>
+@endsection
+@section('script')
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#descripcion' ) )
+        .catch( error => {
+            console.error( error );
+    } );
+</script>
 @endsection

@@ -1,6 +1,5 @@
 @extends('layouts.plantilla')
 @section("title", "Books | Contacto")
-
 @section('content')
 
 <div class="container-fluid">
@@ -8,37 +7,38 @@
         <div class="contacto col-md-5 col-lg-4">
             <h1 class="contacto__titulo">Contacte con nosotros</h1>
     
-            <form class="mt-3 needs-validation" novalidate>
+            <form action="{{route('contacto.sendMessage')}}" class="mt-3 needs-validation" method="POST" novalidate>
+                @csrf
                 <div class="">
                     <label for="nombreContacto">Nombre *</label>
                     <input type="text" class="form-control" id="nombreContacto" name="nombre" required>
                     <div class="invalid-feedback">
                         <small class="text-danger">Nombre obligatorio</small> 
                     </div>
-                  </div>
+                </div>
     
-                  <div class="mt-3">
+                <div class="mt-3">
                     <label for="emailContacto">Email *</label>
-                    <input type="email" class="form-control" id="emailContacto" required>
+                    <input type="email" class="form-control" id="emailContacto" name="email" required>
                     <div class="invalid-feedback">
                         <small class="text-danger">Email inválido</small> 
                     </div>
                     <div class="valid-feedback">
                         <small class="text-success">Email válido</small> 
                     </div>
-                  </div>
-    
-                  <div class="mt-3">
+                </div>
+
+                <div class="mt-3">
                     <label for="emailContacto">Mensaje *</label>
                     <textarea name="mensaje" id="mensajeContacto" class="form-control" cols="30" rows="10" required></textarea>
                     <div class="invalid-feedback">
                         <small class="text-danger">Mensaje obligatorio</small> 
                     </div>
-                  </div>
-                  
-                  <div class="mt-3">
-                      <button type="submit" class="btn-add">Enviar</button>
-                  </div>
+                </div>
+                
+                <div class="mt-3">
+                    <button type="submit" class="btn-add">Enviar</button>
+                </div>
             </form>
         </div>
 

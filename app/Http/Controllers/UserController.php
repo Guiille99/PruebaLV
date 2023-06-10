@@ -48,7 +48,7 @@ class UserController extends Controller
             "email" => "required|unique:users",
             "username" => "required|min:5|max:25|unique:users",
             "password" => "required|min:5|max:80",
-            "avatar" => "required|image|mimes:jpeg,jpg,png|max:500"
+            "avatar" => "image|mimes:jpeg,jpg,png|max:100"
         ]);
         DB::beginTransaction();
         try {
@@ -59,7 +59,12 @@ class UserController extends Controller
             $user->password =  Hash::make($request->password); //Codificamos la contraseña
             $user->email = $request->email;
             $user->rol = $request->rol;
-            $user->avatar = $this->uploadImage($request->avatar);
+            if ($request->has('avatar')) {
+                $user->avatar = $this->uploadImage($request->avatar);
+            }
+            else{
+                $user->avatar = UserController::DEFAULT_AVATAR_URL;
+            }
             $user->save();
             DB::commit();
             return redirect()->route('admin.users')->with("message", "Usuario añadido correctamente");
@@ -137,13 +142,14 @@ class UserController extends Controller
             "username" => "required|min:2|max:25|",
             "email" => "required|email|max:255",
         ]);
-
+        if ($request->hasFile("avatar")) {
+            $request->validate([
+                "avatar" => "image|mimes:jpeg,jpg,png|max:100"
+            ]);
+        }
         DB::beginTransaction();
         try {
             if ($request->hasFile("avatar")) { //Si desea cambiar la imagen de perfil
-                $request->validate([
-                    "avatar" => "image|mimes:jpeg,png|max:500"
-                ]);
                 if ($user->avatar != UserController::DEFAULT_AVATAR_URL) {
                     $avatarPublicId = $this->getPublicID($user->avatar);
                     Cloudinary::destroy($avatarPublicId); //Elimina la imagen de Cloudinary
@@ -199,7 +205,11 @@ class UserController extends Controller
             "nombre" => "required|min:2|max:80|",
             "apellidos" => "required|min:2|max:100|",
         ]);
-
+        if ($request->hasFile("avatar")) {
+            $request->validate([
+                "avatar" => "image|mimes:jpeg,jpg,png|max:100"
+            ]);
+        }
         DB::beginTransaction();
         try {
             $emails = User::select('email')->where('email', $request->email)->whereNot('id', $user->id)->get(); //Obtengo todos los emails excluyendo el del usuario
@@ -213,21 +223,6 @@ class UserController extends Controller
                    "email" => "Este email está en uso"
                ]);
             }
-            
-            // $emails = User::all('email'); //Obtengo todos los emails
-            
-            // foreach ($emails as $email) {
-            //     if ($email->email==$request->email && $email->email!=$user->email) { //Si el email existe y no es el tuyo
-            //         if ($request->rol==null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
-            //              return redirect()->route('user.edit')->withErrors([
-            //                 "email" => "Este Email está en uso"
-            //                 ]);   
-            //         }
-            //         return redirect()->route('user.edit', $user)->withErrors([
-            //             "email" => "Este Email está en uso"
-            //         ]);
-            //     }
-            // }
     
             $usuarios = User::select('username')->where('username', $request->username)->whereNot('id', $user->id)->get();
             if (count($usuarios) != 0) {
@@ -240,20 +235,6 @@ class UserController extends Controller
                     "username" => "Este usuario está en uso"
                 ]);
             }
-    
-            // $usuarios = User::all('username');
-            // foreach ($usuarios as $usuario){
-            //     if($usuario->username==$request->username && $usuario->username!=$user->username){
-            //         if ($request->rol==null) { //Si es nulo significa que viene de actualizar el perfil desde la vista principal, no desde admin
-            //             return redirect()->route('user.edit')->withErrors([
-            //                 "username" => "Este usuario está en uso"
-            //                ]);   
-            //         }
-            //         return redirect()->route('user.edit', $user)->withErrors([
-            //             "username" => "Este usuario está en uso"
-            //         ]);
-            //     }
-            // }
     
             $user->nombre = $request->nombre;
             $user->apellidos = $request->apellidos;

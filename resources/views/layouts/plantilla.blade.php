@@ -369,17 +369,16 @@
             <div class="info__details">
               <p><i class="bi bi-telephone-fill"></i> 623456789</p>
               <p><i class="bi bi-geo-alt-fill"></i> Sevilla (España)</p>
-              <a href="mailto:info@carpinteriamaderareal@gmail.com"><i class="bi bi-envelope-fill"></i> info@book.com</a>
+              <a href="mailto:books2023.info@gmail.com"><i class="bi bi-envelope-fill"></i> books2023.info@gmail.com</a>
             </div>
           </div>
 
           <div class="footer__menu">
             <h4>Información legal</h4>
             <div class="info__details">
-              <a href="">Condiciones de uso</a>
-              <a href="">Política de protección de datos</a>
-              <a href="">Política de cookies</a>
-              <a href="">Condiciones para vender</a>
+              <a href="{{route('condiciones-uso')}}">Condiciones de uso</a>
+              <a href="{{route('proteccion-datos')}}">Política de protección de datos</a>
+              <a href="{{route('politica-cookies')}}">Política de cookies</a>
             </div>
           </div>
 
@@ -387,8 +386,8 @@
             <h4>Otros enlaces</h4>
             <div class="info__details">
               <a href="{{route('newsletter.destroy-no-account-view')}}">Baja del Newsletter</a>
-              <a href="">Empleo</a>
-              <a href="">Quiénes somos</a>
+              <a href="{{route('support')}}">Ayuda</a>
+              <a href="{{route('quienes-somos')}}">Quiénes somos</a>
             </div>
           </div>
 
@@ -396,10 +395,10 @@
         </div>
 
         <div class="rrss__container">
-          <a href=""><i class="bi bi-facebook"></i></a>
-          <a href=""><i class="bi bi-instagram"></i></a>
-          <a href=""><i class="bi bi-twitter"></i></a>
-          <a href=""><i class="bi bi-linkedin"></i></a>
+          <a href="https://es-es.facebook.com/"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
+          <a href="https://twitter.com/?lang=es"><i class="bi bi-twitter"></i></a>
+          <a href="https://www.linkedin.com/"><i class="bi bi-linkedin"></i></a>
         </div>
       </div>
     </footer>

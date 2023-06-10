@@ -9,7 +9,13 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="uploads/carrusel1.jpg" class="d-block w-100" alt="Imagen del carrusel">
+                <figure class="h-100">
+                    <picture>
+                        <source media="(max-width: 375px)" srcset="{{asset('uploads/thumbnails/carrusel1_sm.jpg')}}">
+                        <source media="(max-width: 768px)" srcset="{{asset('uploads/thumbnails/carrusel1_md.jpg')}}">
+                        <img src="{{asset('uploads/carrusel1.jpg')}}" class="img-fluid d-block w-100" alt="Imagen del carrusel">
+                    </picture>
+                </figure>
             <div class="h-100 w-100 position-absolute d-none d-md-grid top-0 start-0 align-items-center justify-content-center">
                 <div class="carousel-caption">
                     <h1>¡Bienvenido a Books!</h1>
@@ -18,10 +24,22 @@
             </div>
             </div>
             <div class="carousel-item">
-            <img src="uploads/carrusel2.jpg" class="d-block w-100" alt="Imagen del carrusel">
+                <figure class="h-100">
+                    <picture>
+                        <source media="(max-width: 375px)" srcset="{{asset('uploads/thumbnails/carrusel2_sm.jpg')}}">
+                        <source media="(max-width: 768px)" srcset="{{asset('uploads/thumbnails/carrusel2_md.jpg')}}">
+                        <img src="{{asset('uploads/carrusel2.jpg')}}" class="img-fluid d-block w-100" alt="Imagen del carrusel">
+                    </picture>
+                </figure>
             </div>
             <div class="carousel-item">
-            <img src="uploads/carrusel3.jpg" class="d-block w-100" alt="Imagen del carrusel">
+                <figure class="h-100">
+                    <picture>
+                        <source media="(max-width: 375px)" srcset="{{asset('uploads/thumbnails/carrusel3_sm.jpg')}}">
+                        <source media="(max-width: 768px)" srcset="{{asset('uploads/thumbnails/carrusel3_md.jpg')}}">
+                        <img src="{{asset('uploads/carrusel3.jpg')}}" class="img-fluid d-block w-100" alt="Imagen del carrusel">
+                    </picture>
+                </figure>
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carrusel" data-bs-slide="prev">

@@ -74,15 +74,6 @@
                                 <small class="text-danger">* {{$message}}</small> <br>
                             @enderror
                         </div>
-
-                        {{-- <div class="form-floating mt-3 col-md-6">
-                            <input type="file" name="avatar" id="avatar" class="form-control">
-                            <label for="avatar" class="form-label ms-1">Imagen de perfil</label>
-                            @error('avatar')
-                                <small class="text-danger">* {{$message}}</small> <br>
-                            @enderror
-                        </div> --}}
-
                         <div class="form-floating mt-3 col-md-6">
                             <input type="email" name="email" id="email" class="form-control" value="{{$user->email}}" placeholder="Email" required>
                             <label for="email" class="form-label ms-1">* Email</label>

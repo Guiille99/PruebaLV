@@ -7,22 +7,17 @@ use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MailController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProvinciaController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
-use App\Mail\ContactanosMailable;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\EnviarCorreo;
-use App\Models\Libro;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +35,14 @@ Route::get('libros/{filtro}', [LibroController::class, "filter"])->name("libros.
 Route::post('libros', [LibroController::class, "getFiltro"])->name("libros.getFiltro"); //Página para mostrar los libros filtrados por título, autor o género
 Route::get('libro/{libro}', [LibroController::class, "show"])->name("libros.show"); //Página para mostrar un libro concreto
 
+Route::get('quienes-somos', [HomeController::class, "showQuienesSomos"])->name("quienes-somos");
+Route::get('condiciones-uso', [HomeController::class, "showCondicionesUso"])->name("condiciones-uso");
+Route::get('politica-proteccion-de-datos', [HomeController::class, "showProteccionDatos"])->name("proteccion-datos");
+Route::get('politica-de-cookies', [HomeController::class, "showPoliticaCookies"])->name("politica-cookies");
+Route::get('ayuda', [HomeController::class, "showHelp"])->name("support");
+
 Route::get('admin', [AdminController::class, "index"])->middleware('checkadmin')->name("admin.index"); //Página principal del admin
-Route::delete('admin/{user}', [UserController::class, "destroy"])->middleware('checkadmin')->name("user.destroy"); //Página para eliminar un usuario
+Route::delete('admin/{user}/delete', [UserController::class, "destroy"])->middleware('checkadmin')->name("user.destroy"); //Página para eliminar un usuario
 Route::get('admin/{user}/edit', [UserController::class, "edit"])->middleware('checkadmin')->name("user.edit"); //Página para mostrar el formulario de actualización de usuario
 Route::put('admin/{user}/edit', [UserController::class, "update"])->middleware('checkadmin')->name("user.update"); //Página para actualizar el usuario
 Route::get('admin/usuarios', [UserController::class, "show"])->middleware('checkadmin')->name("admin.users"); //Página que muestra los registros de los usuarios
@@ -72,7 +73,20 @@ Route::get('/register', [RegisterController::class, "index"])->name("register.in
 Route::post('/register', [RegisterController::class, "store"])->name("register.store");
 
 
-Route::get('/contacto', [ContactoController::class, "index"])->name("contacto");
+Route::controller(ContactoController::class)->group(function(){
+    Route::get('/contacto', "index")->name("contacto");
+    Route::post('contacto', 'sendMessage')->name('contacto.sendMessage');
+});
+
+//RUTAS DE PÁGINAS DE AYUDA
+Route::controller(SupportController::class)->group(function(){
+    Route::get('ayuda/como-puedo-saber-el-estado-de-mi-pedido', "saberEstadoPedido")->name('saber-estado-pedido');
+    Route::get('ayuda/cuales-son-los-metodos-de-pago-disponibles', "metodosDePagoSupport")->name('support.metodos-pago');
+    Route::get('ayuda/como-puedo-cancelar-un-pedido', "cancelarPedidoSupport")->name('support.cancelar-pedido');
+    Route::get('ayuda/se-puede-devolver-un-pedido', "devolverPedidoSupport")->name('support.devolver-pedido');
+    Route::get('ayuda/no-puedo-anadir-una-nueva-direccion-de-envio', "anadirDireccionEnvioSupport")->name('support.direccion-envio');
+    Route::get('ayuda/como-darme-de-baja-del-newsletter', "bajaDelNewsletterSupport")->name('support.baja-newsletter');
+});
 
 // RUTAS DE RESETEO DE CONTRASEÑA
 Route::controller(PasswordResetController::class)->group(function(){
@@ -97,11 +111,11 @@ Route::controller(CarritoController::class)->group(function(){
 
 //RUTAS DE MANEJO DE LAS DIRECCIONES
 Route::controller(DireccionController::class)->group(function(){
-    Route::delete('perfil/deleteAddress/{user}/{direccion}', 'destroy')->name('delete-address');
-    Route::put('perfil/update-principal-address/{user}', 'updatePrincipalAddress')->name('update-principal-address');
+    Route::delete('perfil/deleteAddress/{user}/{direccion}', 'destroy')->middleware('auth')->name('delete-address');
+    Route::put('perfil/update-principal-address/{user}', 'updatePrincipalAddress')->middleware('auth')->name('update-principal-address');
     Route::get('new_address_process', 'create')->middleware('auth')->name('address.create');
     Route::post('perfil/new_address', 'store')->middleware('auth')->name('store.address');
-    Route::get('perfil/address/{user}/{direccion}', 'edit')->name('edit.address');
+    Route::get('perfil/address/{user}/{direccion}', 'edit')->middleware('auth')->name('edit.address');
     Route::put('perfil/address/{direccion}/update-address', 'update')->middleware('auth')->name('update.address');
 });
 
@@ -109,6 +123,7 @@ Route::controller(DireccionController::class)->group(function(){
 Route::controller(PedidoController::class)->group(function(){
     Route::get("mis-pedidos", 'showPedidos')->middleware('auth')->name('show.orders');
     Route::get("ultimos-pedidos", 'getUltimosPedidos')->middleware('auth')->middleware('checkadmin')->name('show.last-orders');
+    Route::get("ultimos-nPedidos", 'getLastNPedidos')->middleware('auth')->middleware('checkadmin')->name('show.last-nOrders');
     Route::get("/admin/pedidos", "showAllOrders")->middleware("checkadmin")->name("showAll.orders");
     Route::get("/admin/pedido/{pedido}", "edit")->middleware('checkadmin')->name("edit.order");
     Route::get("pedidos-cancelados", "showPedidosCancelados")->middleware('auth')->name('show.cancelOrders');
@@ -145,7 +160,10 @@ Route::controller(ProvinciaController::class)->group(function(){
     Route::get('admin/provincias', 'show')->middleware('checkadmin')->name('provincias.show');
     Route::get('admin/provincias-all', 'getProvincias')->middleware('checkadmin')->name('provincias.showAll');
     Route::get('admin/provincia/create', 'create')->middleware('checkadmin')->name('provincia.create');
+    Route::get('admin/provincia/{provincia}/edit', 'edit')->middleware('checkadmin')->name('provincia.edit');
     Route::post('admin/provincia/add-provincia', 'store')->middleware('checkadmin')->name('provincia.store');
+    Route::put('admin/provincia/{provincia}/update', 'update')->middleware('checkadmin')->name('provincia.update');  
+    Route::delete('admin/provincia/{provincia}/delete', 'destroy')->middleware('checkadmin')->name('provincia.destroy');  
 });
 
 //RUTAS PARA EL MANEJO DE LAS TAREAS DEL USUARIO
@@ -156,11 +174,6 @@ Route::controller(TareaController::class)->group(function(){
     Route::put('admin/calendario/modify-task', 'update')->middleware('checkadmin')->name('tarea.update');
     Route::delete('admin/calendario/delete-task', 'destroy')->middleware('checkadmin')->name('tarea.destroy');
 });
-
-//RUTAS PARA MANEJO DE EMAILS
-// Route::controller(MailController::class)->group(function(){
-//     Route::post('suscribe-newstler', 'sendEmailSuscribeNewstler')->name('suscribe.newstler');
-// });
 
 Route::controller(NewsletterController::class)->group(function(){
     Route::post('suscribe-newstler', 'suscribeNewstler')->name('suscribe.newstler');

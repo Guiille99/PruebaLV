@@ -24,9 +24,6 @@
                     <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}" placeholder="Password" required>
                     <i class="bi bi-eye togglePassword"></i>
                     <label for="password" class="form-label ms-1">Confirme la contraseña</label>
-                    @error('password')
-                        <small class="text-danger">* {{$message}}</small> <br>
-                    @enderror
                 </div>
                 
                 <button class="btn btn-danger">
@@ -34,6 +31,9 @@
                     <span>Eliminar cuenta</span>
                 </button>
             </form>
+            @error('password')
+                <small class="text-danger">* {{$message}}</small> <br>
+            @enderror
         </div>
     </div>
 @endsection

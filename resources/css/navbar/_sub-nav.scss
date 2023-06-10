@@ -24,6 +24,11 @@
             border-radius: 5px;
         }
     }
+    .login__container{
+        .dropdown-menu{
+            transform: translateX(-40px);
+        }
+    }
     .username{
         color: v.$white;
     }
@@ -45,5 +50,10 @@
             display: none;
         }
     }
-
+    .changeMode__container{
+        position: relative;
+        .dropdown-menu{
+            position: absolute;
+        }
+    }
 }

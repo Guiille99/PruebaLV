@@ -1,0 +1,29 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+.preguntas-frecuentes__grid{
+    padding: 10px 0px;
+    @include m.grid(1, 20px);
+    @include m.tablet{
+        @include m.grid(3, 20px);
+    }
+    .pregunta{
+        border: 1px solid adjust-color($color: v.$black, $alpha: 0.5);
+        padding: 10px;
+        height: 100%;
+        p{
+            font-weight: bolder;
+            text-align: center;
+            text-align: center;
+            @include m.tablet{
+                text-align: unset;
+            }
+        }
+        &:hover{
+            background-color: #d9d9d999;
+        }
+    }
+    a{
+        color: unset;
+        text-decoration: none;
+    }
+}

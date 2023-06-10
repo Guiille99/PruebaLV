@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendPostDestacadoEmail;
+use App\Mail\PostDestacado;
 use App\Models\Categoria;
 use App\Models\Comentario;
+use App\Models\EmailNewsletter;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller{
 
@@ -18,7 +22,6 @@ class PostController extends Controller{
     }
 
     public function store(Request $request){
-        // dd($request);
         $request->validate([
             "titulo" => "required|max:120|unique:posts,nombre",
             "slug" => "required",
@@ -58,9 +61,12 @@ class PostController extends Controller{
             $post->categoria_id = Categoria::where('nombre', $request->categoria)->first()->id;
             $post->save();
             DB::commit();
+            if ($post->categoria->nombre == "Destacado") {
+                dispatch(new SendPostDestacadoEmail($post));
+            }
             return redirect()->route('admin.posts')->with("message", "El post ha sido creado correctamente");
         } catch (\Throwable $e) {
-            return redirect()->back()->with("message_error", "Ha ocurrido un error inesperado");
+            return redirect()->back()->with("message_error", $e);
         }
     }
 
@@ -99,6 +105,10 @@ class PostController extends Controller{
         
         DB::beginTransaction();
         try {
+            $changeCategory = false;
+            if ($post->categoria->nombre != "Destacados" && $request->categoria == "Destacados") {
+                $changeCategory = true;
+            }
             $post->nombre = $request->titulo;
             $post->slug = $request->slug;
             $post->categoria_id = Categoria::where('nombre', $request->categoria)->first()->id;
@@ -106,6 +116,9 @@ class PostController extends Controller{
 
             $post->save();
             DB::commit();
+            if ($changeCategory) {
+                dispatch(new SendPostDestacadoEmail($post));
+            }
             return redirect()->route('admin.posts')->with("message", "El post ha sido actualizado correctamente");
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -117,13 +130,14 @@ class PostController extends Controller{
         //Obtiene los 3 últimos post de la categoría Destacados
         $postsDestacados = Post::where('categoria_id', '5')->latest()->take(3)->get();
         $ultimasResenas = Post::orderby('created_at', 'desc')->take(6)->get();
-        return view('blog.blog', compact('postsDestacados', 'ultimasResenas'));
+        $categorias = Categoria::all('nombre', 'slug');
+        return view('blog.blog', compact('postsDestacados', 'ultimasResenas', 'categorias'));
     }
 
     public function showPost($slug){
         $post = Post::where('slug', $slug)->first();
         $postsMismaCategoria = Post::where('categoria_id', $post->categoria->id)->where('nombre', '!=', $post->nombre)->take(3)->get();
-        $comentarios = $post->comentarios;
+        $comentarios = $post->comentarios()->orderby('created_at', 'desc')->paginate(5);
         return view('blog.post', compact('post', 'postsMismaCategoria', 'comentarios'));
     }
 

@@ -18,7 +18,6 @@
                                 <th>Título</th>
                                 <th>Autor</th>
                                 <th>Editorial</th>
-                                {{-- <th>ISBN</th> --}}
                                 <th>Stock</th>
                                 <th>Fecha Publicación</th>
                                 <th>Precio</th>
@@ -39,7 +38,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header d-flex gap-2">
                                                 <i class="bi bi-exclamation-circle"></i>
-                                                <h1 class="modal-title fs-5" id="modalDeleteRegistro">Eliminación de registro</h1>
+                                                <h1 class="modal-title fs-5" id="modalDeleteRegistro">Eliminación de libro</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -56,12 +55,7 @@
                             </div>
                             </tbody>
                     </table>
-
                 </div>
-
-                {{-- <div class="w-100">
-                    {{$libros->links()}}
-                </div> --}}
             </div>
         </div>
     </div>
@@ -97,7 +91,6 @@
                         render: function(data, type, row){
                             return data+"€"}
                     },
-                    // {targets: [9, 10], render: DataTable.render.datetime( 'DD/MM/YYYY HH:mm:ss' )},
                     {targets: [9, 10], render: function(data, type, row){
                         return moment.utc(data).local().format('DD/MM/YYYY HH:mm:ss');
                     }},

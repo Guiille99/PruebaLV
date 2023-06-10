@@ -8,7 +8,7 @@
     <div class="alert alert-success my-2"><i class="bi bi-check-circle"></i> {{session('message_success')}}</div> 
     @endif
 
-    <div class="column account__details profile-section py-3">
+    <div class="column account__details profile-section unsuscribe-newsletter__container py-3">
         <div class="title">
             <p>Baja del Newsletter</p>
         </div>
@@ -25,9 +25,6 @@
                     <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}" placeholder="Correo electrónico" required>
                     {{-- <i class="bi bi-eye togglePassword"></i> --}}
                     <label for="email" class="form-label ms-1">Escriba su correo electrónico</label>
-                    @error('email')
-                        <small class="text-danger">* {{$message}}</small> <br>
-                    @enderror
                 </div>
                 
                 <button class="btn btn-danger">
@@ -35,6 +32,9 @@
                     <span>Darse de baja</span>
                 </button>
             </form>
+            @error('email')
+                <small class="text-danger">* {{$message}}</small> <br>
+            @enderror
         </div>
     </div>
 </div>

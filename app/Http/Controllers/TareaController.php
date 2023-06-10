@@ -49,7 +49,6 @@ class TareaController extends Controller
             $fechaInicio = $this->compruebaFechas($fechaInicioAux, $fechaFinAux)["fechaInicio"];
             $fechaFin = $this->compruebaFechas($fechaInicioAux, $fechaFinAux)["fechaFin"];
 
-            // $tarea = Tarea::where('id', $request->id)->first();
             $tarea = Tarea::find($request->id);
             $tarea->titulo = $request->tarea;
             $tarea->inicio = $fechaInicio;

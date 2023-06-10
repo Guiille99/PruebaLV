@@ -24,11 +24,11 @@
                             <div class="modal-content">
                                 <div class="modal-header d-flex gap-2">
                                     <i class="bi bi-exclamation-circle"></i>
-                                    <h1 class="modal-title fs-5"> Eliminación de pedido</h1>
+                                    <h1 class="modal-title fs-5"> Eliminación de provincia</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    ¿Está seguro de que quiere eliminar este post? Al eliminar el post se eliminarán también sus comentarios. Esta acción no podrá deshacerse.
+                                    ¿Está seguro de que quiere eliminar esta provincia? Al eliminar la provincia no será seleccionable para los pedidos. Esta acción no podrá deshacerse.
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -209,7 +209,7 @@
     function openDeleteModal() {
         let id = $(this).attr("data-id");
         let token = $("input[name='_token']").val();
-        let url = "{{route('post.destroy', 'num')}}";
+        let url = "{{route('provincia.destroy', 'num')}}";
         url=url.replace('num', id);
 
         $("#modal-delete-form").attr("action", url); //Actualizo la url para eliminar el pedido    

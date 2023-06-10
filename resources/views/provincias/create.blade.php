@@ -21,8 +21,9 @@
                     @enderror
                 </div>
         
-                <div class="mt-4">
+                <div class="buttons__container mt-4">
                     <input type="submit" value="Añadir provincia" class="btn-add">
+                    <a href="{{route('provincias.show')}}" class="btn-back">Volver</a>
                 </div>
     
             </div>

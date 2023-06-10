@@ -84,6 +84,26 @@
     gap: $gap;
 }
 
+//Efecto oscuro para los bg
+@mixin dark-effect-bg($duration){
+    &::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 1;
+        background-size: cover;
+        background-position: center center;
+        z-index: 0;
+        transition: all $duration;
+    }
+    &:hover::before{
+        transform: scale(1.2);
+        filter: brightness(0.5);
+    }
+}
 //Mixin para crear iconos del footer
 @mixin icon-footer($bgcolor, $color, $padding, $border-radius){
     background-color: $bgcolor;

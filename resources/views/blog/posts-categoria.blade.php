@@ -1,5 +1,5 @@
 @extends('layouts.plantilla')
-@section("title", "Books | {{$categoria->nombre}}")
+@section("title", "Books | $categoria->nombre")
 @if (count($posts) == 0)
     @section('body-class', 'd-flex flex-column justify-content-between vh-100')    
 @endif

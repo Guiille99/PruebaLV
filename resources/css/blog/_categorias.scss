@@ -1,0 +1,59 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+.blog-main-content{
+    .categorias__container{
+        margin: v.$separation auto;
+        @include m.grid(1, 10px);
+        height: 500px;
+        @include m.tablet{
+            @include m.grid(2, 20px);
+        }
+        .categoria{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: v.$white;
+            overflow: hidden;
+            @include m.dark-effect-bg(2s);
+            &.lectura-digital::before{
+                background-image: url("https://res.cloudinary.com/det0ae4ke/image/upload/v1686090013/books/lectura-digital_trja7c.jpg");
+                background-position: center bottom;
+            }
+            &.eventos::before{
+                background-image: url("https://res.cloudinary.com/det0ae4ke/image/upload/v1686089383/books/eventos-libreria_fg7w0i.jpg");
+            }
+            &.recomendaciones::before{
+                background-image: url("https://res.cloudinary.com/det0ae4ke/image/upload/v1686089490/books/recomendaciones-libros_uaedj2.jpg");
+            }
+            &.entrevistas::before{
+                background-image: url("https://res.cloudinary.com/det0ae4ke/image/upload/v1686088832/books/entrevistas_fk8qni.jpg");
+            }
+            &.destacados::before{
+                background-image: url("https://res.cloudinary.com/det0ae4ke/image/upload/v1686086117/books/libros-estanteria_pyxndr.jpg");
+            }
+            a{
+                position: absolute;
+                height: 100%;
+                width: 100%;
+            }
+            .title{
+                font-size: 1.2rem;
+                @include m.tablet{
+                    font-size: 1.7rem;
+                }
+                font-weight: bolder;
+                z-index: 1;
+            }
+
+        }
+    }
+}
+@keyframes background-zoom {
+    0% {
+        background-size: 100%;
+    }
+    100% {
+        background-size: 120%;
+    }
+}

@@ -2,7 +2,7 @@
 @section('title', 'Admin | Nuevo Post')
 <script src="{{asset('build/assets/ckeditor.js')}}"></script>
 @section('content')
-    <div class="register__section new-post__container">
+    <div class="form__modify__container register__section new-post__container">
         <div class="title">
             <p>Nuevo post</p>
         </div>
@@ -50,8 +50,9 @@
                         @enderror
                     </div>
 
-                    <div class="col col-md-2 mt-4">
-                        <button type="submit" class="btn-add w-100">Crear post</button>
+                    <div class="buttons__container mt-4">
+                        <button type="submit" class="btn-add">Crear post</button>
+                        <a href="{{route('admin.posts')}}" class="btn-back">Volver</a>
                     </div>
                 </div>
             </div>

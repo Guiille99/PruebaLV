@@ -1,11 +1,4 @@
 <div>
-    {{-- @if (session('message_error'))
-        <div id="alert-error" class="alert alert-danger alert-dismissible fade show my-2" role="alert">
-            <i class="bi bi-exclamation-circle"></i> 
-            {{session('message_error')}} 
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif --}}
     @if (Auth::check())
         @if ($libroWishlistExists)
             <div wire:ignore>

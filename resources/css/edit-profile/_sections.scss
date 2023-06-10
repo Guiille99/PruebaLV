@@ -20,6 +20,11 @@
             font-size: .6rem;
         }
     }
+
+    .pagination__container{
+        width: fit-content;
+        margin: 0 auto;
+    }
 }
 .profile-section{
     .profile-image-section{
@@ -55,13 +60,14 @@
     .direcciones{
         li>form{
             display: flex;
+            gap: 3px;
             align-items: center;
             justify-content: space-between;
             padding: 10px;
             border-bottom: 1px solid;
         }
     }
-    // &.delete-account__container{
+    &.delete-account__container, &.unsuscribe-newsletter__container{
         form{
             display: flex;
             flex-direction: column;
@@ -77,6 +83,6 @@
                 }
             }
         }
-    // }
+    }
 }
 

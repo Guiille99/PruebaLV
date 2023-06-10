@@ -89,13 +89,12 @@
                 </div>
           
         
-                <div class="mt-4">
+                <div class="buttons__container mt-4">
                     <input type="submit" value="Crear usuario" class="btn-add">
+                    <a href="{{route('admin.users')}}" class="btn-back">Volver</a>
                 </div>
-    
             </div>
         </div>
-
     </form>
 </div>
 @endsection

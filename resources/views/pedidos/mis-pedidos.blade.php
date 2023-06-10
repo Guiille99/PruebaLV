@@ -40,7 +40,7 @@
                 </tbody>
             </table>
         </div>
-            <div class="w-100">
+            <div class="pagination__container mt-3">
                 {{$pedidos->links()}}
             </div>
             <!-- Modal -->

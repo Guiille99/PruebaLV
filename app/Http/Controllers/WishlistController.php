@@ -44,12 +44,16 @@ class WishlistController extends Controller
                 if ($request->ajax()) {
                     return response()->json(['message' => 'El libro se ha eliminado de tu lista de deseos correctamente']);
                 }
-                // return redirect()->back();
-                return response()->json(["mensaje" => "nada"]);
+                return redirect()->back();
             }
         } catch (\Throwable $e) {
             DB::rollBack();
-            session()->flash('message_error', 'Ha ocurrido un error inesperado');
+            if ($request->ajax()) {
+                session()->flash('message_error', 'Ha ocurrido un error inesperado');
+            }
+            else{
+                return redirect()->back()->with('message_error', 'Ha ocurrido un error inesperadoo');
+            }
         }
     }
 
@@ -58,7 +62,7 @@ class WishlistController extends Controller
         return view('wishlist.show', compact('wishlistItems'));
     }
 
-    private function libroWishlistExist($wishlist, $libro){
+    public function libroWishlistExist($wishlist, $libro){
         if ($wishlist == null) {
             $exists = false;
         }
@@ -67,20 +71,4 @@ class WishlistController extends Controller
         }
         return $exists;
     }
-
-    // public static function compruebaEliminadosWishlist($wishlist){
-    //     $cambios = false;
-    //     foreach ($wishlist as $idLibro => $datos) {
-    //         $libro = Libro::where('id', $idLibro)->first();
-    //         if ($libro == null) {
-    //             unset($wishlist[$idLibro]);
-    //             $cambios = true;
-    //         }
-    //     }
-
-    //     if ($cambios) {
-    //         session()->put('wishlist', $wishlist); //Actualizamos la wishlist
-    //         Cookie::queue("cookie-wishlist-" . Auth::id(), serialize(session()->get('wishlist')), 60*24*30);
-    //     }
-    // }
 }

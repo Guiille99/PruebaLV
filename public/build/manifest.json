@@ -11,7 +11,7 @@
     "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-b4405580.css",
+    "file": "assets/app-201759a4.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
@@ -28,7 +28,7 @@
     "src": "resources/fonts/WorkSans-Regular.ttf"
   },
   "resources/js/app.css": {
-    "file": "assets/app-b4405580.css",
+    "file": "assets/app-201759a4.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
@@ -41,9 +41,9 @@
       "assets/WorkSans-Regular-1b94e0d8.ttf"
     ],
     "css": [
-      "assets/app-b4405580.css"
+      "assets/app-201759a4.css"
     ],
-    "file": "assets/app-2cdd77d1.js",
+    "file": "assets/app-41d51349.js",
     "imports": [
       "_axios-ca6126ea.js"
     ],
@@ -74,7 +74,7 @@
     "src": "resources/js/jquery-3.6.3.js"
   },
   "resources/js/posts.js": {
-    "file": "assets/posts-b6e8fd68.js",
+    "file": "assets/posts-dcbba5cb.js",
     "isEntry": true,
     "src": "resources/js/posts.js"
   },
