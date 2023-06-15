@@ -26,7 +26,7 @@ class PostController extends Controller{
             "titulo" => "required|max:120|unique:posts,nombre",
             "slug" => "required",
             "cuerpo" => "required",
-            "portada" => "required|image|mimes:jpeg,jpg,png|max:2048",
+            "portada" => "required|image|mimes:jpeg,jpg,png|max:1024",
             "categoria" => "required"
         ]);
 
@@ -61,7 +61,7 @@ class PostController extends Controller{
             $post->categoria_id = Categoria::where('nombre', $request->categoria)->first()->id;
             $post->save();
             DB::commit();
-            if ($post->categoria->nombre == "Destacado") {
+            if ($post->categoria->nombre == "Destacados") {
                 dispatch(new SendPostDestacadoEmail($post));
             }
             return redirect()->route('admin.posts')->with("message", "El post ha sido creado correctamente");
@@ -90,7 +90,7 @@ class PostController extends Controller{
 
         if ($request->hasFile('portada')) {
             $request->validate([
-                "portada" => "image|mimes:jpeg,jpg,png|max:2048",
+                "portada" => "image|mimes:jpeg,jpg,png|max:1024",
             ]);
             $portadaPublicId = $this->getPublicID($post->portada, true);
             $thumbnailPublicId = $this->getPublicID($post->thumbnail, false);

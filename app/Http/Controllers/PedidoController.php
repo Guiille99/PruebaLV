@@ -114,9 +114,6 @@ class PedidoController extends Controller
             ->addColumn('user_id', function($pedido){
                 return $pedido->user->username;
             })
-            // ->addColumn('direccion_id', function($pedido){
-            //     return $pedido->direccion->calle . ", " . $pedido->direccion->numero . " - " . $pedido->direccion->cp ." (" . $pedido->direccion->provincia->nombre . ")";
-            // })
             ->addColumn('action', function($pedido){
                 $btn="<div class='d-flex align-items-center justify-content-center gap-2'>
                 <button type='button' id='btn-delete' data-id='$pedido->id' class='d-flex gap-2 btn-delete text-white btn-delete-user' title='Eliminar pedido' data-bs-toggle='modal' data-bs-target='#modal-delete' >

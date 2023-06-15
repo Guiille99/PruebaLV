@@ -13,7 +13,6 @@
                 <th>Total</th> 
                 <th>Estado</th> 
                 <th>Tipo de pago</th> 
-                {{-- <th>Dirección</th>  --}}
                 <th>Fecha de compra</th>
                 <th>Acciones</th> 
             </thead>

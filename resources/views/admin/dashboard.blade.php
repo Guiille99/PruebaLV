@@ -96,8 +96,6 @@
             </div>
         </div>
 
-       
-
         {!! $ventaChart->script() !!}
         {!! $userChart->script() !!}
     </div>
