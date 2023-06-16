@@ -55,7 +55,7 @@ class PedidoController extends Controller
 
     public function getUltimosPedidos(Request $request){
         if ($request->ajax()) {
-            $pedidos = Pedido::orderby('id', 'desc')->get();
+            $pedidos = Pedido::orderby('id', 'desc')->get(["id", "user_id", "total", "estado", "tipo_pago", "created_at"]);
             return datatables()->of($pedidos)
             ->addColumn('user_id', function($pedido){
                 return $pedido->user->username;
@@ -109,7 +109,7 @@ class PedidoController extends Controller
 
     public static function getLastNPedidos(Request $request){
         if ($request->ajax()) {
-            $pedidos = Pedido::orderby('id', 'desc')->take(5);
+            $pedidos = Pedido::orderby('id', 'desc')->take(5)->get(["id", "user_id", "total", "estado", "tipo_pago", "created_at"]);
             return datatables()->of($pedidos)
             ->addColumn('user_id', function($pedido){
                 return $pedido->user->username;
