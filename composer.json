@@ -42,7 +42,7 @@
             "@php artisan package:discover --ansi",
             "@php artisan livewire:discover",
             "@php artisan vendor:publish --force --tag=livewire:assets --ansi",
-            "@php artisan optimize"
+            "@php artisan queue:work"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
